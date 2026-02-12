@@ -1,0 +1,39 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace GTG_Backend.Models
+{
+    public class User
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string FullName { get; set; } = string.Empty;
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = string.Empty;
+
+        [Required]
+        public string PasswordHash { get; set; } = string.Empty;
+
+        [Phone]
+        public string? PhoneNumber { get; set; }
+
+        public string? Address { get; set; }
+
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        // Khóa ngoại liên kết với bảng Role
+        [Required]
+        public int RoleId { get; set; }
+
+        [ForeignKey("RoleId")]
+        public virtual Role? Role { get; set; }
+
+        // Quan hệ với lịch sử Chatbot AI (PI 2.1)
+        public virtual ICollection<ChatHistory>? ChatHistories { get; set; }
+    }
+}

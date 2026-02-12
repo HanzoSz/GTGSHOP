@@ -1,0 +1,8 @@
+wwwroot\images\products\cpu.jpg
+wwwroot\images\products\vga.jpg
+wwwroot\images\products\mainboard.jpg
+wwwroot\images\products\ram.jpg
+wwwroot\images\products\ssd.jpg
+wwwroot\images\products\case.jpg
+wwwroot\images\products\psu.jpg
+wwwroot\images\products\cooler.jpg
