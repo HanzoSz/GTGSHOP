@@ -19,16 +19,47 @@ export function AdminLoginPage() {
     setError('');
     setLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      if (email === 'admin@gtgshop.vn' && password === 'admin123') {
-        // Success - redirect to admin dashboard
+    try {
+      const response = await fetch('https://localhost:7033/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        const token = data.token || data.Token;
+        const user = data.user || data.User;
+
+        // Kiểm tra role Admin
+        const userRole = user?.role || user?.Role || '';
+        if (userRole !== 'Admin') {
+          setError('Tài khoản không có quyền Admin!');
+          setLoading(false);
+          return;
+        }
+
+        // Lưu token và user vào localStorage riêng cho admin
+        localStorage.setItem('admin_token', token);
+        localStorage.setItem('admin_user', JSON.stringify({
+          id: user?.id || user?.Id,
+          email: user?.email || user?.Email,
+          fullName: user?.fullName || user?.FullName,
+          role: userRole,
+        }));
+
+        // Chuyển đến dashboard
         navigate('/admin/dashboard');
       } else {
-        setError('Email hoặc mật khẩu không đúng!');
+        setError(data.message || data.Message || 'Email hoặc mật khẩu không đúng!');
       }
+    } catch (err) {
+      console.error('Admin login error:', err);
+      setError('Không thể kết nối đến server. Vui lòng kiểm tra backend đang chạy.');
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   return (

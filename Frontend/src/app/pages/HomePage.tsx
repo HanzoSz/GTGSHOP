@@ -35,7 +35,13 @@ export function HomePage() {
   console.log("CPU Products:", cpuProducts.length);
   console.log("VGA Products:", vgaProducts.length);
 
-  // Sản phẩm nổi bật - lấy đa dạng từ các loại
+  // Sản phẩm giảm giá thực — lọc từ DB, sắp xếp theo % giảm cao nhất
+  const discountedProducts = products
+    .filter(p => p.discount && p.discount > 0)
+    .sort((a, b) => (b.discount || 0) - (a.discount || 0))
+    .slice(0, 8);
+
+  // Sản phẩm nổi bật - lấy đa dạng từ các loại (không có giảm giá)
   const featuredProducts = [
     ...cpuProducts.slice(0, 2),
     ...vgaProducts.slice(0, 2),
@@ -50,20 +56,40 @@ export function HomePage() {
       <TetBanner />
       <Hero />
       <CategorySection />
-      
-      {/* Featured Products Section */}
+
+      {/* 🔥 Sản phẩm giảm giá */}
+      {discountedProducts.length > 0 && (
+        <section className="py-12 bg-gradient-to-r from-red-50 via-orange-50 to-yellow-50">
+          <div className="container mx-auto px-4">
+            <div className="flex justify-between items-center mb-8">
+              <div>
+                <h2 className="text-2xl font-bold mb-2">🔥 Sản phẩm giảm giá</h2>
+                <p className="text-gray-600">Săn deal hot — Giảm tới {Math.max(...discountedProducts.map(p => p.discount || 0))}%</p>
+              </div>
+              <Link to="/sale" className="text-red-600 hover:underline font-medium">
+                Xem tất cả →
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+              {discountedProducts.map((product) => (
+                <ProductCard key={`deal-${product.id}`} {...product} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Sản phẩm nổi bật */}
       <section className="py-12">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
             <div>
-              <h2 className="mb-2">🔥 Deal Tết - Giảm sốc linh kiện</h2>
-              <p className="text-gray-600">Săn ngay kẻo hết - Chỉ trong dịp Tết 2026</p>
+              <h2 className="text-2xl font-bold mb-2">⭐ Sản phẩm nổi bật</h2>
+              <p className="text-gray-600">Đa dạng linh kiện PC chính hãng</p>
             </div>
-            <Link to="/category/all" className="text-red-600 hover:underline font-medium">
-              Xem tất cả deal 🏮 →
-            </Link>
           </div>
-          
+
           {loading ? (
             <div className="text-center py-8">
               <p className="text-gray-500">Đang tải sản phẩm...</p>
@@ -71,7 +97,6 @@ export function HomePage() {
           ) : featuredProducts.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-gray-500">Không có sản phẩm nào</p>
-              <p className="text-sm text-gray-400">Debug: Total products: {products.length}</p>
             </div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
@@ -101,7 +126,7 @@ export function HomePage() {
             <h2 className="text-white mb-3">🎮 Bộ PC Build Sẵn - Rinh Về Ăn Tết</h2>
             <p className="text-yellow-200 text-lg">Cấu hình được tối ưu sẵn - Freeship toàn quốc - Bảo hành 36 tháng</p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border-2 border-yellow-400 hover:bg-white/15 transition-all hover:scale-105">
               <div className="text-center mb-4">
@@ -193,7 +218,7 @@ export function HomePage() {
               Xem tất cả CPU 🏮 →
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {cpuProducts.map((product) => (
               <ProductCard key={`cpu-${product.id}`} {...product} />
@@ -214,7 +239,7 @@ export function HomePage() {
               Xem tất cả VGA 🧨 →
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {vgaProducts.map((product) => (
               <ProductCard key={`vga-${product.id}`} {...product} />
@@ -235,7 +260,7 @@ export function HomePage() {
               Xem tất cả Mainboard →
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {mainboardProducts.map((product) => (
               <ProductCard key={`mb-${product.id}`} {...product} />
@@ -256,7 +281,7 @@ export function HomePage() {
               Xem tất cả RAM →
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {ramProducts.map((product) => (
               <ProductCard key={`ram-${product.id}`} {...product} />
@@ -277,7 +302,7 @@ export function HomePage() {
               Xem tất cả SSD/HDD →
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {storageProducts.map((product) => (
               <ProductCard key={`storage-${product.id}`} {...product} />
@@ -298,7 +323,7 @@ export function HomePage() {
               Xem tất cả Case →
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {caseProducts.map((product) => (
               <ProductCard key={`case-${product.id}`} {...product} />

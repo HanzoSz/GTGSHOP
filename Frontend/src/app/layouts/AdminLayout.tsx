@@ -1,14 +1,14 @@
 import { ReactNode, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  Package, 
-  Users, 
-  ShoppingCart, 
-  BarChart3, 
-  Settings, 
-  LogOut, 
-  Menu, 
+import {
+  LayoutDashboard,
+  Package,
+  Users,
+  ShoppingCart,
+  BarChart3,
+  Settings,
+  LogOut,
+  Menu,
   X,
   Bell,
   Search
@@ -25,6 +25,14 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
+  // Đọc thông tin admin từ localStorage riêng
+  const adminUser = (() => {
+    try {
+      const saved = localStorage.getItem('admin_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch { return null; }
+  })();
+
   const menuItems = [
     { path: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { path: '/admin/products', icon: Package, label: 'Quản lý sản phẩm' },
@@ -36,6 +44,8 @@ export function AdminLayout({ children }: AdminLayoutProps) {
 
   const handleLogout = () => {
     if (confirm('Bạn có chắc muốn đăng xuất?')) {
+      localStorage.removeItem('admin_token');
+      localStorage.removeItem('admin_user');
       navigate('/admin/login');
     }
   };
@@ -68,11 +78,10 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                   <li key={item.path}>
                     <Link
                       to={item.path}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                        isActive
+                      className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${isActive
                           ? 'bg-gradient-to-r from-red-600 to-orange-600 text-white shadow-lg'
                           : 'text-slate-400 hover:bg-slate-800 hover:text-white'
-                      }`}
+                        }`}
                     >
                       <Icon className="w-5 h-5" />
                       <span className="font-medium">{item.label}</span>
@@ -130,11 +139,11 @@ export function AdminLayout({ children }: AdminLayoutProps) {
 
                 <div className="flex items-center gap-3 pl-4 border-l border-slate-200">
                   <div className="text-right hidden md:block">
-                    <p className="text-sm font-semibold text-slate-900">Admin User</p>
-                    <p className="text-xs text-slate-500">admin@gtgshop.vn</p>
+                    <p className="text-sm font-semibold text-slate-900">{adminUser?.fullName || 'Admin User'}</p>
+                    <p className="text-xs text-slate-500">{adminUser?.email || 'admin@gtgshop.vn'}</p>
                   </div>
                   <div className="w-10 h-10 rounded-full bg-gradient-to-r from-red-600 to-orange-600 flex items-center justify-center text-white font-bold">
-                    A
+                    {(adminUser?.fullName || 'A').charAt(0).toUpperCase()}
                   </div>
                 </div>
               </div>

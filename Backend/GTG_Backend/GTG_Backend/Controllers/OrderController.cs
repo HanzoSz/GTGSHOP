@@ -75,7 +75,9 @@ namespace GTG_Backend.Controllers
                     OrderId = order.Id,
                     ProductId = item.ProductId,
                     ProductName = product.Name,
-                    ProductImage = product.ImageUrl != null ? $"{baseUrl}{product.ImageUrl}" : null,
+                    ProductImage = product.ImageUrl != null
+                        ? (product.ImageUrl.StartsWith("http") ? product.ImageUrl : $"{baseUrl}/{product.ImageUrl.TrimStart('/')}")
+                        : null,
                     Quantity = item.Quantity,
                     Price = item.Price
                 });
@@ -107,6 +109,8 @@ namespace GTG_Backend.Controllers
             var userId = GetUserId();
             if (userId == null)
                 return Unauthorized();
+
+            var baseUrl = $"{Request.Scheme}://{Request.Host}";
 
             var orders = await _context.Orders
                 .Where(o => o.UserId == userId)

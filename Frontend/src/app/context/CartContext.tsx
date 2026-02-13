@@ -62,10 +62,20 @@ export function CartProvider({ children }: { children: ReactNode }) {
           'Authorization': `Bearer ${token}`,
         },
       });
-      
+
       if (response.ok) {
         const data = await response.json();
-        setItems(data.items || []);
+        const rawItems = data.items || data.Items || [];
+        // Map API fields (hỗ trợ cả camelCase và PascalCase)
+        const mappedItems: CartItem[] = rawItems.map((item: any) => ({
+          id: item.id || item.Id || Date.now(),
+          productId: item.productId || item.ProductId,
+          name: item.name || item.Name || '',
+          price: item.price || item.Price || 0,
+          image: item.image || item.Image || '',
+          quantity: item.quantity || item.Quantity || 1,
+        }));
+        setItems(mappedItems);
       }
     } catch (error) {
       console.error('Load cart error:', error);
@@ -96,7 +106,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error('Sync cart error:', error);
     }
-    
+
     // Luôn save vào localStorage như backup
     saveCartToStorage(cartItems);
   };
@@ -105,9 +115,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const addToCart = (product: Omit<CartItem, 'id' | 'quantity'>, quantity = 1) => {
     setItems(currentItems => {
       const existingItem = currentItems.find(item => item.productId === product.productId);
-      
+
       let newItems: CartItem[];
-      
+
       if (existingItem) {
         // Cập nhật số lượng nếu đã có
         newItems = currentItems.map(item =>
@@ -124,7 +134,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         };
         newItems = [...currentItems, newItem];
       }
-      
+
       syncCartWithAPI(newItems);
       return newItems;
     });

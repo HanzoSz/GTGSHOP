@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GTG_Backend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/categories")]
     [ApiController]
     public class CategoriesController : ControllerBase
     {
@@ -19,22 +19,8 @@ namespace GTG_Backend.Controllers
         public async Task<ActionResult> GetCategories()
         {
             var categories = await _context.Categories
-                .Select(c => new
-                {
-                    c.Id,
-                    c.Name,
-                    slug = c.Name.ToLower()
-                        .Replace("cpu - bộ vi xử lý", "cpu")
-                        .Replace("vga - card đồ họa", "vga")
-                        .Replace("ssd / hdd", "ssd")
-                        .Replace("case pc", "case")
-                        .Replace("nguồn psu", "psu")
-                        .Replace("tản nhiệt", "cooling")
-                        .Replace(" ", "-"),
-                    productCount = _context.Products.Count(p => p.CategoryId == c.Id)
-                })
+                .Select(c => new { c.Id, c.Name })
                 .ToListAsync();
-
             return Ok(categories);
         }
 

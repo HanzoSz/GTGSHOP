@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { 
-  Package, 
-  Clock, 
-  CheckCircle, 
-  Truck, 
+import {
+  Package,
+  Clock,
+  CheckCircle,
+  Truck,
   XCircle,
   ArrowLeft,
   Copy,
@@ -33,8 +33,12 @@ const statusSteps = ['pending', 'confirmed', 'shipping', 'delivered'];
 const IMAGE_BASE_URL = 'https://localhost:7033';
 
 const getImageUrl = (imageUrl: string | null | undefined) => {
-  if (!imageUrl) return '/placeholder.png';
-  if (imageUrl.startsWith('http')) return imageUrl;
+  if (!imageUrl) return '';
+  if (imageUrl.startsWith('http')) {
+    // Fix URL bị thiếu / sau port (https://localhost:7033images/... → https://localhost:7033/images/...)
+    // Dùng [^/\d] thay vì (?!\/) để tránh regex backtracking
+    return imageUrl.replace(/(:\d+)([^/\d])/, '$1/$2');
+  }
   return `${IMAGE_BASE_URL}/${imageUrl.replace(/^\/+/, '')}`;
 };
 
@@ -77,14 +81,14 @@ export function OrderDetailPage() {
       if (response.ok) {
         const data = await response.json();
         console.log('Order detail raw:', data);
-        
+
         const orderItems = data.items || data.Items || data.orderItems || data.OrderItems || [];
-        
+
         const itemsWithProductInfo = await Promise.all(orderItems.map(async (item: any) => {
           const productId = item.productId || item.ProductId;
           let productName = item.productName || item.ProductName;
           let productImage = item.productImage || item.ProductImage;
-          
+
           if (!productName || !productImage) {
             const product = await fetchProductInfo(productId);
             if (product) {
@@ -92,7 +96,7 @@ export function OrderDetailPage() {
               productImage = productImage || product.imageUrl || product.ImageUrl;
             }
           }
-          
+
           return {
             productId,
             name: productName || `Sản phẩm #${productId}`,
@@ -120,7 +124,7 @@ export function OrderDetailPage() {
           },
           paymentMethod: data.paymentMethod || data.PaymentMethod || 'cod',
         };
-        
+
         setOrder(mappedOrder);
       } else {
         setOrder(null);
@@ -135,7 +139,7 @@ export function OrderDetailPage() {
 
   const handleCancelOrder = async () => {
     if (!order) return;
-    
+
     setIsCancelling(true);
     try {
       const token = localStorage.getItem('token');
@@ -292,12 +296,11 @@ export function OrderDetailPage() {
                   const StepIcon = stepConfig.icon;
                   const isCompleted = index <= currentStep;
                   const isCurrent = index === currentStep;
-                  
+
                   return (
                     <div key={step} className="flex flex-col items-center flex-1">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                        isCompleted ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-400'
-                      } ${isCurrent ? 'ring-4 ring-green-200' : ''}`}>
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${isCompleted ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-400'
+                        } ${isCurrent ? 'ring-4 ring-green-200' : ''}`}>
                         <StepIcon className="w-5 h-5" />
                       </div>
                       <p className={`text-xs mt-2 text-center ${isCompleted ? 'text-green-600 font-medium' : 'text-gray-400'}`}>
@@ -308,7 +311,7 @@ export function OrderDetailPage() {
                 })}
               </div>
               <div className="absolute top-5 left-0 right-0 h-0.5 bg-gray-200 -z-10">
-                <div 
+                <div
                   className="h-full bg-green-600 transition-all"
                   style={{ width: `${(currentStep / (statusSteps.length - 1)) * 100}%` }}
                 />
@@ -436,8 +439,8 @@ export function OrderDetailPage() {
                 </Button>
               )}
               {canCancelOrder && (
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="w-full border-red-600 text-red-600 hover:bg-red-50"
                   onClick={() => setShowCancelModal(true)}
                 >
@@ -486,15 +489,15 @@ export function OrderDetailPage() {
             </div>
 
             <div className="flex gap-3">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="flex-1"
                 onClick={() => setShowCancelModal(false)}
                 disabled={isCancelling}
               >
                 Không, giữ đơn
               </Button>
-              <Button 
+              <Button
                 className="flex-1 bg-red-600 hover:bg-red-700"
                 onClick={handleCancelOrder}
                 disabled={isCancelling}

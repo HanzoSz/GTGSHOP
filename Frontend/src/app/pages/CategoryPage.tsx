@@ -26,7 +26,7 @@ type SortOption = 'default' | 'price-asc' | 'price-desc' | 'newest' | 'rating';
 export function CategoryPage() {
   // SỬA: Nhận categoryId thay vì slug
   const { categoryId } = useParams<{ categoryId: string }>();
-  
+
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,41 +37,22 @@ export function CategoryPage() {
 
   useEffect(() => {
     if (categoryId) {
-      loadCategory();
       loadProducts();
     }
   }, [categoryId, sortBy]);
 
-  // Lấy thông tin category
-  const loadCategory = async () => {
-    try {
-      const response = await fetch(`https://localhost:7033/api/categories/${categoryId}`);
-      if (response.ok) {
-        const data = await response.json();
-        setCategory({
-          id: data.id || data.Id,
-          name: data.name || data.Name,
-          slug: data.slug || data.Slug || '',
-          productCount: data.productCount || data.ProductCount || 0,
-        });
-      }
-    } catch (error) {
-      console.error('Load category error:', error);
-    }
-  };
-
-  // Lấy sản phẩm theo categoryId
+  // Lấy sản phẩm theo category slug (backend đã có mapping slug → categoryId)
   const loadProducts = async () => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
-      // GỌI API với query parameter categoryId
-      const url = `https://localhost:7033/api/products?categoryId=${categoryId}`;
+      // Dùng endpoint slug-based: /api/products/category/{slug}
+      const url = `https://localhost:7033/api/products/category/${categoryId}`;
       console.log('Calling API:', url);
-      
+
       const response = await fetch(url);
-      
+
       if (!response.ok) {
         if (response.status === 404) {
           setError('Danh mục không tồn tại');
@@ -81,23 +62,32 @@ export function CategoryPage() {
         }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       const data = await response.json();
       console.log('API Response:', data);
-      
-      // Xử lý response - có thể là { products: [...] } hoặc array trực tiếp
-      const productList = data.products || data.items || (Array.isArray(data) ? data : []);
-      const total = data.total || data.totalCount || productList.length;
-      
-      console.log(`Found ${productList.length} products for categoryId "${categoryId}"`);
-      
+
+      // Response format: { category: { id, name, slug }, products: [...], total: N }
+      if (data.category) {
+        setCategory({
+          id: data.category.id,
+          name: data.category.name,
+          slug: data.category.slug || categoryId || '',
+          productCount: data.total || 0,
+        });
+      }
+
+      const productList = data.products || [];
+      const total = data.total || productList.length;
+
+      console.log(`Found ${productList.length} products for category "${categoryId}"`);
+
       // Map sang interface Product
       const mappedProducts: Product[] = productList.map((p: any) => {
         const price = p.price || p.Price || 0;
         const discount = p.discount || p.Discount || 0;
-        const finalPrice = discount > 0 ? price * (1 - discount / 100) : price;
+        const finalPrice = discount > 0 ? Math.round(price * (1 - discount / 100)) : price;
         const rawImageUrl = p.imageUrl || p.ImageUrl || p.image || p.Image || '';
-        
+
         return {
           id: p.id || p.Id,
           name: p.name || p.Name || '',
@@ -110,13 +100,13 @@ export function CategoryPage() {
           categoryId: p.categoryId || p.CategoryId,
         };
       });
-      
+
       // Sort
       const sortedProducts = sortProducts(mappedProducts, sortBy);
-      
+
       setProducts(sortedProducts);
       setTotalProducts(total);
-      
+
     } catch (err) {
       console.error('Load products error:', err);
       setError('Không thể tải sản phẩm. Vui lòng thử lại sau.');
@@ -177,7 +167,7 @@ export function CategoryPage() {
           <p className="text-gray-600">
             Tìm thấy <span className="font-bold text-red-600">{totalProducts}</span> sản phẩm
           </p>
-          
+
           <div className="flex items-center gap-4">
             {/* View Mode */}
             <div className="flex items-center border rounded-lg overflow-hidden">
@@ -237,7 +227,7 @@ export function CategoryPage() {
             </Link>
           </div>
         ) : (
-          <div className={viewMode === 'grid' 
+          <div className={viewMode === 'grid'
             ? 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4'
             : 'flex flex-col gap-4'
           }>

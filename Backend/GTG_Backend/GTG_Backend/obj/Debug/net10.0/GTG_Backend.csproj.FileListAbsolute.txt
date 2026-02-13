@@ -277,3 +277,4 @@ D:\DoAn_WebsiteBanLinhKien\Backend\GTG_Backend\GTG_Backend\bin\Debug\net10.0\zh-
 D:\DoAn_WebsiteBanLinhKien\Backend\GTG_Backend\GTG_Backend\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Scripting.resources.dll
 D:\DoAn_WebsiteBanLinhKien\Backend\GTG_Backend\GTG_Backend\bin\Debug\net10.0\BCrypt.Net-Next.dll
 D:\DoAn_WebsiteBanLinhKien\Backend\GTG_Backend\GTG_Backend\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\DoAn_WebsiteBanLinhKien\Backend\GTG_Backend\GTG_Backend\obj\Debug\net10.0\GTG_Backend.sourcelink.json

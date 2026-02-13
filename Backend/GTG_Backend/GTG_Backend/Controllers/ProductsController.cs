@@ -257,6 +257,84 @@ namespace GTG_Backend.Controllers
             });
         }
 
+        // ✅ GET: api/products/sale - Lấy sản phẩm đang giảm giá (có phân trang)
+        [HttpGet("sale")]
+        public async Task<ActionResult> GetSaleProducts(
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 12,
+            [FromQuery] string? search = null,
+            [FromQuery] int? categoryId = null,
+            [FromQuery] string? sort = null)
+        {
+            var baseUrl = $"{Request.Scheme}://{Request.Host}";
+
+            var query = _context.Products
+                .Include(p => p.Category)
+                .Where(p => p.Discount > 0)
+                .AsQueryable();
+
+            // Filter by category
+            if (categoryId.HasValue && categoryId.Value > 0)
+                query = query.Where(p => p.CategoryId == categoryId.Value);
+
+            // Search
+            if (!string.IsNullOrEmpty(search))
+            {
+                var searchTerm = search.ToLower();
+                query = query.Where(p =>
+                    p.Name.ToLower().Contains(searchTerm) ||
+                    (p.Description != null && p.Description.ToLower().Contains(searchTerm)));
+            }
+
+            var totalItems = await query.CountAsync();
+
+            // Sort
+            query = sort switch
+            {
+                "price-asc" => query.OrderBy(p => p.Price),
+                "price-desc" => query.OrderByDescending(p => p.Price),
+                "discount-desc" => query.OrderByDescending(p => p.Discount),
+                "newest" => query.OrderByDescending(p => p.Id),
+                _ => query.OrderByDescending(p => p.Discount) // Mặc định: giảm giá cao nhất
+            };
+
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var products = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(p => new
+                {
+                    id = p.Id,
+                    name = p.Name,
+                    price = p.Price,
+                    originalPrice = Math.Round(p.Price / (1 - p.Discount / 100m), 0),
+                    image = p.ImageUrl != null
+                        ? (p.ImageUrl.StartsWith("http") ? p.ImageUrl : $"{baseUrl}/{p.ImageUrl.TrimStart('/')}")
+                        : null,
+                    imageUrl = p.ImageUrl != null
+                        ? (p.ImageUrl.StartsWith("http") ? p.ImageUrl : $"{baseUrl}/{p.ImageUrl.TrimStart('/')}")
+                        : null,
+                    rating = p.Rating,
+                    reviews = p.Reviews,
+                    discount = p.Discount,
+                    stock = p.Stock,
+                    inStock = p.Stock > 0,
+                    categoryId = p.CategoryId,
+                    categoryName = p.Category != null ? p.Category.Name : null,
+                })
+                .ToListAsync();
+
+            return Ok(new
+            {
+                items = products,
+                totalItems,
+                totalPages,
+                currentPage = page,
+                pageSize
+            });
+        }
+
         // ✅ GET: api/products/{id}/reviews - Lấy danh sách đánh giá
         [HttpGet("{id:int}/reviews")]
         public async Task<ActionResult<ReviewListResponse>> GetProductReviews(int id)

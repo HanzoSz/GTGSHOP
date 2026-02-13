@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Package, 
-  Clock, 
-  CheckCircle, 
-  Truck, 
+import {
+  Package,
+  Clock,
+  CheckCircle,
+  Truck,
   XCircle,
   ChevronRight,
   ShoppingBag,
@@ -74,9 +74,13 @@ type FilterStatus = 'all' | Order['status'];
 const IMAGE_BASE_URL = 'https://localhost:7033';
 
 // Helper function để fix image URL
-const getImageUrl = (imageUrl: string) => {
-  if (!imageUrl) return '/placeholder.png';
-  if (imageUrl.startsWith('http')) return imageUrl;
+const getImageUrl = (imageUrl: string | null | undefined) => {
+  if (!imageUrl) return '';
+  if (imageUrl.startsWith('http')) {
+    // Fix URL bị thiếu / sau port (https://localhost:7033images/... → https://localhost:7033/images/...)
+    // Dùng [^/\d] thay vì (?!\/) để tránh regex backtracking
+    return imageUrl.replace(/(:\d+)([^/\d])/, '$1/$2');
+  }
   return `${IMAGE_BASE_URL}/${imageUrl.replace(/^\/+/, '')}`;
 };
 
@@ -100,7 +104,7 @@ export function OrdersPage() {
     setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
-      
+
       // Kiểm tra token
       if (!token) {
         console.error('No token found');
@@ -132,7 +136,7 @@ export function OrdersPage() {
       if (response.ok) {
         const data = await response.json();
         console.log('Orders data:', data);
-        
+
         // Map dữ liệu từ API sang format frontend
         const mappedOrders = data.map((order: any) => ({
           id: order.id?.toString() || order.Id?.toString(),
@@ -158,7 +162,7 @@ export function OrdersPage() {
           },
           paymentMethod: order.paymentMethod || order.PaymentMethod || 'cod',
         }));
-        
+
         setOrders(mappedOrders);
       } else {
         const errorText = await response.text();
@@ -282,11 +286,10 @@ export function OrdersPage() {
               <button
                 key={status}
                 onClick={() => setFilterStatus(status as FilterStatus)}
-                className={`p-4 rounded-xl border transition-all ${
-                  filterStatus === status 
-                    ? 'border-red-600 bg-red-50' 
-                    : 'bg-white hover:border-gray-300'
-                }`}
+                className={`p-4 rounded-xl border transition-all ${filterStatus === status
+                  ? 'border-red-600 bg-red-50'
+                  : 'bg-white hover:border-gray-300'
+                  }`}
               >
                 <div className="flex items-center gap-2 mb-2">
                   <Icon className={`w-5 h-5 ${filterStatus === status ? 'text-red-600' : 'text-gray-400'}`} />
@@ -309,8 +312,8 @@ export function OrdersPage() {
             <ShoppingBag className="w-16 h-16 text-gray-300 mx-auto mb-4" />
             <h2 className="text-xl font-bold text-gray-800 mb-2">Không có đơn hàng nào</h2>
             <p className="text-gray-500 mb-6">
-              {filterStatus !== 'all' 
-                ? 'Không tìm thấy đơn hàng với trạng thái này.' 
+              {filterStatus !== 'all'
+                ? 'Không tìm thấy đơn hàng với trạng thái này.'
                 : 'Bạn chưa có đơn hàng nào. Hãy mua sắm ngay!'}
             </p>
             <Link to="/">
