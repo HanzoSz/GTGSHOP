@@ -125,43 +125,56 @@ namespace GTG_Backend.Controllers
                 inStock = p.Stock > 0,
                 categoryId = p.CategoryId,
                 categoryName = p.Category != null ? p.Category.Name : null,
-                description = p.Description
+                description = p.Description,
+                techSpecs = p.TechSpecs
             }).ToListAsync();
 
             return Ok(products);
         }
 
-        // ✅ GET: api/products/category/{slug}
-        [HttpGet("category/{slug}")]
+        // ✅ GET: api/products/category/{slugOrId}  - Hỗ trợ cả slug và categoryId
+        [HttpGet("category/{slugOrId}")]
         public async Task<ActionResult> GetProductsByCategory(
-            string slug,
+            string slugOrId,
             [FromQuery] int? limit = null,
             [FromQuery] string? sort = null)
         {
             var baseUrl = $"{Request.Scheme}://{Request.Host}";
 
+            Models.Category? category = null;
 
-            // Tìm category từ slug
-            if (!CategoryMapping.TryGetValue(slug.ToLower(), out var categoryNames))
+            // Nếu là số → tìm trực tiếp theo CategoryId
+            if (int.TryParse(slugOrId, out var categoryId))
             {
-                return NotFound(new { message = $"Category '{slug}' không tồn tại" });
-            }
-
-            // Tìm category trong database
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(c => categoryNames
-                    .Any(name => c.Name.ToLower().Contains(name.ToLower()) || 
-                                 name.ToLower().Contains(c.Name.ToLower())));
-
-            if (category == null)
-            {
-                var allCategories = await _context.Categories.Select(c => c.Name).ToListAsync();
-                return NotFound(new
+                category = await _context.Categories.FindAsync(categoryId);
+                if (category == null)
                 {
-                    message = $"Category '{slug}' không tồn tại trong database",
-                    availableCategories = allCategories,
-                    lookingFor = categoryNames
-                });
+                    return NotFound(new { message = $"Category với ID={categoryId} không tồn tại" });
+                }
+            }
+            else
+            {
+                // Nếu là slug → dùng CategoryMapping
+                if (!CategoryMapping.TryGetValue(slugOrId.ToLower(), out var categoryNames))
+                {
+                    return NotFound(new { message = $"Category '{slugOrId}' không tồn tại" });
+                }
+
+                category = await _context.Categories
+                    .FirstOrDefaultAsync(c => categoryNames
+                        .Any(name => c.Name.ToLower().Contains(name.ToLower()) || 
+                                     name.ToLower().Contains(c.Name.ToLower())));
+
+                if (category == null)
+                {
+                    var allCategories = await _context.Categories.Select(c => c.Name).ToListAsync();
+                    return NotFound(new
+                    {
+                        message = $"Category '{slugOrId}' không tồn tại trong database",
+                        availableCategories = allCategories,
+                        lookingFor = categoryNames
+                    });
+                }
             }
 
             // ✅ LỌC SẢN PHẨM THEO CATEGORY ID
@@ -209,7 +222,7 @@ namespace GTG_Backend.Controllers
 
             return Ok(new
             {
-                category = new { id = category.Id, name = category.Name, slug },
+                category = new { id = category.Id, name = category.Name, slug = slugOrId },
                 products,
                 total = products.Count
             });
@@ -253,7 +266,8 @@ namespace GTG_Backend.Controllers
                 categoryName = product.Category?.Name,
                 discount = product.Discount,
                 rating = product.Rating,
-                reviewCount = product.Reviews
+                reviewCount = product.Reviews,
+                techSpecs = product.TechSpecs   // ✅ Thông số kỹ thuật JSON
             });
         }
 

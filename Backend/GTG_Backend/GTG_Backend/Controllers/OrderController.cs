@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using GTG_Backend.DTOs;
 using GTG_Backend.Models;
+using GTG_Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace GTG_Backend.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly VnPayService _vnPayService;
 
-        public OrdersController(AppDbContext context)
+        public OrdersController(AppDbContext context, VnPayService vnPayService)
         {
             _context = context;
+            _vnPayService = vnPayService;
         }
 
         // POST: api/orders
@@ -93,12 +96,22 @@ namespace GTG_Backend.Controllers
 
             await _context.SaveChangesAsync();
 
+            // Nếu thanh toán VnPay, tự động tạo URL thanh toán
+            string? paymentUrl = null;
+            if (request.PaymentMethod == "vnpay")
+            {
+                var ipAddress = HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString() ?? "127.0.0.1";
+                var totalPayment = order.TotalAmount + order.ShippingFee;
+                paymentUrl = _vnPayService.CreatePaymentUrl(orderCode, totalPayment, null, ipAddress);
+            }
+
             return Ok(new CreateOrderResponse
             {
                 Id = order.Id,
                 OrderCode = orderCode,
                 Status = "pending",
-                Message = "Đặt hàng thành công"
+                Message = "Đặt hàng thành công",
+                PaymentUrl = paymentUrl
             });
         }
 
@@ -125,6 +138,7 @@ namespace GTG_Backend.Controllers
                     TotalAmount = o.TotalAmount,
                     ShippingFee = o.ShippingFee,
                     PaymentMethod = o.PaymentMethod,
+                    PaymentStatus = o.PaymentStatus,
                     ShippingFullName = o.ShippingFullName,
                     ShippingPhone = o.ShippingPhone,
                     ShippingEmail = o.ShippingEmail,
@@ -167,6 +181,7 @@ namespace GTG_Backend.Controllers
                     TotalAmount = o.TotalAmount,
                     ShippingFee = o.ShippingFee,
                     PaymentMethod = o.PaymentMethod,
+                    PaymentStatus = o.PaymentStatus,
                     ShippingFullName = o.ShippingFullName,
                     ShippingPhone = o.ShippingPhone,
                     ShippingEmail = o.ShippingEmail,

@@ -16,5 +16,6 @@ namespace GTG_Backend.Models
         public double Rating { get; set; } = 5.0;
         public int Reviews { get; set; } = 0;
         public int Discount { get; set; } = 0;
+        public string? TechSpecs { get; set; }
     }
 }

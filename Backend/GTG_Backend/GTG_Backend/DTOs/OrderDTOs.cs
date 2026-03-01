@@ -36,6 +36,7 @@ namespace GTG_Backend.DTOs
         public string OrderCode { get; set; } = string.Empty;
         public string Status { get; set; } = string.Empty;
         public string Message { get; set; } = string.Empty;
+        public string? PaymentUrl { get; set; }
     }
 
     public class OrderResponse
@@ -48,6 +49,7 @@ namespace GTG_Backend.DTOs
         public decimal TotalAmount { get; set; }
         public decimal ShippingFee { get; set; }
         public string PaymentMethod { get; set; } = string.Empty;
+        public string PaymentStatus { get; set; } = string.Empty;
         
         // Shipping info - flat
         public string ShippingFullName { get; set; } = string.Empty;

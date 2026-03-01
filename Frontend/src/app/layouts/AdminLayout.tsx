@@ -11,7 +11,8 @@ import {
   Menu,
   X,
   Bell,
-  Search
+  Search,
+  FolderOpen
 } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import { Logo } from '@/app/components/Logo';
@@ -36,6 +37,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   const menuItems = [
     { path: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { path: '/admin/products', icon: Package, label: 'Quản lý sản phẩm' },
+    { path: '/admin/categories', icon: FolderOpen, label: 'Quản lý danh mục' },
     { path: '/admin/orders', icon: ShoppingCart, label: 'Quản lý đơn hàng' },
     { path: '/admin/customers', icon: Users, label: 'Quản lý khách hàng' },
     { path: '/admin/analytics', icon: BarChart3, label: 'Thống kê' },
@@ -79,8 +81,8 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                     <Link
                       to={item.path}
                       className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${isActive
-                          ? 'bg-gradient-to-r from-red-600 to-orange-600 text-white shadow-lg'
-                          : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                        ? 'bg-gradient-to-r from-red-600 to-orange-600 text-white shadow-lg'
+                        : 'text-slate-400 hover:bg-slate-800 hover:text-white'
                         }`}
                     >
                       <Icon className="w-5 h-5" />

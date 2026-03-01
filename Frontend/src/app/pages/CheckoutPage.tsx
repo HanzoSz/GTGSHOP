@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { 
-  MapPin, 
-  Phone, 
-  User, 
-  CreditCard, 
-  Truck, 
+import {
+  MapPin,
+  Phone,
+  User,
+  CreditCard,
+  Truck,
   CheckCircle,
   ArrowLeft,
   Shield,
@@ -139,7 +139,7 @@ export function CheckoutPage() {
 
     try {
       const token = localStorage.getItem('token');
-      
+
       // Format đúng theo backend API
       const orderData = {
         items: items.map(item => ({
@@ -178,6 +178,17 @@ export function CheckoutPage() {
       if (response.ok) {
         const result = await response.json();
         console.log('Order result:', result);
+
+        // Nếu VNPay → redirect sang cổng thanh toán VNPay
+        if (paymentMethod === 'vnpay' && result.paymentUrl) {
+          console.log('Redirecting to VNPay:', result.paymentUrl);
+          clearCart();
+          // Redirect trình duyệt sang VNPay
+          window.location.href = result.paymentUrl;
+          return; // Không show success screen, đợi VNPay callback
+        }
+
+        // COD / Bank / MoMo → show success screen bình thường
         setOrderId(result.orderCode || result.id || 'ORD' + Date.now());
         setOrderSuccess(true);
         clearCart();
@@ -223,7 +234,7 @@ export function CheckoutPage() {
             </div>
             <h1 className="text-3xl font-bold text-gray-800 mb-2">Đặt hàng thành công!</h1>
             <p className="text-gray-500 mb-4">Cảm ơn bạn đã mua hàng tại GTG Shop</p>
-            
+
             <div className="bg-white rounded-xl p-6 shadow-sm border mb-6">
               <p className="text-sm text-gray-500 mb-2">Mã đơn hàng của bạn</p>
               <p className="text-2xl font-bold text-red-600">{orderId}</p>
@@ -529,10 +540,10 @@ export function CheckoutPage() {
                   <div className="space-y-4 max-h-64 overflow-y-auto">
                     {items.map(item => (
                       <div key={item.productId} className="flex gap-3">
-                        <img 
-                          src={getImageUrl(item.image)} 
-                          alt={item.name} 
-                          className="w-16 h-16 object-cover rounded-lg border" 
+                        <img
+                          src={getImageUrl(item.image)}
+                          alt={item.name}
+                          className="w-16 h-16 object-cover rounded-lg border"
                         />
                         <div className="flex-1 min-w-0">
                           <p className="font-medium text-gray-800 line-clamp-1">{item.name}</p>
@@ -587,10 +598,10 @@ export function CheckoutPage() {
                 {items.map(item => (
                   <div key={item.productId} className="flex gap-3">
                     <div className="relative">
-                      <img 
-                        src={getImageUrl(item.image)} 
-                        alt={item.name} 
-                        className="w-12 h-12 object-cover rounded-lg border" 
+                      <img
+                        src={getImageUrl(item.image)}
+                        alt={item.name}
+                        className="w-12 h-12 object-cover rounded-lg border"
                       />
                       <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                         {item.quantity}

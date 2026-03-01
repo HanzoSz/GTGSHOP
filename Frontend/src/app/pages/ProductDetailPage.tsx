@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { 
-  ShoppingCart, 
-  Heart, 
-  Share2, 
-  ChevronRight, 
-  Minus, 
+import {
+  ShoppingCart,
+  Heart,
+  Share2,
+  ChevronRight,
+  Minus,
   Plus,
   MessageCircle,
   Star,
@@ -18,6 +18,7 @@ import { Footer } from '../components/Footer';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { ProductCard } from '../components/ProductCard';
+import { TechSpecsTable } from '../components/TechSpecsTable';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 
@@ -36,6 +37,7 @@ interface Product {
   discount: number;
   rating: number;
   reviewCount: number;
+  techSpecs: string | null;
 }
 
 interface Review {
@@ -64,14 +66,14 @@ export function ProductDetailPage() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { user } = useAuth();
-  
+
   const [product, setProduct] = useState<Product | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<RelatedProduct[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<'description' | 'specs' | 'reviews'>('description');
-  
+
   // Review form state
   const [newReview, setNewReview] = useState({ rating: 5, comment: '' });
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
@@ -90,12 +92,12 @@ export function ProductDetailPage() {
       const response = await fetch(`https://localhost:7033/api/products/${id}`);
       if (response.ok) {
         const data = await response.json();
-        
+
         console.log('Product API Response:', data);
         console.log('ImageUrl from API:', data.imageUrl || data.ImageUrl); // Debug
-        
+
         const imageUrl = data.imageUrl || data.ImageUrl || '';
-        
+
         setProduct({
           id: data.id || data.Id,
           name: data.name || data.Name,
@@ -109,6 +111,7 @@ export function ProductDetailPage() {
           discount: data.discount || data.Discount || 0,
           rating: data.rating || data.Rating || 0,
           reviewCount: data.reviewCount || data.ReviewCount || data.reviews || data.Reviews || 0,
+          techSpecs: data.techSpecs || data.TechSpecs || null,
         });
 
         // Load related products
@@ -174,49 +177,6 @@ export function ProductDetailPage() {
     return 'N/A';
   };
 
-  const parseSpecsFromDescription = (description: string): { label: string; value: string }[] => {
-    if (!description) return [];
-    
-    // Tách các thông số từ description
-    const specs: { label: string; value: string }[] = [];
-    
-    // Pattern matching cho các thông số phổ biến
-    const patterns = [
-      { regex: /(\d+)\s*(core|nhân)/i, label: 'Số nhân' },
-      { regex: /(\d+)\s*(thread|luồng)/i, label: 'Số luồng' },
-      { regex: /(\d+(?:\.\d+)?)\s*GHz/i, label: 'Xung nhịp' },
-      { regex: /(\d+)\s*MB\s*(cache|bộ nhớ đệm)/i, label: 'Cache' },
-      { regex: /(\d+)\s*GB/i, label: 'Dung lượng' },
-      { regex: /DDR(\d)/i, label: 'Loại RAM' },
-      { regex: /(\d+)\s*W\s*(TDP)?/i, label: 'TDP' },
-      { regex: /Socket\s*(\w+)/i, label: 'Socket' },
-    ];
-    
-    patterns.forEach(({ regex, label }) => {
-      const match = description.match(regex);
-      if (match) {
-        specs.push({ label, value: match[0] });
-      }
-    });
-    
-    // Thêm brand
-    const brand = extractBrand(description);
-    if (brand !== 'N/A') {
-      specs.unshift({ label: 'Thương hiệu', value: brand });
-    }
-    
-    // Thêm mặc định nếu không parse được
-    if (specs.length === 0) {
-      specs.push(
-        { label: 'Thương hiệu', value: extractBrand(product?.name || '') },
-        { label: 'Bảo hành', value: '36 tháng' },
-        { label: 'Tình trạng', value: 'Mới 100%' },
-        { label: 'Xuất xứ', value: 'Chính hãng' }
-      );
-    }
-    
-    return specs;
-  };
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
@@ -285,14 +245,14 @@ export function ProductDetailPage() {
         const data = await response.json();
         setReviewMessage({ type: 'success', text: 'Đánh giá của bạn đã được gửi!' });
         setNewReview({ rating: 5, comment: '' });
-        
+
         // Thêm review mới vào list
         if (data.review) {
           setReviews([data.review, ...reviews]);
         } else {
           loadReviews();
         }
-        
+
         // Reload product để cập nhật rating
         loadProduct();
       } else {
@@ -311,17 +271,17 @@ export function ProductDetailPage() {
     if (!imageUrl) {
       return 'https://via.placeholder.com/600x600?text=No+Image';
     }
-    
+
     // Nếu đã là URL đầy đủ
     if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
       return imageUrl;
     }
-    
+
     // Nếu là đường dẫn tương đối
     if (imageUrl.startsWith('/')) {
       return `${IMAGE_BASE_URL}${imageUrl}`;
     }
-    
+
     return `${IMAGE_BASE_URL}/${imageUrl}`;
   };
 
@@ -353,12 +313,11 @@ export function ProductDetailPage() {
     );
   }
 
-  const specifications = parseSpecsFromDescription(product.description + ' ' + product.name);
 
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      
+
       <div className="container mx-auto px-4 py-6">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm mb-6">
@@ -401,11 +360,10 @@ export function ProductDetailPage() {
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`w-5 h-5 ${
-                        i < product.rating
-                          ? 'fill-yellow-400 text-yellow-400'
-                          : 'text-slate-300'
-                      }`}
+                      className={`w-5 h-5 ${i < product.rating
+                        ? 'fill-yellow-400 text-yellow-400'
+                        : 'text-slate-300'
+                        }`}
                     />
                   ))}
                   <span className="ml-2 text-slate-600 font-medium">{product.rating}/5</span>
@@ -527,31 +485,28 @@ export function ProductDetailPage() {
           <div className="flex gap-4 border-b border-slate-200 mb-6 overflow-x-auto">
             <button
               onClick={() => setActiveTab('description')}
-              className={`px-6 py-3 font-bold transition-all whitespace-nowrap ${
-                activeTab === 'description'
-                  ? 'text-red-600 border-b-4 border-red-600'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
+              className={`px-6 py-3 font-bold transition-all whitespace-nowrap ${activeTab === 'description'
+                ? 'text-red-600 border-b-4 border-red-600'
+                : 'text-slate-600 hover:text-slate-900'
+                }`}
             >
               MÔ TẢ SẢN PHẨM
             </button>
             <button
               onClick={() => setActiveTab('specs')}
-              className={`px-6 py-3 font-bold transition-all whitespace-nowrap ${
-                activeTab === 'specs'
-                  ? 'text-red-600 border-b-4 border-red-600'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
+              className={`px-6 py-3 font-bold transition-all whitespace-nowrap ${activeTab === 'specs'
+                ? 'text-red-600 border-b-4 border-red-600'
+                : 'text-slate-600 hover:text-slate-900'
+                }`}
             >
               THÔNG SỐ KỸ THUẬT
             </button>
             <button
               onClick={() => setActiveTab('reviews')}
-              className={`px-6 py-3 font-bold transition-all whitespace-nowrap ${
-                activeTab === 'reviews'
-                  ? 'text-red-600 border-b-4 border-red-600'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
+              className={`px-6 py-3 font-bold transition-all whitespace-nowrap ${activeTab === 'reviews'
+                ? 'text-red-600 border-b-4 border-red-600'
+                : 'text-slate-600 hover:text-slate-900'
+                }`}
             >
               ĐÁNH GIÁ ({product.reviewCount || reviews.length})
             </button>
@@ -569,7 +524,7 @@ export function ProductDetailPage() {
                 ) : (
                   <p className="text-gray-500">Chưa có mô tả chi tiết cho sản phẩm này.</p>
                 )}
-                
+
                 {/* Highlights */}
                 <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="flex items-center gap-3 p-3 bg-white rounded-lg">
@@ -614,22 +569,16 @@ export function ProductDetailPage() {
           )}
 
           {activeTab === 'specs' && (
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse">
-                <tbody>
-                  {specifications.map((spec, index) => (
-                    <tr key={index} className="border-b border-slate-200">
-                      <td className="py-4 px-4 bg-slate-50 font-semibold text-slate-700 w-1/3">
-                        {spec.label}
-                      </td>
-                      <td className="py-4 px-4 text-slate-900">{spec.value}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              
-              {/* Thông tin từ Description */}
-              {product.description && (
+            <div>
+              {/* TechSpecs từ database */}
+              <TechSpecsTable
+                techSpecs={product.techSpecs}
+                categoryId={product.categoryId}
+                productName={product.name}
+              />
+
+              {/* Fallback: Thông tin từ Description nếu không có TechSpecs */}
+              {!product.techSpecs && product.description && (
                 <div className="mt-6 p-4 bg-blue-50 rounded-xl">
                   <h4 className="font-bold text-blue-800 mb-2">📋 Mô tả chi tiết từ nhà sản xuất:</h4>
                   <p className="text-blue-700 whitespace-pre-line">{product.description}</p>
@@ -648,9 +597,8 @@ export function ProductDetailPage() {
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`w-4 h-4 ${
-                          i < product.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
-                        }`}
+                        className={`w-4 h-4 ${i < product.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
+                          }`}
                       />
                     ))}
                   </div>
@@ -663,11 +611,10 @@ export function ProductDetailPage() {
                 <h4 className="font-bold text-gray-800 mb-3">
                   {user ? 'Viết đánh giá của bạn' : 'Đăng nhập để đánh giá'}
                 </h4>
-                
+
                 {reviewMessage && (
-                  <div className={`mb-4 p-3 rounded-lg ${
-                    reviewMessage.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                  }`}>
+                  <div className={`mb-4 p-3 rounded-lg ${reviewMessage.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                    }`}>
                     {reviewMessage.text}
                   </div>
                 )}
@@ -681,13 +628,12 @@ export function ProductDetailPage() {
                         {[1, 2, 3, 4, 5].map((star) => (
                           <button
                             key={star}
-                            onClick={() => setNewReview(prev => ({ ...prev, rating: star }))} 
+                            onClick={() => setNewReview(prev => ({ ...prev, rating: star }))}
                             className="p-1 hover:scale-110 transition-transform"
                           >
                             <Star
-                              className={`w-8 h-8 ${
-                                star <= newReview.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
-                              }`}
+                              className={`w-8 h-8 ${star <= newReview.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
+                                }`}
                             />
                           </button>
                         ))}
@@ -750,9 +696,8 @@ export function ProductDetailPage() {
                               {[...Array(5)].map((_, i) => (
                                 <Star
                                   key={i}
-                                  className={`w-4 h-4 ${
-                                    i < review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
-                                  }`}
+                                  className={`w-4 h-4 ${i < review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
+                                    }`}
                                 />
                               ))}
                             </div>
@@ -784,8 +729,8 @@ export function ProductDetailPage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {relatedProducts.map((item) => (
-                <ProductCard 
-                  key={item.id} 
+                <ProductCard
+                  key={item.id}
                   id={item.id}
                   name={item.name}
                   price={item.price}

@@ -132,6 +132,7 @@ export interface AdminProduct {
 export interface Category {
     id: number;
     name: string;
+    productCount?: number;
 }
 
 // Lấy danh sách danh mục
@@ -141,10 +142,59 @@ export async function getCategories(): Promise<Category[]> {
         return response.data.map((item: any) => ({
             id: item.id || item.Id,
             name: item.name || item.Name,
+            productCount: item.productCount || item.ProductCount || 0,
         }));
     } catch (error) {
         console.error("Lỗi lấy danh mục:", error);
         return [];
+    }
+}
+
+// ============== ADMIN CATEGORY API ==============
+
+// Tạo danh mục mới
+export async function createCategory(name: string): Promise<{ success: boolean; message?: string; category?: Category }> {
+    try {
+        const response = await axios.post(`${API_URL}/categories`, { name }, { headers: getAuthHeaders() });
+        return {
+            success: true,
+            message: response.data.message,
+            category: response.data.category ? {
+                id: response.data.category.id,
+                name: response.data.category.name,
+            } : undefined
+        };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.response?.data?.message || 'Lỗi tạo danh mục'
+        };
+    }
+}
+
+// Cập nhật danh mục
+export async function updateCategory(id: number, name: string): Promise<{ success: boolean; message?: string }> {
+    try {
+        const response = await axios.put(`${API_URL}/categories/${id}`, { name }, { headers: getAuthHeaders() });
+        return { success: true, message: response.data.message };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.response?.data?.message || 'Lỗi cập nhật danh mục'
+        };
+    }
+}
+
+// Xoá danh mục
+export async function deleteCategory(id: number): Promise<{ success: boolean; message?: string }> {
+    try {
+        const response = await axios.delete(`${API_URL}/categories/${id}`, { headers: getAuthHeaders() });
+        return { success: true, message: response.data.message };
+    } catch (error: any) {
+        return {
+            success: false,
+            message: error.response?.data?.message || 'Lỗi xoá danh mục'
+        };
     }
 }
 

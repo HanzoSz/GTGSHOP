@@ -59,6 +59,12 @@ namespace GTG_Backend
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            // Gemini AI Service
+            builder.Services.AddHttpClient<GTG_Backend.Services.GeminiService>();
+
+            // VnPay Payment Service
+            builder.Services.AddSingleton<GTG_Backend.Services.VnPayService>();
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())

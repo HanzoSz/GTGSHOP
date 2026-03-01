@@ -59,6 +59,9 @@ namespace GTG_Backend.Models
         // ✅ Thêm lý do hủy
         public string? CancelReason { get; set; }
 
+        [StringLength(20)]
+        public string PaymentStatus { get; set; } = "unpaid"; // unpaid, paid, failed
+
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; }
 

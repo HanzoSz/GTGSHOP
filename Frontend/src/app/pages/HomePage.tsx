@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Header } from '@/app/components/Header';
-import { TetBanner } from '@/app/components/TetBanner';
+import { DynamicBanner } from '@/app/components/DynamicBanner';
 import { Hero } from '@/app/components/Hero';
 import { CategorySection } from '@/app/components/CategorySection';
 import { ProductCard, Product } from '@/app/components/ProductCard';
@@ -53,7 +53,7 @@ export function HomePage() {
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      <TetBanner />
+      <DynamicBanner />
       <Hero />
       <CategorySection />
 

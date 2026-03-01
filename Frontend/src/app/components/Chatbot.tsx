@@ -1,8 +1,13 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { MessageCircle, Send, X, Bot, Cpu, Wrench, Zap } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card } from './ui/card';
+import { useAuth } from '../context/AuthContext';
+
+const API_BASE_URL = 'https://localhost:7033/api';
 
 interface Message {
   id: string;
@@ -12,6 +17,7 @@ interface Message {
 }
 
 export function Chatbot() {
+  const { user, isAuthenticated } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -22,6 +28,66 @@ export function Chatbot() {
     }
   ]);
   const [inputMessage, setInputMessage] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [historyLoaded, setHistoryLoaded] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to bottom
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isTyping]);
+
+  // Load chat history khi mở chat
+  useEffect(() => {
+    if (isOpen && isAuthenticated && user?.id && !historyLoaded) {
+      loadChatHistory();
+    }
+  }, [isOpen, isAuthenticated, user?.id]);
+
+  const loadChatHistory = async () => {
+    if (!user?.id) return;
+    try {
+      const response = await fetch(`${API_BASE_URL}/chat/history/${user.id}`);
+      if (response.ok) {
+        const history = await response.json();
+        if (history.length > 0) {
+          const historyMessages: Message[] = [];
+          // Thêm welcome message đầu tiên
+          historyMessages.push({
+            id: 'welcome',
+            text: 'Xin chào! Tôi là AI Assistant của GTG Shop. Tôi có thể giúp bạn:\n\n🎮 Tư vấn build PC Gaming\n💼 Tư vấn PC Văn phòng\n🔧 Nâng cấp cấu hình\n🛠️ Sửa chữa máy tính\n\nBạn cần tư vấn gì ạ?',
+            sender: 'bot',
+            timestamp: new Date(history[0].sentAt)
+          });
+
+          // Thêm các tin nhắn từ history
+          history.forEach((h: { id: number; userMessage: string; botResponse: string; sentAt: string }) => {
+            historyMessages.push({
+              id: `user-${h.id}`,
+              text: h.userMessage,
+              sender: 'user',
+              timestamp: new Date(h.sentAt)
+            });
+            historyMessages.push({
+              id: `bot-${h.id}`,
+              text: h.botResponse,
+              sender: 'bot',
+              timestamp: new Date(h.sentAt)
+            });
+          });
+
+          setMessages(historyMessages);
+        }
+        setHistoryLoaded(true);
+      }
+    } catch (error) {
+      console.error('Error loading chat history:', error);
+    }
+  };
 
   const quickQuestions = [
     { text: 'Build PC Gaming 20 triệu', icon: Cpu },
@@ -29,8 +95,8 @@ export function Chatbot() {
     { text: 'Sửa chữa máy tính', icon: Wrench },
   ];
 
-  const handleSendMessage = () => {
-    if (!inputMessage.trim()) return;
+  const handleSendMessage = async () => {
+    if (!inputMessage.trim() || isTyping) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -40,50 +106,107 @@ export function Chatbot() {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const messageText = inputMessage;
     setInputMessage('');
+    setIsTyping(true);
 
-    // Simulate bot response
-    setTimeout(() => {
-      const botResponse = generateBotResponse(inputMessage);
+    try {
+      // Gọi API thật
+      const userId = isAuthenticated && user?.id ? user.id : 0;
+      const response = await fetch(`${API_BASE_URL}/chat/send`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, message: messageText }),
+      });
+
+      let botText: string;
+      if (response.ok) {
+        const data = await response.json();
+        botText = data.message;
+      } else {
+        botText = 'Xin lỗi, hệ thống đang bận. Vui lòng thử lại sau hoặc gọi hotline 0901 234 567! 📞';
+      }
+
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: botResponse,
+        text: botText,
         sender: 'bot',
         timestamp: new Date()
       };
       setMessages(prev => [...prev, botMessage]);
-    }, 1000);
-  };
-
-  const generateBotResponse = (userInput: string): string => {
-    const input = userInput.toLowerCase();
-    
-    if (input.includes('gaming') || input.includes('game') || input.includes('chơi game')) {
-      return '🎮 Tuyệt vời! Để tư vấn build PC Gaming phù hợp, cho tôi biết:\n\n1. Ngân sách của bạn? (VD: 20 triệu, 30 triệu...)\n2. Game chính bạn chơi? (VD: PUBG, Valorant, GTA V...)\n3. Độ phân giải màn hình? (1080p, 1440p, 4K?)\n\nVới thông tin này, tôi sẽ gợi ý cấu hình tối ưu nhất cho bạn!';
+    } catch (error) {
+      console.error('Chat API error:', error);
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: 'Không thể kết nối đến server. Vui lòng kiểm tra kết nối và thử lại! 🔌',
+        sender: 'bot',
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsTyping(false);
     }
-    
-    if (input.includes('20 triệu') || input.includes('20tr')) {
-      return '💡 Gợi ý cấu hình PC Gaming 20 triệu:\n\n• CPU: AMD Ryzen 5 5600 - 3.2tr\n• VGA: RTX 3060 12GB - 7.5tr\n• RAM: 16GB DDR4 3200MHz - 1.2tr\n• Mainboard: B550M - 2.5tr\n• SSD: 500GB NVMe - 1tr\n• PSU: 650W 80+ Bronze - 1.5tr\n• Case: Mid Tower RGB - 1tr\n• Tản: AIO 240mm - 2.3tr\n\n✨ Tổng: ~20tr - Chơi mượt game 1080p/1440p\n\nBạn có muốn điều chỉnh gì không?';
-    }
-    
-    if (input.includes('nâng cấp') || input.includes('upgrade')) {
-      return '🔧 Để tư vấn nâng cấp chính xác, bạn cho tôi biết:\n\n1. Cấu hình hiện tại?\n2. Mục đích nâng cấp? (gaming, render, streaming...)\n3. Ngân sách nâng cấp?\n\nThông thường với 5-10 triệu, bạn có thể nâng cấp đáng kể VGA hoặc CPU!';
-    }
-    
-    if (input.includes('sửa') || input.includes('hỏng')) {
-      return '🛠️ GTG Shop nhận sửa chữa máy tính:\n\n• Vệ sinh tản nhiệt - 100k\n• Cài đặt Windows - 150k\n• Thay keo tản nhiệt - 50k\n• Kiểm tra lỗi phần cứng - Miễn phí\n\nBạn có thể mang máy đến cửa hàng hoặc gọi 0901 234 567 để được hỗ trợ nhé!';
-    }
-    
-    if (input.includes('văn phòng') || input.includes('office')) {
-      return '💼 Gợi ý PC Văn phòng giá rẻ:\n\n• CPU: Intel i3-12100 - 2.5tr\n• RAM: 8GB DDR4 - 600k\n• SSD: 256GB - 500k\n• Main: H610M - 1.8tr\n• Case + PSU: 1tr\n\n✨ Tổng: ~6.5tr - Đủ dùng Excel, Word, duyệt web\n\nCó cần mạnh hơn không bạn?';
-    }
-    
-    return '🤖 Tôi hiểu bạn đang quan tâm đến vấn đề này. Để tư vấn chính xác hơn, bạn có thể:\n\n• Chat trực tiếp với nhân viên\n• Gọi hotline: 0901 234 567\n• Đến cửa hàng tại 123 Đường Láng, Hà Nội\n\nHoặc hãy cho tôi biết cụ thể hơn nhé!';
   };
 
   const handleQuickQuestion = (question: string) => {
     setInputMessage(question);
-    handleSendMessage();
+    // Dùng setTimeout để đảm bảo state đã cập nhật
+    setTimeout(() => {
+      const fakeEvent = { target: { value: question } };
+      void fakeEvent;
+      // Gọi trực tiếp với text
+      handleSendWithText(question);
+    }, 0);
+  };
+
+  const handleSendWithText = async (text: string) => {
+    if (!text.trim() || isTyping) return;
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      text: text,
+      sender: 'user',
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setInputMessage('');
+    setIsTyping(true);
+
+    try {
+      const userId = isAuthenticated && user?.id ? user.id : 0;
+      const response = await fetch(`${API_BASE_URL}/chat/send`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, message: text }),
+      });
+
+      let botText: string;
+      if (response.ok) {
+        const data = await response.json();
+        botText = data.message;
+      } else {
+        botText = 'Xin lỗi, hệ thống đang bận. Vui lòng thử lại sau! 📞';
+      }
+
+      const botMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: botText,
+        sender: 'bot',
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, botMessage]);
+    } catch {
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: 'Không thể kết nối đến server. Vui lòng thử lại! 🔌',
+        sender: 'bot',
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   return (
@@ -134,21 +257,43 @@ export function Chatbot() {
                 className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[80%] rounded-lg p-3 ${
-                    message.sender === 'user'
-                      ? 'bg-gradient-to-r from-red-600 to-orange-600 text-white'
-                      : 'bg-white border border-red-200 shadow-sm'
-                  }`}
+                  className={`max-w-[80%] rounded-lg p-3 ${message.sender === 'user'
+                    ? 'bg-gradient-to-r from-red-600 to-orange-600 text-white'
+                    : 'bg-white border border-red-200 shadow-sm'
+                    }`}
                 >
-                  <p className="text-sm whitespace-pre-line">{message.text}</p>
-                  <span className={`text-xs mt-1 block ${
-                    message.sender === 'user' ? 'text-yellow-200' : 'text-gray-400'
-                  }`}>
+                  {message.sender === 'bot' ? (
+                    <div className="text-sm chatbot-markdown">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.text}</ReactMarkdown>
+                    </div>
+                  ) : (
+                    <p className="text-sm whitespace-pre-line">{message.text}</p>
+                  )}
+                  <span className={`text-xs mt-1 block ${message.sender === 'user' ? 'text-yellow-200' : 'text-gray-400'
+                    }`}>
                     {message.timestamp.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
                   </span>
                 </div>
               </div>
             ))}
+
+            {/* Typing Indicator */}
+            {isTyping && (
+              <div className="flex justify-start">
+                <div className="bg-white border border-red-200 shadow-sm rounded-lg p-3 max-w-[80%]">
+                  <div className="flex items-center gap-2">
+                    <div className="flex gap-1">
+                      <span className="w-2 h-2 bg-red-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                      <span className="w-2 h-2 bg-orange-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                      <span className="w-2 h-2 bg-yellow-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                    </div>
+                    <span className="text-xs text-gray-500">AI đang soạn tin...</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div ref={messagesEndRef} />
           </div>
 
           {/* Quick Questions */}
@@ -163,6 +308,7 @@ export function Chatbot() {
                     variant="outline"
                     size="sm"
                     className="text-xs hover:bg-red-50 hover:text-red-600 hover:border-red-300"
+                    disabled={isTyping}
                   >
                     <q.icon className="w-3 h-3 mr-1" />
                     {q.text}
@@ -178,14 +324,16 @@ export function Chatbot() {
               <Input
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                 placeholder="Nhập câu hỏi của bạn..."
                 className="flex-1"
+                disabled={isTyping}
               />
               <Button
                 onClick={handleSendMessage}
                 className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700"
                 size="icon"
+                disabled={isTyping || !inputMessage.trim()}
               >
                 <Send className="w-5 h-5" />
               </Button>

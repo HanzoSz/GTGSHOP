@@ -1,27 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingCart, User, Phone, MapPin, LogOut, ChevronDown, Package, Settings } from 'lucide-react';
 import { Logo } from './Logo';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { SearchDropdown } from './SearchDropDown';
-
-const navLinks = [
-  { name: 'CPU - Bộ vi xử lý', href: '/category/cpu' },
-  { name: 'VGA - Card đồ họa', href: '/category/vga' },
-  { name: 'Mainboard', href: '/category/mainboard' },
-  { name: 'RAM', href: '/category/ram' },
-  { name: 'SSD / HDD', href: '/category/ssd' },
-  { name: 'Case PC', href: '/category/case' },
-  { name: 'Nguồn PSU', href: '/category/psu' },
-  { name: 'Tản nhiệt', href: '/category/cooling' },
-];
+import { getCategories, Category } from '../../services/api';
 
 export function Header() {
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const { totalItems } = useCart();
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    getCategories().then(setCategories);
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -85,17 +80,17 @@ export function Header() {
                 {/* Dropdown Menu */}
                 {showUserMenu && (
                   <>
-                    <div 
-                      className="fixed inset-0 z-40" 
+                    <div
+                      className="fixed inset-0 z-40"
                       onClick={() => setShowUserMenu(false)}
                     />
-                    
+
                     <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-xl border z-50 overflow-hidden">
                       <div className="px-4 py-3 bg-gradient-to-r from-red-50 to-orange-50 border-b">
                         <p className="font-semibold text-gray-800">{user.fullName}</p>
                         <p className="text-sm text-gray-500">{user.email}</p>
                       </div>
-                      
+
                       <div className="py-2">
                         <Link
                           to="/profile"
@@ -122,7 +117,7 @@ export function Header() {
                           <span>Cài đặt</span>
                         </Link>
                       </div>
-                      
+
                       <div className="border-t py-2">
                         <button
                           onClick={handleLogout}
@@ -159,17 +154,17 @@ export function Header() {
         </div>
       </div>
 
-      {/* Navigation */}
+      {/* Navigation - Dynamic from API */}
       <nav className="border-t bg-white">
         <div className="container mx-auto px-4">
           <ul className="flex items-center gap-1 overflow-x-auto py-2">
-            {navLinks.map((link) => (
-              <li key={link.href}>
+            {categories.map((cat) => (
+              <li key={cat.id}>
                 <Link
-                  to={link.href}
+                  to={`/category/${cat.id}`}
                   className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg whitespace-nowrap transition-colors"
                 >
-                  {link.name}
+                  {cat.name}
                 </Link>
               </li>
             ))}

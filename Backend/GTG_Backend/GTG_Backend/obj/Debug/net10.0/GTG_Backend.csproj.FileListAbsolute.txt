@@ -150,7 +150,6 @@ D:\DoAn_WebsiteBanLinhKien\Backend\GTG_Backend\GTG_Backend\obj\Debug\net10.0\sta
 D:\DoAn_WebsiteBanLinhKien\Backend\GTG_Backend\GTG_Backend\obj\Debug\net10.0\staticwebassets.development.json
 D:\DoAn_WebsiteBanLinhKien\Backend\GTG_Backend\GTG_Backend\obj\Debug\net10.0\staticwebassets.build.endpoints.json
 D:\DoAn_WebsiteBanLinhKien\Backend\GTG_Backend\GTG_Backend\obj\Debug\net10.0\swae.build.ex.cache
-D:\DoAn_WebsiteBanLinhKien\Backend\GTG_Backend\GTG_Backend\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 D:\DoAn_WebsiteBanLinhKien\Backend\GTG_Backend\GTG_Backend\obj\Debug\net10.0\GTG_Back.9B5483BD.Up2Date
 D:\DoAn_WebsiteBanLinhKien\Backend\GTG_Backend\GTG_Backend\obj\Debug\net10.0\GTG_Backend.dll
 D:\DoAn_WebsiteBanLinhKien\Backend\GTG_Backend\GTG_Backend\obj\Debug\net10.0\refint\GTG_Backend.dll
@@ -278,3 +277,4 @@ D:\DoAn_WebsiteBanLinhKien\Backend\GTG_Backend\GTG_Backend\bin\Debug\net10.0\zh-
 D:\DoAn_WebsiteBanLinhKien\Backend\GTG_Backend\GTG_Backend\bin\Debug\net10.0\BCrypt.Net-Next.dll
 D:\DoAn_WebsiteBanLinhKien\Backend\GTG_Backend\GTG_Backend\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\DoAn_WebsiteBanLinhKien\Backend\GTG_Backend\GTG_Backend\obj\Debug\net10.0\GTG_Backend.sourcelink.json
+D:\DoAn_WebsiteBanLinhKien\Backend\GTG_Backend\GTG_Backend\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

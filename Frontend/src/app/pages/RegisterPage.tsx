@@ -49,7 +49,7 @@ export function RegisterPage() {
       email: formData.email,
       password: formData.password,
       fullName: formData.fullName,
-      phone: formData.phone,
+      phoneNumber: formData.phone,
     });
 
     setLoading(false);
@@ -58,7 +58,7 @@ export function RegisterPage() {
       alert('🎉 Đăng ký thành công! Vui lòng đăng nhập.');
       navigate('/login');
     } else {
-      setError(result.message);
+      setError(result.message || 'Đăng ký thất bại');
     }
   };
 
