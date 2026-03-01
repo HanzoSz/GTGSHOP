@@ -8,8 +8,20 @@ import { ProductCard, Product } from '@/app/components/ProductCard';
 import { Footer } from '@/app/components/Footer';
 import { Chatbot } from '@/app/components/Chatbot';
 import { getProducts } from '../../services/api';
+import { useTheme } from '../context/ThemeContext';
 
+// Theme content for Build PC section
+const BUILD_PC_CONTENT: Record<string, { badge: string; title: string; deco: string[] }> = {
+  tet: { badge: '🎊 DEAL TẾT ĐẶC BIỆT 2026', title: '🎮 Bộ PC Build Sẵn - Rinh Về Ăn Tết', deco: ['🏮', '🧧', '🌸', '🎆'] },
+  noel: { badge: '🎄 DEAL GIÁNG SINH ĐẶC BIỆT', title: '🎮 Bộ PC Build Sẵn - Quà Noel Xịn', deco: ['🎄', '⛄', '🎅', '❄️'] },
+  halloween: { badge: '🎃 DEAL HALLOWEEN BÍ ẨN', title: '🎮 Bộ PC Build Sẵn - Giá Rẻ Kinh Dị', deco: ['🎃', '👻', '🦇', '🕸️'] },
+  blackfriday: { badge: '🖤 BLACK FRIDAY MEGA DEAL', title: '🎮 Bộ PC Build Sẵn - Giảm Kỷ Lục', deco: ['🏷️', '💰', '🔥', '⚡'] },
+  default: { badge: '⭐ DEAL ĐẶC BIỆT', title: '🎮 Bộ PC Build Sẵn - Chính Hãng', deco: ['💻', '🖥️', '⌨️', '🖱️'] },
+  custom: { badge: '🎨 DEAL ĐẶC BIỆT', title: '🎮 Bộ PC Build Sẵn - Ưu Đãi Hấp Dẫn', deco: ['🎮', '💻', '🖥️', '⚡'] },
+};
 export function HomePage() {
+  const { themeId } = useTheme();
+  const buildContent = BUILD_PC_CONTENT[themeId] || BUILD_PC_CONTENT.default;
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -109,21 +121,21 @@ export function HomePage() {
       </section>
 
       {/* Build PC Packages */}
-      <section className="py-12 bg-gradient-to-br from-red-900 via-red-800 to-orange-900 text-white relative overflow-hidden">
-        {/* Decorative Tet elements */}
+      <section className="py-12 theme-gradient-dark text-white relative overflow-hidden">
+        {/* Decorative elements */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 text-9xl">🏮</div>
-          <div className="absolute top-20 right-10 text-8xl">🧧</div>
-          <div className="absolute bottom-10 left-1/4 text-9xl">🌸</div>
-          <div className="absolute bottom-10 right-1/4 text-8xl">🎆</div>
+          <div className="absolute top-10 left-10 text-9xl">{buildContent.deco[0]}</div>
+          <div className="absolute top-20 right-10 text-8xl">{buildContent.deco[1]}</div>
+          <div className="absolute bottom-10 left-1/4 text-9xl">{buildContent.deco[2]}</div>
+          <div className="absolute bottom-10 right-1/4 text-8xl">{buildContent.deco[3]}</div>
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-12">
             <div className="inline-block bg-yellow-400 text-red-900 px-6 py-2 rounded-full mb-4 font-bold">
-              🎊 DEAL TẾT ĐẶC BIỆT 2025
+              {buildContent.badge}
             </div>
-            <h2 className="text-white mb-3">🎮 Bộ PC Build Sẵn - Rinh Về Ăn Tết</h2>
+            <h2 className="text-white mb-3">{buildContent.title}</h2>
             <p className="text-yellow-200 text-lg">Cấu hình được tối ưu sẵn - Freeship toàn quốc - Bảo hành 36 tháng</p>
           </div>
 

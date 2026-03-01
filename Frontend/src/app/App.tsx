@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { Chatbot } from './components/Chatbot';
 import { BuildPCFloatingButton } from './components/BuildPCFloatingButton';
+import { ThemeProvider } from '@/app/context/ThemeContext';
 
 // Pages
 import { HomePage } from './pages/HomePage';
@@ -70,13 +71,15 @@ function AppContent() {
 
 function App() {
   return (
-    <AuthProvider>
-      <CartProvider>
-        <Router>
-          <AppContent />
-        </Router>
-      </CartProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <CartProvider>
+          <Router>
+            <AppContent />
+          </Router>
+        </CartProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

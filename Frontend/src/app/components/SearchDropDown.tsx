@@ -20,12 +20,12 @@ const IMAGE_BASE_URL = 'https://localhost:7033';
 // ===== FIX: Hàm xử lý URL hình ảnh =====
 const getImageUrl = (imageUrl: string | null | undefined): string => {
   if (!imageUrl) return '';
-  
+
   // Nếu đã là URL đầy đủ
   if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
     return imageUrl;
   }
-  
+
   // Xử lý đường dẫn tương đối
   const cleanPath = imageUrl.replace(/^\/+/, '');
   return `${IMAGE_BASE_URL}/${cleanPath}`;
@@ -177,27 +177,27 @@ export function SearchDropdown({ className = '' }: SearchDropdownProps) {
     try {
       // Lấy tất cả sản phẩm và lọc ở frontend
       const response = await fetch('https://localhost:7033/api/products');
-      
+
       if (response.ok) {
         const data = await response.json();
         const products = Array.isArray(data) ? data : (data.products || data.items || []);
-        
+
         const searchLower = searchQuery.toLowerCase().trim();
-        
+
         // Lọc sản phẩm theo tên hoặc category
         const filteredProducts = products.filter((p: any) => {
           const name = (p.name || p.Name || '').toLowerCase();
           const categoryName = (p.categoryName || p.CategoryName || p.category?.name || p.Category?.Name || '').toLowerCase();
           const description = (p.description || p.Description || '').toLowerCase();
-          
-          return name.includes(searchLower) || 
-                 categoryName.includes(searchLower) ||
-                 description.includes(searchLower);
+
+          return name.includes(searchLower) ||
+            categoryName.includes(searchLower) ||
+            description.includes(searchLower);
         });
-        
+
         const mappedProducts = filteredProducts.slice(0, 6).map((p: any) => {
           const rawImageUrl = p.imageUrl || p.ImageUrl || p.image || p.Image || '';
-          
+
           return {
             id: p.id || p.Id,
             name: p.name || p.Name || '',
@@ -207,7 +207,7 @@ export function SearchDropdown({ className = '' }: SearchDropdownProps) {
             categoryName: p.categoryName || p.CategoryName || p.category?.name || p.Category?.Name || '',
           };
         });
-        
+
         console.log('Search results:', mappedProducts);
         setSuggestions(mappedProducts);
       } else {
@@ -229,13 +229,13 @@ export function SearchDropdown({ className = '' }: SearchDropdownProps) {
 
   const handleSearch = (searchTerm?: string) => {
     const term = (searchTerm || query).trim().toLowerCase();
-    
+
     if (!term) return;
-    
+
     saveRecentSearch(term);
     setIsOpen(false);
     setQuery('');
-    
+
     // ===== Kiểm tra nếu là từ khóa danh mục =====
     const categorySlug = categoryKeywords[term];
     if (categorySlug) {
@@ -285,7 +285,7 @@ export function SearchDropdown({ className = '' }: SearchDropdownProps) {
           placeholder="Tìm kiếm linh kiện PC (VGA, CPU, RAM, Case...)"
           className="w-full h-10 pl-4 pr-20 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 outline-none transition-all"
         />
-        
+
         {/* Clear button */}
         {query && (
           <button
@@ -300,12 +300,12 @@ export function SearchDropdown({ className = '' }: SearchDropdownProps) {
             <X className="w-4 h-4 text-gray-400" />
           </button>
         )}
-        
+
         {/* Search button */}
         <button
           type="button"
           onClick={() => handleSearch()}
-          className="absolute right-1 top-1/2 -translate-y-1/2 bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition-colors"
+          className="absolute right-1 top-1/2 -translate-y-1/2 theme-btn-search p-2 rounded-lg transition-colors"
         >
           {isLoading ? (
             <Loader2 className="w-5 h-5 animate-spin" />
@@ -318,7 +318,7 @@ export function SearchDropdown({ className = '' }: SearchDropdownProps) {
       {/* Dropdown */}
       {isOpen && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50 max-h-[70vh] overflow-y-auto">
-          
+
           {/* Loading */}
           {isLoading && query.length >= 2 && (
             <div className="p-4 text-center text-gray-500">
@@ -335,10 +335,10 @@ export function SearchDropdown({ className = '' }: SearchDropdownProps) {
               </div>
               <div className="divide-y">
                 {suggestions.map((product) => {
-                  const finalPrice = product.discount > 0 
-                    ? product.price * (1 - product.discount / 100) 
+                  const finalPrice = product.discount > 0
+                    ? product.price * (1 - product.discount / 100)
                     : product.price;
-                  
+
                   return (
                     <div
                       key={product.id}
@@ -347,7 +347,7 @@ export function SearchDropdown({ className = '' }: SearchDropdownProps) {
                     >
                       {/* ===== SỬ DỤNG COMPONENT HÌNH ẢNH MỚI ===== */}
                       <ProductImage src={product.imageUrl} alt={product.name} />
-                      
+
                       <div className="flex-1 min-w-0">
                         <p className="font-medium text-gray-800 line-clamp-1">{product.name}</p>
                         {product.categoryName && (
@@ -355,7 +355,7 @@ export function SearchDropdown({ className = '' }: SearchDropdownProps) {
                         )}
                       </div>
                       <div className="text-right flex-shrink-0">
-                        <p className="font-bold text-red-600">{formatPrice(finalPrice)}</p>
+                        <p className="font-bold theme-text-primary">{formatPrice(finalPrice)}</p>
                         {product.discount > 0 && (
                           <p className="text-xs text-gray-400 line-through">{formatPrice(product.price)}</p>
                         )}
@@ -364,11 +364,11 @@ export function SearchDropdown({ className = '' }: SearchDropdownProps) {
                   );
                 })}
               </div>
-              
+
               {/* View all results */}
               <div
                 onClick={() => handleSearch()}
-                className="w-full p-3 text-center text-red-600 hover:bg-red-50 font-medium border-t cursor-pointer"
+                className="w-full p-3 text-center theme-text-primary hover:bg-red-50 font-medium border-t cursor-pointer"
               >
                 Xem tất cả kết quả cho "{query}"
               </div>
@@ -397,7 +397,7 @@ export function SearchDropdown({ className = '' }: SearchDropdownProps) {
                     </p>
                     <span
                       onClick={clearRecentSearches}
-                      className="text-xs text-red-600 hover:text-red-700 cursor-pointer"
+                      className="text-xs theme-text-primary cursor-pointer"
                     >
                       Xóa tất cả
                     </span>

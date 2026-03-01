@@ -39,6 +39,24 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* ========================================== */
+  /* GTG SHOP DYNAMIC THEME VARIABLES */
+  /* Các biến này sẽ được override bởi ThemeContext */
+  /* ========================================== */
+  --color-primary: #DC2626;
+  --color-primary-dark: #B91C1C;
+  --color-secondary: #F59E0B;
+  --color-secondary-dark: #D97706;
+  --color-accent: #EC4899;
+  --color-accent-dark: #DB2777;
+  --color-background: #FFFFFF;
+  --color-background-secondary: #F9FAFB;
+  --color-text: #1F2937;
+  --color-text-secondary: #6B7280;
+  --color-border: #E5E7EB;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
 }
 
 .dark {
@@ -178,4 +196,497 @@
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
   }
+}
+
+/* ========================================== */
+/* THEME UTILITY CLASSES                       */
+/* Các class này dùng CSS variables từ ThemeContext */
+/* ========================================== */
+
+/* Background */
+.theme-bg-primary {
+  background-color: var(--color-primary) !important;
+}
+
+.theme-bg-primary-dark {
+  background-color: var(--color-primary-dark) !important;
+}
+
+.theme-bg-secondary {
+  background-color: var(--color-secondary) !important;
+}
+
+.theme-bg-accent {
+  background-color: var(--color-accent) !important;
+}
+
+.theme-bg-page {
+  background-color: var(--color-background) !important;
+}
+
+.theme-bg-page-secondary {
+  background-color: var(--color-background-secondary) !important;
+}
+
+/* Text */
+.theme-text-primary {
+  color: var(--color-primary) !important;
+}
+
+.theme-text-primary-dark {
+  color: var(--color-primary-dark) !important;
+}
+
+.theme-text-secondary {
+  color: var(--color-secondary) !important;
+}
+
+.theme-text-accent {
+  color: var(--color-accent) !important;
+}
+
+/* Border */
+.theme-border-primary {
+  border-color: var(--color-primary) !important;
+}
+
+.theme-border-secondary {
+  border-color: var(--color-secondary) !important;
+}
+
+/* Gradient */
+.theme-gradient {
+  background: linear-gradient(to right, var(--color-primary), var(--color-secondary)) !important;
+}
+
+.theme-gradient-dark {
+  background: linear-gradient(to right, var(--color-primary-dark), var(--color-secondary-dark)) !important;
+}
+
+/* Hover effects */
+.theme-hover-primary:hover {
+  color: var(--color-primary) !important;
+}
+
+.theme-hover-bg-primary:hover {
+  background-color: var(--color-primary) !important;
+}
+
+/* Badge / Cart count */
+.theme-badge {
+  background-color: var(--color-primary) !important;
+  color: #FFFFFF !important;
+}
+
+/* Search button */
+.theme-btn-search {
+  background-color: var(--color-primary) !important;
+  color: #FFFFFF !important;
+}
+
+.theme-btn-search:hover {
+  background-color: var(--color-primary-dark) !important;
+}
+
+/* Footer social hover */
+.theme-footer-hover:hover {
+  background-color: var(--color-primary) !important;
+}
+
+/* Footer link hover */
+.theme-link-hover:hover {
+  color: var(--color-primary) !important;
+}
+
+/* Footer accent box */
+.theme-footer-box {
+  background: linear-gradient(to right, var(--color-primary-dark), var(--color-primary)) !important;
+  border-color: var(--color-secondary) !important;
+}
+
+.theme-footer-box-title {
+  color: var(--color-secondary) !important;
+}
+
+/* Product discount badge */
+.theme-discount-badge {
+  background-color: var(--color-primary) !important;
+  color: #FFFFFF !important;
+}
+
+/* ========================================================= */
+/* DARK THEME OVERRIDES                                       */
+/* For Halloween, Black Friday (isDark: true themes)          */
+/* Principle: ALL surfaces → dark, ALL text → light           */
+/* ========================================================= */
+
+/* Root-level */
+.dark-theme,
+.dark-theme body {
+  background-color: var(--color-background) !important;
+  color: var(--color-text) !important;
+}
+
+/* ---- ALL white/light backgrounds → dark ---- */
+.dark-theme .bg-white,
+.dark-theme .bg-gray-50,
+.dark-theme .bg-gray-100,
+.dark-theme .bg-gray-200,
+.dark-theme .min-h-screen {
+  background-color: var(--color-background) !important;
+}
+
+/* Secondary dark bg for cards, elevated surfaces */
+.dark-theme .shadow-sm,
+.dark-theme .shadow-md,
+.dark-theme .shadow-lg,
+.dark-theme .shadow-xl,
+.dark-theme .shadow-2xl,
+.dark-theme .rounded-2xl,
+.dark-theme .rounded-xl {
+  background-color: var(--color-background-secondary) !important;
+}
+
+/* Header + Nav */
+.dark-theme header,
+.dark-theme header.sticky,
+.dark-theme header nav {
+  background-color: var(--color-background-secondary) !important;
+  border-color: var(--color-border) !important;
+}
+
+/* Sections (only non-gradient ones get dark bg) */
+.dark-theme section:not([class*="from-"]):not([class*="bg-gradient"]):not(.theme-gradient-dark) {
+  background-color: var(--color-background) !important;
+}
+
+/* Footer */
+.dark-theme footer {
+  background-color: var(--color-background) !important;
+}
+
+/* Inputs, selects, textareas */
+.dark-theme input,
+.dark-theme select,
+.dark-theme textarea {
+  background-color: var(--color-background-secondary) !important;
+  color: var(--color-text) !important;
+  border-color: var(--color-border) !important;
+}
+
+/* ---- ALL text → light ---- */
+.dark-theme .text-gray-900,
+.dark-theme .text-gray-800,
+.dark-theme .text-gray-700,
+.dark-theme .text-slate-900,
+.dark-theme .text-slate-800,
+.dark-theme .text-black {
+  color: var(--color-text) !important;
+}
+
+.dark-theme .text-gray-600,
+.dark-theme .text-gray-500,
+.dark-theme .text-gray-400,
+.dark-theme .text-gray-300,
+.dark-theme .text-slate-600,
+.dark-theme .text-slate-500 {
+  color: var(--color-text-secondary) !important;
+}
+
+/* Nav links */
+.dark-theme header nav a,
+.dark-theme a.text-gray-700,
+.dark-theme a.text-gray-800 {
+  color: var(--color-text-secondary) !important;
+}
+
+/* Headings (default dark-theme text) */
+.dark-theme h1,
+.dark-theme h2,
+.dark-theme h3,
+.dark-theme h4 {
+  color: var(--color-text) !important;
+}
+
+/* ---- BUT headings inside light gradient sections stay DARK ---- */
+.dark-theme section[class*="from-red-50"] h2,
+.dark-theme section[class*="from-red-50"] h3,
+.dark-theme section[class*="from-red-50"] p,
+.dark-theme section[class*="from-red-50"] span,
+.dark-theme section[class*="from-red-50"] a {
+  color: #1F2937 !important;
+}
+
+.dark-theme section[class*="from-orange-50"] h2,
+.dark-theme section[class*="from-orange-50"] h3,
+.dark-theme section[class*="from-orange-50"] p,
+.dark-theme section[class*="from-orange-50"] span {
+  color: #1F2937 !important;
+}
+
+/* Paragraphs, spans inside dark areas */
+.dark-theme p,
+.dark-theme span,
+.dark-theme label,
+.dark-theme li {
+  color: inherit;
+}
+
+/* ---- Borders ---- */
+.dark-theme .border,
+.dark-theme .border-t,
+.dark-theme .border-b,
+.dark-theme .border-gray-200,
+.dark-theme .border-gray-300,
+.dark-theme .divide-y>*+* {
+  border-color: var(--color-border) !important;
+}
+
+/* ---- Hover states ---- */
+.dark-theme .hover\:bg-gray-50:hover,
+.dark-theme .hover\:bg-gray-100:hover,
+.dark-theme .hover\:bg-red-50:hover {
+  background-color: var(--color-border) !important;
+}
+
+/* ---- Hero / gradient sections keep their own gradient bg ---- */
+.dark-theme section[class*="from-"] {
+  background-color: unset !important;
+}
+
+.dark-theme .bg-gradient-to-r,
+.dark-theme .bg-gradient-to-br,
+.dark-theme .bg-gradient-to-b {
+  background-color: unset !important;
+}
+
+/* ---- Exceptions: elements that should keep white text ---- */
+.dark-theme .text-white {
+  color: white !important;
+}
+
+/* ---- Light gradient sections: force dark text for readability ---- */
+.dark-theme [class*="from-red-50"],
+.dark-theme [class*="from-orange-50"],
+.dark-theme [class*="from-yellow-50"],
+.dark-theme [class*="from-blue-50"],
+.dark-theme [class*="from-green-50"],
+.dark-theme [class*="from-purple-50"] {
+  color: #1F2937 !important;
+}
+
+/* Category nav hover */
+.theme-nav-hover:hover {
+  color: var(--color-primary) !important;
+  background-color: color-mix(in srgb, var(--color-primary) 10%, transparent) !important;
+}
+
+/* Icon color */
+.theme-icon {
+  color: var(--color-primary) !important;
+}
+
+/* ========================================================= */
+/* GLOBAL THEME OVERRIDES                                     */
+/* Override hardcoded Tailwind red/orange classes globally     */
+/* This syncs ALL pages with the active theme automatically   */
+/* ========================================================= */
+
+/* === Background overrides === */
+.bg-red-600 {
+  background-color: var(--color-primary) !important;
+}
+
+.bg-red-700 {
+  background-color: var(--color-primary-dark) !important;
+}
+
+.bg-red-500 {
+  background-color: var(--color-primary) !important;
+}
+
+.bg-orange-500 {
+  background-color: var(--color-secondary) !important;
+}
+
+.bg-orange-600 {
+  background-color: var(--color-secondary) !important;
+}
+
+/* === Text color overrides === */
+.text-red-600 {
+  color: var(--color-primary) !important;
+}
+
+.text-red-700 {
+  color: var(--color-primary-dark) !important;
+}
+
+.text-red-500 {
+  color: var(--color-primary) !important;
+}
+
+.text-orange-600 {
+  color: var(--color-secondary) !important;
+}
+
+.text-orange-500 {
+  color: var(--color-secondary) !important;
+}
+
+/* === Hover background overrides === */
+.hover\:bg-red-600:hover {
+  background-color: var(--color-primary) !important;
+}
+
+.hover\:bg-red-700:hover {
+  background-color: var(--color-primary-dark) !important;
+}
+
+.hover\:bg-orange-600:hover {
+  background-color: var(--color-secondary) !important;
+}
+
+/* === Hover text overrides === */
+.hover\:text-red-600:hover {
+  color: var(--color-primary) !important;
+}
+
+.hover\:text-red-700:hover {
+  color: var(--color-primary-dark) !important;
+}
+
+/* === Gradient overrides (from-* to-*) === */
+.from-red-600 {
+  --tw-gradient-from: var(--color-primary) !important;
+}
+
+.from-red-700 {
+  --tw-gradient-from: var(--color-primary-dark) !important;
+}
+
+.from-red-500 {
+  --tw-gradient-from: var(--color-primary) !important;
+}
+
+.to-orange-600 {
+  --tw-gradient-to: var(--color-secondary) !important;
+}
+
+.to-orange-500 {
+  --tw-gradient-to: var(--color-secondary) !important;
+}
+
+.to-red-600 {
+  --tw-gradient-to: var(--color-primary) !important;
+}
+
+.via-red-600 {
+  --tw-gradient-via: var(--color-primary) !important;
+}
+
+.via-orange-500 {
+  --tw-gradient-via: var(--color-secondary) !important;
+}
+
+/* Hover gradient overrides */
+.hover\:from-red-700:hover {
+  --tw-gradient-from: var(--color-primary-dark) !important;
+}
+
+.hover\:to-orange-700:hover {
+  --tw-gradient-to: var(--color-secondary-dark) !important;
+}
+
+/* === Border overrides === */
+.border-red-600 {
+  border-color: var(--color-primary) !important;
+}
+
+.border-red-500 {
+  border-color: var(--color-primary) !important;
+}
+
+.border-red-200 {
+  border-color: color-mix(in srgb, var(--color-primary) 20%, white) !important;
+}
+
+.border-red-300 {
+  border-color: color-mix(in srgb, var(--color-primary) 30%, white) !important;
+}
+
+.border-orange-500 {
+  border-color: var(--color-secondary) !important;
+}
+
+/* === Focus / Ring overrides === */
+.focus\:border-red-500:focus {
+  border-color: var(--color-primary) !important;
+}
+
+.focus\:ring-red-200:focus {
+  --tw-ring-color: color-mix(in srgb, var(--color-primary) 20%, white) !important;
+}
+
+.ring-red-200 {
+  --tw-ring-color: color-mix(in srgb, var(--color-primary) 20%, white) !important;
+}
+
+/* === Light background tints === */
+.bg-red-50 {
+  background-color: color-mix(in srgb, var(--color-primary) 5%, white) !important;
+}
+
+.bg-red-100 {
+  background-color: color-mix(in srgb, var(--color-primary) 10%, white) !important;
+}
+
+.bg-orange-50 {
+  background-color: color-mix(in srgb, var(--color-secondary) 5%, white) !important;
+}
+
+.hover\:bg-red-50:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 5%, white) !important;
+}
+
+.hover\:bg-red-100:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 10%, white) !important;
+}
+
+/* === Light text tints === */
+.text-red-400 {
+  color: color-mix(in srgb, var(--color-primary) 70%, white) !important;
+}
+
+.text-red-300 {
+  color: color-mix(in srgb, var(--color-primary) 50%, white) !important;
+}
+
+.text-orange-400 {
+  color: color-mix(in srgb, var(--color-secondary) 70%, white) !important;
+}
+
+/* === Accent color overrides (yellow used as accent in many places) === */
+.bg-yellow-400 {
+  background-color: var(--color-accent) !important;
+}
+
+.text-yellow-400 {
+  color: var(--color-accent) !important;
+}
+
+.border-yellow-400 {
+  border-color: var(--color-accent) !important;
+}
+
+.text-yellow-100 {
+  color: color-mix(in srgb, var(--color-accent) 30%, white) !important;
+}
+
+.text-yellow-200 {
+  color: color-mix(in srgb, var(--color-accent) 50%, white) !important;
+}
+
+.text-yellow-300 {
+  color: color-mix(in srgb, var(--color-accent) 70%, white) !important;
 }

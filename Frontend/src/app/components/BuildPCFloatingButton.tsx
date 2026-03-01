@@ -1,7 +1,25 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Cpu, Wrench } from 'lucide-react';
 
 export function BuildPCFloatingButton() {
+    const [isChatbotOpen, setIsChatbotOpen] = useState(false);
+
+    // Listen for chatbot open/close events
+    useEffect(() => {
+        const handleChatbotToggle = (e: CustomEvent) => {
+            setIsChatbotOpen(e.detail?.isOpen ?? false);
+        };
+
+        window.addEventListener('chatbotToggled' as any, handleChatbotToggle);
+        return () => {
+            window.removeEventListener('chatbotToggled' as any, handleChatbotToggle);
+        };
+    }, []);
+
+    // Hide when chatbot is open
+    if (isChatbotOpen) return null;
+
     return (
         <Link
             to="/build-pc"

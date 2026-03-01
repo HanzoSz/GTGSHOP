@@ -21,17 +21,17 @@ const getValidImageUrl = (imageUrl: string | null | undefined): string => {
   if (!imageUrl) {
     return 'https://via.placeholder.com/300x300?text=No+Image';
   }
-  
+
   // Nếu đã là URL đầy đủ
   if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
     return imageUrl;
   }
-  
+
   // Nếu là đường dẫn tương đối (bắt đầu bằng /)
   if (imageUrl.startsWith('/')) {
     return `${IMAGE_BASE_URL}${imageUrl}`;
   }
-  
+
   // Các trường hợp khác
   return `${IMAGE_BASE_URL}/${imageUrl}`;
 };
@@ -44,7 +44,7 @@ export function ProductCard(props: Product) {
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     addToCart({
       productId: Number(props.id),
       name: props.name,
@@ -87,7 +87,7 @@ export function ProductCard(props: Product) {
 
         {/* Discount Badge */}
         {props.discount && props.discount > 0 && (
-          <span className="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-lg">
+          <span className="absolute top-2 left-2 theme-discount-badge text-xs font-bold px-2 py-1 rounded-lg">
             -{props.discount}%
           </span>
         )}
@@ -102,9 +102,8 @@ export function ProductCard(props: Product) {
           className="absolute top-2 right-2 p-2 bg-white/80 hover:bg-white rounded-full shadow-sm transition-all"
         >
           <Heart
-            className={`w-4 h-4 transition-colors ${
-              isLiked ? 'text-red-500 fill-red-500' : 'text-gray-400'
-            }`}
+            className={`w-4 h-4 transition-colors ${isLiked ? 'text-red-500 fill-red-500' : 'text-gray-400'
+              }`}
           />
         </button>
       </div>
@@ -112,7 +111,7 @@ export function ProductCard(props: Product) {
       {/* Content */}
       <div className="p-4 flex flex-col flex-1">
         {/* Name */}
-        <h3 className="font-medium text-gray-800 line-clamp-2 group-hover:text-red-600 transition-colors min-h-[48px] mb-2">
+        <h3 className="font-medium text-gray-800 line-clamp-2 theme-hover-primary transition-colors min-h-[48px] mb-2">
           {props.name}
         </h3>
 
@@ -122,11 +121,10 @@ export function ProductCard(props: Product) {
             {[...Array(5)].map((_, i) => (
               <Star
                 key={i}
-                className={`w-3.5 h-3.5 ${
-                  i < Math.floor(props.rating || 0)
+                className={`w-3.5 h-3.5 ${i < Math.floor(props.rating || 0)
                     ? 'text-yellow-400 fill-yellow-400'
                     : 'text-gray-300'
-                }`}
+                  }`}
               />
             ))}
           </div>
@@ -136,7 +134,7 @@ export function ProductCard(props: Product) {
         {/* Price */}
         <div className="mt-auto">
           <div className="flex items-end gap-2 mb-3">
-            <span className="text-lg font-bold text-red-600">
+            <span className="text-lg font-bold theme-text-primary">
               {formatPrice(props.price)}
             </span>
             {props.originalPrice && props.originalPrice > props.price && (
@@ -149,7 +147,7 @@ export function ProductCard(props: Product) {
           {/* Add to Cart Button */}
           <button
             onClick={handleAddToCart}
-            className="w-full bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all font-medium"
+            className="w-full theme-gradient text-white py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all font-medium"
           >
             <ShoppingCart className="w-4 h-4" />
             Thêm vào giỏ

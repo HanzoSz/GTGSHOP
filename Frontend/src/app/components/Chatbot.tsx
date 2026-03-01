@@ -19,6 +19,11 @@ interface Message {
 export function Chatbot() {
   const { user, isAuthenticated } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+
+  // Notify other components (e.g. BuildPCFloatingButton) when chatbot opens/closes
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent('chatbotToggled', { detail: { isOpen } }));
+  }, [isOpen]);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',

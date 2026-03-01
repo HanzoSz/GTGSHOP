@@ -27,7 +27,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
       {/* Top bar */}
-      <div className="bg-gradient-to-r from-red-600 to-orange-500 text-white text-sm py-1">
+      <div className="theme-gradient text-white text-sm py-1">
         <div className="container mx-auto px-4 flex justify-between items-center">
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1">
@@ -63,9 +63,9 @@ export function Header() {
               <div className="relative">
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center gap-2 hover:text-red-600 transition-colors"
+                  className="flex items-center gap-2 theme-hover-primary transition-colors"
                 >
-                  <div className="w-9 h-9 bg-gradient-to-r from-red-500 to-orange-500 rounded-full flex items-center justify-center text-white font-semibold">
+                  <div className="w-9 h-9 theme-gradient rounded-full flex items-center justify-center text-white font-semibold">
                     {user.fullName.charAt(0).toUpperCase()}
                   </div>
                   <div className="hidden md:block text-left">
@@ -86,7 +86,7 @@ export function Header() {
                     />
 
                     <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-xl border z-50 overflow-hidden">
-                      <div className="px-4 py-3 bg-gradient-to-r from-red-50 to-orange-50 border-b">
+                      <div className="px-4 py-3 border-b" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 8%, white)' }}>
                         <p className="font-semibold text-gray-800">{user.fullName}</p>
                         <p className="text-sm text-gray-500">{user.email}</p>
                       </div>
@@ -121,7 +121,7 @@ export function Header() {
                       <div className="border-t py-2">
                         <button
                           onClick={handleLogout}
-                          className="flex items-center gap-3 px-4 py-2.5 hover:bg-red-50 transition-colors w-full text-red-600"
+                          className="flex items-center gap-3 px-4 py-2.5 hover:bg-red-50 transition-colors w-full theme-text-primary"
                         >
                           <LogOut className="w-4 h-4" />
                           <span>Đăng xuất</span>
@@ -134,7 +134,7 @@ export function Header() {
             ) : (
               <Link
                 to="/login"
-                className="flex items-center gap-2 hover:text-red-600 transition-colors"
+                className="flex items-center gap-2 theme-hover-primary transition-colors"
               >
                 <User className="w-5 h-5" />
                 <span className="hidden md:block">Đăng nhập</span>
@@ -142,10 +142,10 @@ export function Header() {
             )}
 
             {/* Cart */}
-            <Link to="/cart" className="relative hover:text-red-600 transition-colors">
+            <Link to="/cart" className="relative theme-hover-primary transition-colors">
               <ShoppingCart className="w-6 h-6" />
               {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 theme-badge text-xs w-5 h-5 rounded-full flex items-center justify-center">
                   {totalItems > 99 ? '99+' : totalItems}
                 </span>
               )}
@@ -162,7 +162,7 @@ export function Header() {
               <li key={cat.id}>
                 <Link
                   to={`/category/${cat.id}`}
-                  className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg whitespace-nowrap transition-colors"
+                  className="px-3 py-2 text-sm font-medium text-gray-700 theme-nav-hover rounded-lg whitespace-nowrap transition-colors"
                 >
                   {cat.name}
                 </Link>

@@ -169,9 +169,6 @@ export function AdminLoginPage() {
 
               {/* Demo Account Info */}
               <div className="bg-slate-700/50 border border-slate-600 rounded-lg p-4">
-                <p className="text-xs font-semibold text-yellow-400 mb-2">🔐 Tài khoản Demo:</p>
-                <p className="text-xs text-slate-300">Email: <strong className="text-white">admin@gtgshop.vn</strong></p>
-                <p className="text-xs text-slate-300">Mật khẩu: <strong className="text-white">admin123</strong></p>
               </div>
             </form>
           </div>
@@ -180,7 +177,7 @@ export function AdminLoginPage() {
         {/* Footer */}
         <div className="mt-6 text-center">
           <p className="text-slate-400 text-sm">
-            © 2025 GTG Shop. All rights reserved.
+            © 2026 GTG Shop. All rights reserved.
           </p>
         </div>
       </div>

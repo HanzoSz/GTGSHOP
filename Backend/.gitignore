@@ -1,0 +1,59 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+launchSettings.json
+
+# NuGet
+*.nupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+
+# ASP.NET
+project.lock.json
+project.fragment.lock.json
+artifacts/
+wwwroot/uploads/
+
+# User secrets
+secrets.json
+
+# Environment & config
+appsettings.Development.json
+appsettings.Local.json
+.env
+
+# SQL Server
+*.mdf
+*.ldf
+*.ndf
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# Misc
+*.cache
+*.tmp
+StyleCopReport.xml

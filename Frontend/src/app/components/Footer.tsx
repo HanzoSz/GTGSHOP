@@ -15,13 +15,13 @@ export function Footer() {
               Cửa hàng linh kiện PC chính hãng - Chuyên tư vấn build PC Gaming, Văn phòng, Đồ họa với công nghệ AI chatbot thông minh.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors">
+              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center theme-footer-hover transition-colors">
                 <span>f</span>
               </a>
-              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors">
+              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center theme-footer-hover transition-colors">
                 <span>in</span>
               </a>
-              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors">
+              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center theme-footer-hover transition-colors">
                 <span>yt</span>
               </a>
             </div>
@@ -31,12 +31,12 @@ export function Footer() {
           <div>
             <h3 className="text-white mb-4">Về GTG Shop</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-red-400">Giới thiệu công ty</a></li>
-              <li><a href="#" className="hover:text-red-400">Hệ thống cửa hàng</a></li>
-              <li><a href="#" className="hover:text-red-400">Chính sách bảo mật</a></li>
-              <li><a href="#" className="hover:text-red-400">Điều khoản sử dụng</a></li>
-              <li><a href="#" className="hover:text-red-400">Chính sách bảo hành</a></li>
-              <li><a href="#" className="hover:text-red-400">Hướng dẫn Build PC</a></li>
+              <li><a href="#" className="theme-link-hover">Giới thiệu công ty</a></li>
+              <li><a href="#" className="theme-link-hover">Hệ thống cửa hàng</a></li>
+              <li><a href="#" className="theme-link-hover">Chính sách bảo mật</a></li>
+              <li><a href="#" className="theme-link-hover">Điều khoản sử dụng</a></li>
+              <li><a href="#" className="theme-link-hover">Chính sách bảo hành</a></li>
+              <li><a href="#" className="theme-link-hover">Hướng dẫn Build PC</a></li>
             </ul>
           </div>
 
@@ -44,12 +44,12 @@ export function Footer() {
           <div>
             <h3 className="text-white mb-4">Dịch vụ khách hàng</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-red-400">Tư vấn Build PC AI</a></li>
-              <li><a href="#" className="hover:text-red-400">Hướng dẫn lắp ráp PC</a></li>
-              <li><a href="#" className="hover:text-red-400">Dịch vụ nâng cấp PC</a></li>
-              <li><a href="#" className="hover:text-red-400">Sửa chữa máy tính</a></li>
-              <li><a href="#" className="hover:text-red-400">Tra cứu bảo hành</a></li>
-              <li><a href="#" className="hover:text-red-400">Câu hỏi thường gặp</a></li>
+              <li><a href="#" className="theme-link-hover">Tư vấn Build PC AI</a></li>
+              <li><a href="#" className="theme-link-hover">Hướng dẫn lắp ráp PC</a></li>
+              <li><a href="#" className="theme-link-hover">Dịch vụ nâng cấp PC</a></li>
+              <li><a href="#" className="theme-link-hover">Sửa chữa máy tính</a></li>
+              <li><a href="#" className="theme-link-hover">Tra cứu bảo hành</a></li>
+              <li><a href="#" className="theme-link-hover">Câu hỏi thường gặp</a></li>
             </ul>
           </div>
 
@@ -58,20 +58,20 @@ export function Footer() {
             <h3 className="text-white mb-4">Liên hệ</h3>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
-                <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5 text-red-500" />
+                <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5 theme-icon" />
                 <span>123 Đường Láng, Đống Đa, Hà Nội</span>
               </li>
               <li className="flex items-center gap-2">
-                <Phone className="w-5 h-5 flex-shrink-0 text-red-500" />
+                <Phone className="w-5 h-5 flex-shrink-0 theme-icon" />
                 <span>Hotline: 0901 234 567</span>
               </li>
               <li className="flex items-center gap-2">
-                <Mail className="w-5 h-5 flex-shrink-0 text-red-500" />
+                <Mail className="w-5 h-5 flex-shrink-0 theme-icon" />
                 <span>support@gtgshop.vn</span>
               </li>
             </ul>
-            <div className="mt-4 p-4 bg-gradient-to-r from-red-900 to-red-800 rounded-lg border border-yellow-600">
-              <h4 className="text-yellow-400 mb-2 text-sm font-bold">🏮 Giờ làm việc Tết</h4>
+            <div className="mt-4 p-4 theme-footer-box rounded-lg border">
+              <h4 className="theme-footer-box-title mb-2 text-sm font-bold">🏮 Giờ làm việc</h4>
               <p className="text-sm">Mùng 1-3: 9:00 - 18:00</p>
               <p className="text-sm font-bold text-red-300">Ngày thường: 8:00 - 22:00</p>
             </div>
