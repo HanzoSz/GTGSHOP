@@ -1,0 +1,6 @@
+﻿Id|RoleName
+--|--------
+1|Admin
+2|Customer
+
+(2 rows affected)

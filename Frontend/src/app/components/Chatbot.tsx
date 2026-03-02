@@ -35,7 +35,15 @@ export function Chatbot() {
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [historyLoaded, setHistoryLoaded] = useState(false);
+  const loadedUserId = useRef<number | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const welcomeMessage: Message = {
+    id: 'welcome',
+    text: 'Xin chào! Tôi là AI Assistant của GTG Shop. Tôi có thể giúp bạn:\n\n🎮 Tư vấn build PC Gaming\n💼 Tư vấn PC Văn phòng\n🔧 Nâng cấp cấu hình\n🛠️ Sửa chữa máy tính\n\nBạn cần tư vấn gì ạ?',
+    sender: 'bot',
+    timestamp: new Date()
+  };
 
   // Auto-scroll to bottom
   const scrollToBottom = () => {
@@ -46,12 +54,22 @@ export function Chatbot() {
     scrollToBottom();
   }, [messages, isTyping]);
 
+  // Reset khi user thay đổi (đăng xuất/đăng nhập user khác)
+  useEffect(() => {
+    const currentId = user?.id ?? null;
+    if (loadedUserId.current !== currentId) {
+      loadedUserId.current = currentId;
+      setHistoryLoaded(false);
+      setMessages([welcomeMessage]);
+    }
+  }, [user?.id]);
+
   // Load chat history khi mở chat
   useEffect(() => {
     if (isOpen && isAuthenticated && user?.id && !historyLoaded) {
       loadChatHistory();
     }
-  }, [isOpen, isAuthenticated, user?.id]);
+  }, [isOpen, isAuthenticated, user?.id, historyLoaded]);
 
   const loadChatHistory = async () => {
     if (!user?.id) return;

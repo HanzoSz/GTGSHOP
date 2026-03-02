@@ -1,0 +1,49 @@
+﻿Id|OrderId|ProductId|Quantity|Price|ProductImage|ProductName
+--|-------|---------|--------|-----|------------|-----------
+1|1|1|1|3000000.00|NULL|
+2|1|29|1|2750000.00|NULL|
+3|1|39|1|800000.00|NULL|
+4|1|51|1|1700000.00|NULL|
+5|1|61|1|1500000.00|NULL|
+6|2|1|1|3000000.00|https://localhost:7033/images/products/cpu.jpg|Intel Core i9-14900K
+7|2|28|1|2500000.00|https://localhost:7033/images/products/mainboard.jpg|ASUS ROG Z790-E Gaming
+8|3|1|1|3000000.00|https://localhost:7033/images/products/cpu.jpg|Intel Core i9-14900K
+9|3|16|1|5000000.00|https://localhost:7033/images/products/vga.jpg|ROG Strix RTX 4090
+10|3|38|1|4500000.00|https://localhost:7033https://localhost:7033/images/products/mainboard.jpg|ROG STRIX B760-I Gaming
+11|3|47|1|2800000.00|https://localhost:7033/images/products/ram.jpg|Corsair Dominator Platinum 64GB
+12|3|53|2|2200000.00|https://localhost:7033/images/products/ssd.jpg|Samsung 870 EVO 500GB
+13|3|60|1|1250000.00|https://localhost:7033/images/products/case.jpg|Corsair 4000D Airflow
+14|3|73|1|2500000.00|https://localhost:7033/images/products/psu.jpg|Asus ROG Thor 1200W
+15|3|85|1|1600000.00|https://localhost:7033https://localhost:7033/images/products/cooler.jpg|Cooler Master MasterLiquid
+16|4|11|1|4950000.00|https://localhost:7033images/products/a20f0b91-1ab6-4524-8ea9-4d0bf40def28.jpg|Intel Core i7-12700K
+17|4|21|1|6250000.00|https://localhost:7033images/products/8d7a0162-64ad-479d-9eaf-a56dd1ed2160.jpg|Sapphire Pulse RX 7900 XTX
+18|4|32|1|3500000.00|https://localhost:7033images/products/a096dd9a-9432-41a6-adff-3f9624780c22.png|ASUS TUF GAMING B550-PLUS
+19|4|44|1|2050000.00|https://localhost:7033images/products/bf7ae46c-a094-4203-b816-239ea76f542d.webp|Crucial Pro 32GB Kit DDR5
+20|4|50|1|1450000.00|https://localhost:7033images/products/fa3e7635-2d70-4dcf-9589-e916f41ed2b9.webp|WD Black SN850X 2TB
+21|4|73|1|2500000.00|https://localhost:7033images/products/cc41e781-ef68-44ad-95e0-56cc1ee6b6a7.webp|Asus ROG Thor 1200W
+22|4|66|1|2475000.00|https://localhost:7033images/products/8764e82d-d777-4384-9f22-cb0d72089738.jpg|Xigmatek Aquarius Plus
+23|4|81|1|1000000.00|https://localhost:7033images/products/b9c29bff-d95e-479f-8b66-5d36b2272a50.webp|Corsair iCUE H150i
+24|5|9|1|5000000.00|https://localhost:7033/images/products/8ec39d16-7e67-432e-b699-bdac7d1a40ee.jpg|Intel Core i9-13900KS
+25|5|89|1|12599000.00|https://localhost:7033/images/products/e3432470-c6cf-4a2e-82c2-6dbd8cfc9aed.webp|NVIDIA GeForce RTX 5060
+26|6|88|1|2200000.00|https://localhost:7033/images/products/9e87b723-dc7d-43e4-9a82-91910044836b.jpg|Be Quiet! Dark Rock Pro 4
+27|6|87|1|2000000.00|https://localhost:7033/images/products/0159b2e2-d225-442d-a18b-b0a4aa695220.png|Arctic Liquid Freezer II
+28|7|76|1|2600000.00|https://localhost:7033/images/products/81cd0c64-5c4c-42f8-b309-372e26b1988a.jpg|SilverStone Strider 1000W
+29|7|86|1|1800000.00|https://localhost:7033/images/products/92f49db4-e9c1-4307-b26b-94374b56c727.webp|Deepcool AK620 Digital
+30|8|12|1|5750000.00|https://localhost:7033/images/products/16540961-87cc-4297-8031-fd4da295b55d.jpg|AMD Ryzen 9 5900X
+31|8|66|1|2750000.00|https://localhost:7033/images/products/8764e82d-d777-4384-9f22-cb0d72089738.jpg|Xigmatek Aquarius Plus
+32|9|37|1|4275000.00|https://localhost:7033/images/products/2b7a4390-d80a-4763-a443-acd4c2002133.png|ASROCK Z790 Steel Legend
+33|9|46|1|2550000.00|https://localhost:7033/images/products/ba2a79d7-e7bf-4d02-ad9f-7e6d06295de4.webp|Lexar Thor OC 32GB
+34|10|10|1|4725000.00|https://localhost:7033/images/products/b06d8676-3664-44f9-a720-8b0e326aecd8.jpg|AMD Ryzen 7 5700X
+35|10|22|1|6500000.00|https://localhost:7033/images/products/49d50661-ceb2-464b-a544-85e72d8bdd22.webp|ASUS TUF RX 7800 XT
+36|10|32|1|3500000.00|https://localhost:7033/images/products/a096dd9a-9432-41a6-adff-3f9624780c22.png|ASUS TUF GAMING B550-PLUS
+37|10|42|2|1550000.00|https://localhost:7033/images/products/3a754ea9-8bd3-4910-9d45-9162d5bc2019.jpg|TeamGroup T-Force Delta RGB 16GB
+38|10|57|1|2720000.00|https://localhost:7033/images/products/82c386ca-bb9c-4e58-8154-92e240709fde.webp|Gigabyte AORUS Gen4 2TB
+39|10|73|1|2500000.00|https://localhost:7033/images/products/cc41e781-ef68-44ad-95e0-56cc1ee6b6a7.webp|Asus ROG Thor 1200W
+40|10|80|1|750000.00|https://localhost:7033/images/products/43234a94-439e-41cb-a559-a9ebbb7d5c1a.webp|NZXT Kraken Elite 360
+41|11|128|1|1912000.00|https://localhost:7033/images/products/4b15aa1e-8e2b-4a5a-822d-cfe5f2d2e9aa.jpg|Logitech G515 TKL Lightspeed
+42|12|128|1|1912000.00|https://localhost:7033/images/products/4b15aa1e-8e2b-4a5a-822d-cfe5f2d2e9aa.jpg|Logitech G515 TKL Lightspeed
+43|12|88|1|1912000.00|https://localhost:7033/images/products/9e87b723-dc7d-43e4-9a82-91910044836b.jpg|Be Quiet! Dark Rock Pro 4
+44|13|87|1|3250000.00|https://localhost:7033/images/products/0159b2e2-d225-442d-a18b-b0a4aa695220.png|Arctic Liquid Freezer II
+45|14|74|1|1752000.00|https://localhost:7033/images/products/0d3d5ecc-a879-4128-a63b-9688ebcef436.webp|Gigabyte P850GM
+
+(45 rows affected)

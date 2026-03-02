@@ -1,0 +1,359 @@
+﻿Id|Name|Price|Stock|Description|CategoryId|ImageUrl|Discount|Rating|Reviews|TechSpecs
+--|----|-----|-----|-----------|----------|--------|--------|------|-------|---------
+1|Intel Core i9-14900K|14500000.00|8|Thông số: 24 nhân (8 P-core + 16 E-core), 32 luồng, xung nhịp tối đa 6.0GHz, 36MB Smart Cache.
+
+Đặc điểm: "Quái vật" hiệu năng, đỉnh cao cho gaming và render 3D nặng.|1|https://localhost:7033/images/products/cpu.jpg|0|0.0|0|{"Socket": "LGA1700", "SupportedRams": ["DDR4", "DDR5"], "TDP": 125}
+2|AMD Ryzen 9 7950X|13200000.00|11|Thông số: 16 nhân, 32 luồng, xung nhịp cơ bản 4.5GHz (boost 5.7GHz), 64MB L3 Cache.
+
+Đặc điểm: Sức mạnh đa nhân vượt trội, lý tưởng cho dựng phim và xử lý dữ liệu lớn.|1|https://localhost:7033/images/products/6bc02142-df34-4dac-95d6-67dad8b79e66.jpg|0|0.0|0|{"Socket": "AM5", "SupportedRams": ["DDR5"], "TDP": 170}
+3|Intel Core i7-14700K|9800000.00|12|Thông số: 20 nhân (8 P-core + 12 E-core), 28 luồng, xung nhịp tối đa 5.6GHz, 33MB Cache.
+
+Đặc điểm: Cân bằng hoàn hảo giữa chơi game và làm việc, nâng cấp đáng giá từ i7 đời 13.|1|https://localhost:7033/images/products/6f348c9c-bc97-4ef5-912d-ff9513f714fa.jpg|0|0.0|0|{"Socket": "LGA1700", "SupportedRams": ["DDR4", "DDR5"], "TDP": 125}
+4|AMD Ryzen 7 7800X3D|10500000.00|13|Thông số: 8 nhân, 16 luồng, công nghệ 3D V-Cache đột phá (96MB L3 Cache).
+
+Đặc điểm: "Vua chơi game" hiện tại, tối ưu FPS cực tốt cho game thủ.|1|https://localhost:7033/images/products/bc3b0c12-aef7-474c-a7f3-d09478cbaab5.jpg|0|0.0|0|{"Socket": "AM5", "SupportedRams": ["DDR5"], "TDP": 120}
+5|Intel Core i5-13400F|4200000.00|14|Thông số: 10 nhân (6 P-core + 4 E-core), 16 luồng, xung nhịp tối đa 4.6GHz. (Không có iGPU).
+
+Đặc điểm: "Best choice" cho PC gaming phổ thông, mát và ổn định.|1|https://localhost:7033/images/products/6bdf6002-fbfb-4127-81b1-ca99c2637173.jpg|0|0.0|0|{"Socket": "LGA1700", "SupportedRams": ["DDR4", "DDR5"], "TDP": 65}
+6|Intel Core i5-12400F|2800000.00|15|Thông số: 6 nhân, 12 luồng, xung nhịp tối đa 4.4GHz. (Bản F không có iGPU).
+
+Đặc điểm: "Quốc dân" cho mọi dàn máy tầm trung, hiệu năng/giá thành cực tốt.|1|https://localhost:7033/images/products/07bc704d-2602-4469-aba8-a8b7ae809aae.png|0|0.0|0|{"Socket": "LGA1700", "SupportedRams": ["DDR4", "DDR5"], "TDP": 65}
+7|Intel Core i3-12100F|1850000.00|16|Thông số: 4 nhân, 8 luồng, xung nhịp tối đa 4.3GHz. (Bản F không có iGPU).
+
+Đặc điểm: "Ông vua giá rẻ", đủ sức cân tốt các game online và tác vụ văn phòng.|1|https://localhost:7033/images/products/8caa9f1a-3f3f-45a8-825a-16718b18e76b.webp|0|0.0|0|{"Socket": "LGA1700", "SupportedRams": ["DDR4", "DDR5"], "TDP": 58}
+8|AMD Ryzen 5 5600G|3100000.00|17|Thông số: 6 nhân, 12 luồng, tích hợp đồ họa Radeon Vega 7 mạnh mẽ.
+
+Đặc điểm: Chơi game eSport (LoL, Valorant) mượt mà không cần card rời.|1|https://localhost:7033/images/products/0cd218c3-2ac7-4143-a430-7bf87f443fe6.jpg|0|0.0|0|{"Socket": "AM4", "SupportedRams": ["DDR4"], "TDP": 65}
+9|Intel Core i9-13900KS|13500000.00|17|Thông số: 24 nhân (8 P-core + 16 E-core), 32 luồng, xung nhịp đạt kỷ lục 6.0GHz ngay khi xuất xưởng.
+
+Đặc điểm: Phiên bản đặc biệt giới hạn, hiệu năng thuần túy cực khủng.|1|https://localhost:7033/images/products/8ec39d16-7e67-432e-b699-bdac7d1a40ee.jpg|0|4.0|1|{"Socket": "LGA1700", "SupportedRams": ["DDR4", "DDR5"], "TDP": 150}
+10|AMD Ryzen 7 5700X|4300000.00|18|Thông số: 8 nhân, 16 luồng, xung nhịp tối đa 4.6GHz, 32MB Cache, TDP thấp 65W.
+
+Đặc điểm: Mát mẻ, tiết kiệm điện, hiệu năng đa nhân tốt trong tầm giá.|1|https://localhost:7033/images/products/b06d8676-3664-44f9-a720-8b0e326aecd8.jpg|10|5.0|1|{"Socket": "AM4", "SupportedRams": ["DDR4"], "TDP": 65}
+11|Intel Core i7-12700K|5900000.00|19|Thông số: 12 nhân (8 P-core + 4 E-core), 20 luồng, xung nhịp tối đa 5.0GHz.
+
+Đặc điểm: Hiệu năng vẫn rất tốt, giá thành hợp lý cho cấu hình tầm trung cao.|1|https://localhost:7033/images/products/a20f0b91-1ab6-4524-8ea9-4d0bf40def28.jpg|10|0.0|0|{"Socket": "LGA1700", "SupportedRams": ["DDR4", "DDR5"], "TDP": 125}
+12|AMD Ryzen 9 5900X|7200000.00|20|Thông số: 12 nhân, 24 luồng, xung nhịp tối đa 4.8GHz, 64MB L3 Cache.
+
+Đặc điểm: Flagship đời trước nhưng vẫn rất mạnh cho streamer và editor chuyên nghiệp.|1|https://localhost:7033/images/products/16540961-87cc-4297-8031-fd4da295b55d.jpg|10|0.0|0|{"Socket": "AM4", "SupportedRams": ["DDR4"], "TDP": 105}
+13|Intel Core i3-13100|2900000.00|22|Thông số: 4 nhân, 8 luồng, xung nhịp tối đa 4.5GHz, iGPU UHD 730.
+
+Đặc điểm: Bản nâng cấp nhẹ của 12100, xung nhịp cao hơn chút, phù hợp văn phòng cần sự nhanh nhạy.|1|https://localhost:7033/images/products/e2c2c8f8-ae68-4ef1-bba6-2bdf010dfc44.jpg|10|0.0|0|{"Socket": "LGA1700", "SupportedRams": ["DDR4", "DDR5"], "TDP": 60}
+14|AMD Ryzen 5 7600X|4900000.00|23|Thông số: 6 nhân, 12 luồng, xung nhịp boost lên tới 5.3GHz, kiến trúc Zen 4 mới nhất.
+
+Đặc điểm: Hiệu năng đơn nhân rất mạnh, chơi game mượt mà trên nền tảng AM5.|1|https://localhost:7033/images/products/afb85f18-1c08-4bf9-86be-af702423e42a.jpg|10|0.0|0|{"Socket": "AM5", "SupportedRams": ["DDR5"], "TDP": 105}
+15|Intel Core i5-14600K|7500000.00|0|Thông số: 14 nhân (6 P-core + 8 E-core), 20 luồng, xung nhịp tối đa 5.3GHz.
+
+Đặc điểm: Lựa chọn số 1 cho PC Gaming tầm trung, ép xung tốt.|1|https://localhost:7033/images/products/0a8c67f6-35d3-4e02-8356-bc1d794a5777.jpg|0|1.0|1|{"Socket": "LGA1700", "SupportedRams": ["DDR4", "DDR5"], "TDP": 125}
+16|ROG Strix RTX 4090|64990000.00|9|Thông số: VRAM 24GB GDDR6X, xung nhịp Boost cực cao ~2.6GHz, 16384 nhân CUDA. Mô tả: Đỉnh cao sức mạnh đồ họa hiện nay, "quái vật" cân mọi game 4K Ultra Settings và render 3D chuyên nghiệp. Thiết kế hầm hố, LED RGB đẹp mắt.|2|https://localhost:7033/images/products/adfb9be3-95c1-4d21-9b9c-167f7b412d3e.webp|0|0.0|0|{"Chipset": "RTX 4090", "VRAM": "24GB GDDR6X", "RecommendPSU": 1000, "Length": 358}
+17|MSI RTX 4080 Super Gaming X|31690000.00|11|Thông số: VRAM 16GB GDDR6X, xung nhịp Boost 2625 MHz, 10240 nhân CUDA.
+
+Mô tả: Hiệu năng chơi game 4K mượt mà, công nghệ DLSS 3.0 tiên tiến. Tản nhiệt Tri Frozr 3 mát lạnh và yên tĩnh.|2|https://localhost:7033/images/products/38b63e76-e2cb-4cd9-9708-9feba040bf98.webp|0|0.0|0|{"Chipset": "RTX 4080 Super", "VRAM": "16GB GDDR6X", "RecommendPSU": 850, "Length": 337}
+18|Gigabyte RTX 4070 Ti Eagle|25990000.00|12|Thông số: VRAM 12GB GDDR6X, xung nhịp Boost 2625 MHz, 7680 nhân CUDA.
+
+Mô tả: Lựa chọn hoàn hảo cho màn hình 2K (1440p) với tốc độ khung hình cao. Thiết kế 3 fan Windforce tối ưu luồng gió.|2|https://localhost:7033/images/products/66cb63f1-929d-4b8d-babc-047ca0e97ed9.png|0|0.0|0|{"Chipset": "RTX 4070 Ti", "VRAM": "12GB GDDR6X", "RecommendPSU": 750, "Length": 301}
+19|ASUS Dual RTX 4060 Ti|11290000.00|13|Thông số: VRAM 8GB (hoặc 16GB) GDDR6, xung nhịp Boost 2595 MHz, 4352 nhân CUDA.
+
+Mô tả: Nhỏ gọn với 2 quạt, phù hợp case mini. Chiến tốt mọi game AAA ở độ phân giải 1080p Max Settings.|2|https://localhost:7033/images/products/f6c3b884-60f3-4569-9ebb-44dbfc4a910f.png|0|0.0|0|{"Chipset": "RTX 4060 Ti", "VRAM": "8GB GDDR6", "RecommendPSU": 650, "Length": 227}
+20|Zotac RTX 3060 12GB|8490000.00|14|Thông số: VRAM 12GB GDDR6, 3584 nhân CUDA, băng thông bộ nhớ rộng rãi.
+
+Mô tả: "Vua tầm trung" quốc dân. Dung lượng VRAM lớn cực lợi cho làm đồ họa, edit video và chơi game ổn định.|2|https://localhost:7033/images/products/b519fae3-dfcd-463a-9b66-ef08278dfb69.jpg|0|0.0|0|{"Chipset": "RTX 3060", "VRAM": "12GB GDDR6", "RecommendPSU": 600, "Length": 224}
+21|Sapphire Pulse RX 7900 XTX|27490000.00|14|Thông số: VRAM 24GB GDDR6, kiến trúc RDNA 3, xung nhịp Game 2330 MHz. Mô tả: Đối thủ xứng tầm của RTX 4080 với mức giá tốt hơn. Hiệu năng thuần (Rasterization) cực mạnh cho game thủ hardcore.|2|https://localhost:7033/images/products/8d7a0162-64ad-479d-9eaf-a56dd1ed2160.jpg|0|0.0|0|{"Chipset": "RX 7900 XTX", "VRAM": "24GB GDDR6", "RecommendPSU": 750, "Length": 313}
+22|ASUS TUF RX 7800 XT|16490000.00|15|Thông số: VRAM 16GB GDDR6, xung nhịp Boost 2565 MHz, 256-bit. Mô tả: "Best p/p" cho phân khúc 2K. Độ bền chuẩn quân đội, tản nhiệt dày dặn, hoạt động bền bỉ.|2|https://localhost:7033/images/products/49d50661-ceb2-464b-a544-85e72d8bdd22.webp|0|5.0|1|{"Chipset": "RX 7800 XT", "VRAM": "16GB GDDR6", "RecommendPSU": 750, "Length": 320}
+23|Galax RTX 4070 Extreme|17590000.00|17|Thông số: VRAM 12GB GDDR6X, 5888 nhân CUDA, hỗ trợ AV1 encode.
+
+Mô tả: Cân bằng tốt giữa hiệu năng và nhiệt độ. Chiến game 2K ngon lành, hỗ trợ tốt cho streamer nhờ codec AV1 mới.|2|https://localhost:7033/images/products/82671a32-6a0f-4757-b4f1-b10a16dae784.jpg|5|0.0|0|{"Chipset": "RTX 4070", "VRAM": "12GB GDDR6X", "RecommendPSU": 600, "Length": 336}
+24|Colorful RTX 3050 NB|5790000.00|18|Thông số: VRAM 8GB GDDR6, 2560 nhân CUDA, Ray Tracing cơ bản.
+
+Mô tả: Card đồ họa nhập môn giá rẻ. Đủ sức chơi các tựa game eSport và game offline ở thiết lập trung bình-cao (1080p).|2|https://localhost:7033/images/products/261c5f13-a526-49cc-aa4a-609df50e7b04.webp|5|0.0|0|{"Chipset": "RTX 3050", "VRAM": "8GB GDDR6", "RecommendPSU": 550, "Length": 253}
+25|Palit RTX 4060 Dual|7850000.00|19|Thông số: VRAM 8GB GDDR6, tiêu thụ điện năng cực thấp (chỉ khoảng 115W). Mô tả: Giải pháp nâng cấp tiết kiệm điện hoàn hảo. Hỗ trợ DLSS 3 giúp tăng FPS đáng kể trong các tựa game mới.|2|https://localhost:7033/images/products/98de8cac-8eb9-4a6e-aaae-2c98ec0dcf6c.png|5|0.0|0|{"Chipset": "RTX 4060", "VRAM": "8GB GDDR6", "RecommendPSU": 600, "Length": 250}
+26|EVGA RTX 3080 FTW3|10500000.00|20|Thông số: VRAM 10GB/12GB GDDR6X, băng thông cực lớn, công nghệ iCX3 làm mát.
+
+Mô tả: Huyền thoại hiệu năng cao. Dù đã qua đời mới nhưng vẫn dư sức chiến game 2K/4K. Thiết kế của EVGA luôn được đánh giá rất cao về thẩm mỹ.|2|https://localhost:7033/images/products/1fd11458-39e0-4aa1-90f1-300523ed82cc.jpg|5|0.0|0|{"Chipset": "RTX 3080", "VRAM": "10GB GDDR6X", "RecommendPSU": 750, "Length": 300}
+27|MSI RX 6750 XT Mech|7890000.00|21|Thông số: VRAM 12GB GDDR6, xung nhịp Boost lên tới 2618 MHz. Mô tả: Hiệu năng mạnh hơn RTX 3060 Ti ở nhiều game thuần. Thiết kế cứng cáp, quạt Torx Fan 3.0 tản nhiệt tốt.|2|https://localhost:7033/images/products/b9fd3ac7-d394-41b4-aa65-71cb235ed142.jpg|5|0.0|0|{"Chipset": "RX 6750 XT", "VRAM": "12GB GDDR6", "RecommendPSU": 650, "Length": 249}
+28|ASUS ROG Z790-E Gaming|12890000.00|9|Thông số: Chipset Z790, Socket LGA 1700 (Intel Gen 12/13/14), 18+1 tụ cấp nguồn (Power Stages), hỗ trợ RAM DDR5.
+
+Mô tả: Bo mạch chủ cao cấp chuyên ép xung (Overclock). Thiết kế tản nhiệt VRM hầm hố, đầy đủ cổng kết nối PCIe 5.0 và WiFi 6E mới nhất.|3|https://localhost:7033/images/products/af55b0e9-7fca-4eda-820a-a197790babb0.webp|0|0.0|0|{"Socket": "LGA1700", "RamType": "DDR5", "FormFactor": "ATX"}
+29|MSI MAG B760M Mortar WIFI|5190000.00|11|Thông số: Chipset B760, Socket LGA 1700, kích thước M-ATX, hỗ trợ RAM DDR5/DDR4 (tuỳ phiên bản), 12+1+1 tụ cấp nguồn.
+
+Mô tả: "Vua tầm trung" cho game thủ. Thiết kế quân sự bền bỉ, tông màu bạc/đen cực ngầu, tích hợp sẵn WiFi 6E tiện lợi.|3|https://localhost:7033/images/products/25b6d87f-33b1-45fd-a758-1820728328b0.webp|0|0.0|0|{"Socket": "LGA1700", "RamType": "DDR5", "FormFactor": "Micro-ATX"}
+30|Gigabyte Z790 AORUS ELITE|7790000.00|12|Thông số: Chipset Z790, Socket LGA 1700, hỗ trợ RAM DDR5, thiết kế tản nhiệt toàn diện.
+
+Mô tả: Cân bằng hoàn hảo giữa hiệu năng và giá thành cho dòng Z790. Ổn định tuyệt đối cho các CPU i7/i9 dòng K.
+
+|3|https://localhost:7033/images/products/d628edce-d5ec-4fcc-8f8f-072c230c8ceb.png|0|0.0|0|{"Socket": "LGA1700", "RamType": "DDR5", "FormFactor": "ATX"}
+31|ASROCK B660M Pro RS|2490000.00|13|Thông số: Chipset B660, Socket LGA 1700, kích thước M-ATX, hỗ trợ RAM DDR4, 2 khe M.2 NVMe.
+
+Mô tả: Lựa chọn "ngon-bổ-rẻ" nhất phân khúc. Đủ sức cân tốt i5-12400/13400F với mức giá cực kỳ dễ tiếp cận.|3|https://localhost:7033/images/products/mainboard.jpg|0|0.0|0|{"Socket": "LGA1700", "RamType": "DDR4", "FormFactor": "Micro-ATX"}
+32|ASUS TUF GAMING B550-PLUS|4090000.00|12|Thông số: Chipset B550, Socket AM4 (Ryzen 3000/5000 Series), hỗ trợ PCIe 4.0, độ bền chuẩn quân đội.
+
+Mô tả: Bền bỉ và ổn định. Là "bến đỗ" lý tưởng cho các CPU Ryzen 5/7 dòng 5000 series muốn hiệu năng cao lâu dài.|3|https://localhost:7033/images/products/a096dd9a-9432-41a6-adff-3f9624780c22.png|0|5.0|1|{"Socket": "AM4", "RamType": "DDR4", "FormFactor": "ATX"}
+33|MSI MPG X670E Carbon|13990000.00|15|Thông số: Chipset X670E, Socket AM5 (Ryzen 7000/8000 Series), 18+2+1 pha nguồn, hỗ trợ PCIe 5.0 cả VGA và SSD.
+
+Mô tả: Flagship cho fan AMD. Thiết kế Carbon đen tuyền sang trọng, LED RGB Mystic Light rực rỡ, sẵn sàng cho tương lai.|3|https://localhost:7033/images/products/006f1550-164e-4bbd-8187-81097b352553.webp|0|0.0|0|{"Socket": "AM5", "RamType": "DDR5", "FormFactor": "ATX"}
+34|Gigabyte B650M Gaming|3490000.00|16|Thông số: Chipset B650, Socket AM5, kích thước M-ATX, hỗ trợ RAM DDR5, tích hợp WiFi 6E.
+
+Mô tả: Mainboard nhập môn hoàn hảo cho nền tảng AM5 mới nhất. Đầy đủ tính năng cần thiết để build PC Ryzen 7000 series giá tốt.|3|https://localhost:7033/images/products/e9607e17-926a-4b23-a51e-0b0672f47636.png|10|0.0|0|{"Socket": "AM5", "RamType": "DDR5", "FormFactor": "Micro-ATX"}
+35|ASUS Prime H610M-K|1790000.00|17|Thông số: Chipset H610, Socket LGA 1700, 2 khe RAM DDR4, cổng xuất hình HDMI/VGA.
+
+Mô tả: Bo mạch chủ phổ thông, tối giản. Phù hợp nhất cho văn phòng hoặc các bộ máy gaming giá rẻ chạy i3/i5 non-K.|3|https://localhost:7033/images/products/e99eb8e2-7871-4350-be1e-f74671efbb1f.png|10|0.0|0|{"Socket": "LGA1700", "RamType": "DDR4", "FormFactor": "Micro-ATX"}
+36|MSI PRO Z690-A|7290000.00|18|Thông số: Chipset Z690, Socket LGA 1700, thiết kế Full ATX, hỗ trợ DDR5, tản nhiệt mở rộng.
+
+Mô tả: Dòng Pro hướng tới sự ổn định và hiệu quả công việc. Vẫn rất mạnh mẽ để chạy các CPU đời mới dù chipset đời trước.|3|https://localhost:7033/images/products/5f7a3eb3-7cae-43d0-b9d7-0d71883ce616.png|10|0.0|0|{"Socket": "LGA1700", "RamType": "DDR5", "FormFactor": "ATX"}
+37|ASROCK Z790 Steel Legend|6150000.00|18|Thông số: Chipset Z790, Socket LGA 1700, hỗ trợ DDR5, PCIe 5.0, tông màu trắng/bạc camo độc đáo.
+
+Mô tả: Thiết kế "huyền thoại" cực đẹp cho các bộ PC tông trắng (White Build). Hiệu năng mạnh và tản nhiệt rất mát.|3|https://localhost:7033/images/products/2b7a4390-d80a-4763-a443-acd4c2002133.png|10|0.0|0|{"Socket": "LGA1700", "RamType": "DDR5", "FormFactor": "ATX"}
+38|ROG STRIX B760-I Gaming|4890000.00|19|Thông số: Chipset B760, Socket LGA 1700, kích thước Mini-ITX siêu nhỏ gọn, hỗ trợ DDR5.
+
+Mô tả: "Nhỏ mà có võ". Dành riêng cho các dân chơi hệ case ITX tí hon nhưng vẫn muốn hiệu năng cao và đầy đủ kết nối.|3|https://localhost:7033/images/products/91f60067-d38f-434b-8578-778f64261a92.png|10|0.0|0|{"Socket": "LGA1700", "RamType": "DDR5", "FormFactor": "Mini-ITX"}
+39|Corsair Vengeance RGB 32GB DDR5|2790000.00|10|Thông số: Chuẩn DDR5, Bus thường từ 5200MHz - 6000MHz, hỗ trợ Intel XMP 3.0 / AMD EXPO.
+
+Mô tả: Hiệu năng DDR5 thế hệ mới cực nhanh. Điểm nhấn là dải đèn LED RGB mượt mà tuỳ chỉnh qua phần mềm iCUE trứ danh.|4|https://localhost:7033/images/products/53e04fa0-f95b-4f63-8d86-2b444ac3a2d1.png|0|0.0|0|{"Type": "DDR5", "Capacity": 32, "Speed": 5600}
+40|G.Skill Trident Z5 Neo 16GB|1650000.00|11|Thông số: Chuẩn DDR5, thiết kế tối ưu hoá riêng cho nền tảng AMD Ryzen 7000 series (công nghệ EXPO).
+
+Mô tả: Thiết kế tản nhiệt nhôm đen/bạc sang trọng, không quá màu mè nhưng hiệu năng cực kỳ ổn định và mạnh mẽ.|4|https://localhost:7033/images/products/16e34a85-8f6a-41be-96dc-614688123194.webp|0|0.0|0|{"Type": "DDR5", "Capacity": 16, "Speed": 6000}
+41|Kingston FURY Beast 8GB DDR4|450000.00|12|Thông số: Chuẩn DDR4, Bus phổ biến 3200MHz, tản nhiệt nhôm đen đơn giản (Low-profile).
+
+Mô tả: Lựa chọn "quốc dân" cho mọi cấu hình từ văn phòng đến game net. Bền bỉ, tương thích với hầu hết các loại mainboard.|4|https://localhost:7033/images/products/965152e0-faf7-4bb2-9ebc-192ba8cd32a8.jpg|0|0.0|0|{"Type": "DDR4", "Capacity": 8, "Speed": 3200}
+42|TeamGroup T-Force Delta RGB 16GB|1250000.00|11|Thông số: Chuẩn DDR4/DDR5, góc chiếu sáng siêu rộng 120 độ, hỗ trợ đồng bộ Aura Sync/Mystic Light.
+
+Mô tả: Nổi bật với thiết kế góc cạnh như máy bay chiến đấu và dải LED RGB rất sáng, đẹp nhất nhì trong tầm giá.|4|https://localhost:7033/images/products/3a754ea9-8bd3-4910-9d45-9162d5bc2019.jpg|0|5.0|1|{"Type": "DDR4", "Capacity": 16, "Speed": 3200}
+43|Adata XPG Spectrix D50|1150000.00|14|Thông số: Chuẩn DDR4, tản nhiệt dày 1.95mm, Bus 3200MHz/3600MHz.
+
+Mô tả: Thiết kế hình học (Geometric) với các đường cắt xẻ tinh tế. Vẻ ngoài cứng cáp, lịch lãm với tản nhiệt kim loại nguyên khối.|4|https://localhost:7033/images/products/70e88a3e-a5bc-4204-89a8-d5e2403030da.webp|0|0.0|0|{"Type": "DDR4","Capacity": 16, "Speed": 3200}
+44|Crucial Pro 32GB Kit DDR5|2290000.00|14|Thông số: Chuẩn DDR5, Bus 5600MHz, hỗ trợ cả Intel XMP 3.0 và AMD EXPO.
+
+Mô tả: Dòng Pro hướng tới sự ổn định tuyệt đối cho người làm việc (Creator/Workstation). Tản nhiệt đen nhám, không LED, hiệu năng thuần túy.|4|https://localhost:7033/images/products/bf7ae46c-a094-4203-b816-239ea76f542d.webp|0|0.0|0|{"Type": "DDR5", "Capacity": 32, "Speed": 5600}
+45|PNY XLR8 Gaming 16GB|1090000.00|16|Thông số: Chuẩn DDR4, Bus 3200MHz, tản nhiệt thiết kế rãnh xẻ độc đáo.
+
+Mô tả: Giải pháp kinh tế cho game thủ. Hiệu năng ép xung tốt so với giá thành, thiết kế hầm hố đậm chất gaming.|4|https://localhost:7033/images/products/e1f22916-bf2d-4d3b-b2ba-1f0d5a4792c7.jpg|0|0.0|0|{"Type": "DDR4", "Capacity": 16, "Speed": 3200}
+46|Lexar Thor OC 32GB|2490000.00|16|Thông số: Chuẩn DDR5, Bus cao (thường 6000MHz), hỗ trợ XMP 3.0 & EXPO.
+
+Mô tả: Lấy cảm hứng từ thần sấm Thor, tản nhiệt kim loại dày giúp tản nhiệt cực tốt khi ép xung (OC) hoạt động ở cường độ cao.|4|https://localhost:7033/images/products/ba2a79d7-e7bf-4d02-ad9f-7e6d06295de4.webp|0|0.0|0|{"Type": "DDR5", "Capacity": 32, "Speed": 6000}
+47|Corsair Dominator Platinum 64GB|7290000.00|17|Thông số: Chuẩn DDR5 cao cấp nhất, chip nhớ tuyển chọn, công nghệ làm mát DHX độc quyền.
+
+Mô tả: Dòng RAM "quý tộc" đẳng cấp nhất. Đèn LED Capellix siêu sáng và mịn, hiệu năng và khả năng ép xung thuộc hàng top thế giới.|4|https://localhost:7033/images/products/93bf6d4e-091d-4d8c-9c49-d6a29c989fbb.png|0|0.0|0|{"Type": "DDR5", "Capacity": 64, "Speed": 5600}
+48|G.Skill Ripjaws V 16GB|950000.00|19|Thông số: Chuẩn DDR4, Bus 3200MHz - 3600MHz, tản nhiệt cao.
+
+Mô tả: Dòng RAM huyền thoại của G.Skill. Hiệu năng/giá thành cực tốt, là lựa chọn số 1 cho các bộ máy gaming tầm trung trong nhiều năm qua.|4|https://localhost:7033/images/products/9df0d1da-cd7c-4c39-a0b5-a0bd9310404b.jpg|0|0.0|0|{"Type": "DDR4", "Capacity": 16, "Speed": 3200}
+49|Samsung 990 Pro 1TB M.2|3150000.00|10|Thông số: Tốc độ đọc/ghi tuần tự lên tới 7450/6900 MB/s, chuẩn NVMe 2.0.
+
+Mô tả: "Vua tốc độ" của dòng Gen 4. Hiệu năng đỉnh cao cho gaming 4K và xử lý video nặng, tản nhiệt thông minh.|5|https://localhost:7033/images/products/1e09accf-92bc-4245-90fb-3f24a3a71feb.webp|0|0.0|0|{"Type": "SSD NVMe", "Capacity": "1TB", "Gen": "PCIe 4.0", "ReadSpeed": 7450}
+50|WD Black SN850X 2TB|4690000.00|10|Thông số: Tốc độ đọc lên tới 7300 MB/s, công nghệ Game Mode 2.0 độc quyền.
+
+Mô tả: Ổ cứng chuyên dụng cho game thủ (Gaming Drive). Tối ưu hoá thời gian load game cực nhanh và độ trễ thấp nhất.|5|https://localhost:7033/images/products/fa3e7635-2d70-4dcf-9589-e916f41ed2b9.webp|0|0.0|0|{"Type": "SSD NVMe", "Capacity": "2TB", "Gen": "PCIe 4.0", "ReadSpeed": 7300}
+51|Crucial P5 Plus 500GB|1590000.00|12|Thông số: Sử dụng chip nhớ Micron Advanced 3D NAND, tốc độ đọc 6600 MB/s.
+
+Mô tả: Hiệu năng ổn định, độ bền cao. Tương thích hoàn hảo cho cả PC và máy chơi game PlayStation 5.|5|https://localhost:7033/images/products/82993dbc-bf4e-40f6-9343-293bd3d9edf6.jpg|0|0.0|0|{"Type": "SSD NVMe", "Capacity": "500GB", "Gen": "PCIe 4.0", "ReadSpeed": 6600}
+52|Kingston NV2 1TB NVMe|1690000.00|13|Thông số: Tốc độ đọc/ghi 3500/2100 MB/s, thiết kế mỏng nhẹ.
+
+Mô tả: Giải pháp Gen 4 giá rẻ "quốc dân". Dung lượng lớn với chi phí cực thấp, phù hợp lưu trữ dữ liệu hàng ngày.|5|https://localhost:7033/images/products/2ccb8ac6-8238-46c3-8f4f-11acc02cf531.jpg|0|0.0|0|{"Type": "SSD NVMe", "Capacity": "1TB", "Gen": "PCIe 4.0", "ReadSpeed": 3500}
+53|Samsung 870 EVO 500GB|1450000.00|12|Thông số: Chuẩn SATA III, tốc độ đọc/ghi 560/530 MB/s, công nghệ V-NAND.
+
+Mô tả: Ổ SSD SATA tốt nhất thế giới. Sự lựa chọn số 1 để nâng cấp laptop đời cũ hoặc làm ổ phụ lưu trữ siêu bền.|5|https://localhost:7033/images/products/88715950-653a-43f1-8c2a-6c38b3023046.webp|0|0.0|0|{"Type": "SSD SATA", "Capacity": "500GB", "Gen": "SATA III", "ReadSpeed": 560}
+54|WD Blue 4TB HDD|2990000.00|15|Thông số: Ổ cứng cơ (HDD), tốc độ quay 5400RPM, bộ nhớ đệm 256MB.
+
+Mô tả: "Kho chứa" khổng lồ. Hoạt động êm ái, chuyên dùng để lưu trữ phim ảnh, camera hoặc dữ liệu ít truy xuất (Cold Storage).|5|https://localhost:7033/images/products/fa281fa3-e82e-45f4-bfac-a5a1755487d3.webp|15|0.0|0|{"Type": "HDD", "Capacity": "4TB", "Gen": "SATA III", "ReadSpeed": 150}
+55|Seagate Barracuda 2TB|1650000.00|16|Thông số: Ổ cứng cơ, tốc độ quay 7200RPM nhanh hơn HDD thường, Cache 256MB.
+
+Mô tả: Dòng HDD phổ biến nhất cho Desktop. Tốc độ truy xuất khá tốt, phù hợp lưu trữ game offline nặng để tiết kiệm dung lượng SSD.|5|https://localhost:7033/images/products/cf99cbc3-cbf8-4639-b408-dc542b4be795.webp|15|0.0|0|{"Type": "HDD", "Capacity": "2TB", "Gen": "SATA III", "ReadSpeed": 220}
+56|Lexar NM790 1TB|2390000.00|17|Thông số: Tốc độ đọc khủng 7400 MB/s, thiết kế DRAM-less tiết kiệm điện.
+
+Mô tả: "Kẻ hủy diệt" phân khúc tầm trung. Hiệu năng ngang ngửa các dòng cao cấp (Flagship) nhưng giá thành rẻ hơn đáng kể.|5|https://localhost:7033/images/products/f5684621-3986-4106-9705-25d68781fb15.webp|15|0.0|0|{"Type": "SSD NVMe", "Capacity": "1TB", "Gen": "PCIe 4.0", "ReadSpeed": 7400}
+57|Gigabyte AORUS Gen4 2TB|3990000.00|17|Thông số: Tốc độ đọc/ghi 5000/4400 MB/s, tản nhiệt đồng toàn thân (tuỳ phiên bản).
+
+Mô tả: Thiết kế hầm hố cho game thủ. Tản nhiệt đồng giúp duy trì hiệu năng cao trong thời gian dài mà không bị quá nhiệt.|5|https://localhost:7033/images/products/82c386ca-bb9c-4e58-8154-92e240709fde.webp|15|5.0|1|{"Type": "SSD NVMe", "Capacity": "2TB", "Gen": "PCIe 4.0", "ReadSpeed": 5000}
+58|Samsung 970 EVO Plus 1TB|2490000.00|19|Thông số: Tốc độ đọc/ghi 3500/3300 MB/s, độ bền TBW cực cao.
+
+Mô tả: Huyền thoại của chuẩn Gen 3. Vẫn là tượng đài về sự ổn định và tốc độ cho các cấu hình chưa hỗ trợ Gen 4.|5|https://localhost:7033/images/products/1adb6ba2-8598-4388-a615-6a902f01b675.webp|15|0.0|0|{"Type": "SSD NVMe", "Capacity": "1TB", "Gen": "PCIe 3.0", "ReadSpeed": 3500}
+59|NZXT H9 Flow White|4290000.00|10|Thông số: Mid Tower, Dual-Chamber (2 ngăn riêng biệt), hỗ trợ tới 10 quạt 120mm.
+
+Mô tả: Thiết kế "bể cá" panorama tuyệt đẹp với mặt kính liền mạch không trụ góc. Tối ưu luồng gió (Airflow) cực tốt nhờ mặt lưới rộng.|6|https://localhost:7033/images/products/34a16707-b251-4577-88e8-23a5f882e69b.webp|0|0.0|0|{"SupportedMainboards": ["E-ATX (up to 277mm)", "ATX", "Micro-ATX", "Mini-ITX"], "MaxVGALength": 459, "MaxCoolerHeight": 165, "Material": "SGCC Steel, Ultra-Clear Tempered Glass"}
+60|Corsair 4000D Airflow|1990000.00|10|Thông số: Mid Tower, hỗ trợ tản nhiệt nước 360mm, hệ thống đi dây RapidRoute thông minh.
+
+Mô tả: Case "quốc dân" cho sự thực dụng. Mặt trước lưới thép tối ưu hút gió làm mát linh kiện bên trong cực hiệu quả.|6|https://localhost:7033/images/products/ae8d2fd7-550c-4db9-9c79-77ca9a24906e.webp|0|0.0|0|{"SupportedMainboards": ["ATX", "Micro-ATX", "Mini-ITX"], "MaxVGALength": 360, "MaxCoolerHeight": 170, "Material": "Thép, Tempered Glass"}
+61|Lian Li O11 Dynamic|3290000.00|12|Thông số: Full Tower/Mid Tower tuỳ biến, thiết kế bởi Der8auer, hỗ trợ 3 radiator 360mm cùng lúc.
+
+Mô tả: Tượng đài của case trưng bày. Không gian rộng rãi, show trọn nội thất, là chuẩn mực cho các dàn Custom Water Cooling.|6|https://localhost:7033/images/products/16c50008-8ddd-41bd-8fb0-ded6fdccdcf7.jpg|0|0.0|0|{"SupportedMainboards": ["E-ATX", "ATX", "Micro-ATX", "Mini-ITX"], "MaxVGALength": 420, "MaxCoolerHeight": 155, "Material": "Thép, Tempered Glass, Aluminum"}
+62|Fractal Design North|3790000.00|13|Thông số: Mid Tower, mặt trước ốp gỗ sồi/óc chó tự nhiên, lưới mesh mịn.
+
+Mô tả: Vẻ đẹp Scandinavian tinh tế, sang trọng như một món đồ nội thất cao cấp chứ không chỉ là case máy tính.|6|https://localhost:7033/images/products/50534a20-5542-4be1-8408-5ef40a38401c.jpeg|0|0.0|0|{"SupportedMainboards": ["ATX", "Micro-ATX", "Mini-ITX"], "MaxVGALength": 355, "MaxCoolerHeight": 170, "Material": "Thép, Tempered Glass, Wood trim"}
+63|Deepcool CH560 Digital|2690000.00|14|Thông số: Mid Tower, tích hợp màn hình LED hiển thị nhiệt độ CPU/GPU theo thời gian thực.
+
+Mô tả: Hiện đại và tiện dụng. Giám sát thông số máy tính ngay trên vỏ case mà không cần phần mềm phức tạp.|6|https://localhost:7033/images/products/b715f786-9e57-489b-b857-3160576970ee.webp|0|0.0|0|{"SupportedMainboards": ["E-ATX", "ATX", "Micro-ATX", "Mini-ITX"], "MaxVGALength": 380, "MaxCoolerHeight": 175, "Material": "ABS + SPCC + Tempered Glass"}
+64|Cooler Master MasterBox|1650000.00|15|Thông số: Mid Tower, thiết kế mặt trước cắt xẻ táo bạo, đi kèm quạt ARGB.
+
+Mô tả: Phong cách gaming hầm hố đặc trưng. Hiệu năng tản nhiệt tốt và hệ thống LED đẹp mắt ngay khi mở hộp.|6|https://localhost:7033/images/products/f8e03f04-2001-4c9d-a764-ad7ab002a9a8.webp|10|0.0|0|{"SupportedMainboards": ["ATX", "Micro-ATX", "Mini-ITX"], "MaxVGALength": 360, "MaxCoolerHeight": 170, "Material": "Thép SPCC, Tempered Glass / Acrylic"}
+65|Montech Sky Two|2150000.00|16|Thông số: Mid Tower, kính cường lực mặt trước và hông, tặng kèm 4 quạt ARGB đảo chiều.
+
+Mô tả: "Vua p/p" phân khúc bể cá tầm trung. Thiết kế luồng gió thông minh từ dưới lên và hông vào.|6|https://localhost:7033/images/products/fa6479a1-49cc-4763-9d85-c4eeaf63fb8d.webp|10|0.0|0|{"SupportedMainboards": ["ATX", "Micro-ATX", "Mini-ITX"], "MaxVGALength": 400, "MaxCoolerHeight": 168, "Material": "Thép, Tempered Glass"}
+66|Xigmatek Aquarius Plus|1690000.00|15|Thông số: Mid Tower, thiết kế 2 mặt kính cường lực lớn, khoang nguồn riêng biệt.
+
+Mô tả: Case "bể cá" giá rẻ quốc dân. Rộng rãi, lung linh khi lắp đủ fan LED, phù hợp cho anh em thích show linh kiện.|6|https://localhost:7033/images/products/8764e82d-d777-4384-9f22-cb0d72089738.jpg|10|0.0|0|{"SupportedMainboards": ["ATX", "Micro-ATX", "Mini-ITX"], "MaxVGALength": 360, "MaxCoolerHeight": 158, "Material": "Thép SPCC, Tempered Glass"}
+67|Mik LV12 Mini Elite|1050000.00|18|Thông số: Mini Tower (M-ATX), thiết kế dạng khối lập phương (Cube), 2 mặt kính.
+
+Mô tả: Nhỏ gọn, dễ thương nhưng vẫn lắp được tản nhiệt nước 240mm. Phù hợp cho góc làm việc nhỏ hẹp.|6|https://localhost:7033/images/products/db9127e2-307e-48d1-bfad-5108e2f2ca51.jpg|10|0.0|0|{"SupportedMainboards": ["Mini-ITX", "Micro-ATX"], "MaxVGALength": 320, "MaxCoolerHeight": 140, "Material": "Thép, Kính cường lực"}
+68|Sama 3301 Black|690000.00|19|Thông số: Mid Tower, mặt trước dải LED RGB chạy dọc, kính cường lực hông.
+
+Mô tả: Lựa chọn giá rẻ cho văn phòng hoặc game net. Thiết kế đơn giản, đủ dùng, thoáng khí ổn.|6|https://localhost:7033/images/products/fd1b93d4-3d07-4ca5-9c44-03fee2bf6b64.jpg|10|0.0|0|{"SupportedMainboards": ["ATX", "Micro-ATX", "Mini-ITX"], "MaxVGALength": 315, "MaxCoolerHeight": 154, "Material": "Thép, Tempered Glass"}
+69|Corsair RM1000e 80+ Gold|3990000.00|10|Thông số: Công suất 1000W, chuẩn 80 Plus Gold, Full Modular (dây rời toàn bộ), hỗ trợ ATX 3.0.
+
+Mô tả: Thiết kế nhỏ gọn hơn dòng RMx nhưng vẫn cực mạnh. Tương thích hoàn hảo với card đồ họa RTX 40-series đời mới.|7|https://localhost:7033/images/products/555a4c03-0212-4af4-b885-d9f02932ecc4.png|0|0.0|0|{"Wattage": 1000}
+70|MSI MAG A850GL PCIE5|2590000.00|11|Thông số: Công suất 850W, 80 Plus Gold, hỗ trợ chuẩn PCIe 5.0 (có cáp 12VHPWR).
+
+Mô tả: "Sinh ra" cho RTX 4070/4080. Thiết kế dây vàng - đen dễ nhận biết, kích thước nhỏ gọn dễ lắp đặt.|7|https://localhost:7033/images/products/f5aa5499-2c0e-4d4f-9e9d-b2c0b66ce8e1.webp|0|0.0|0|{"Wattage": 850}
+71|Seasonic Focus GX-750|2790000.00|12|Thông số: Công suất 750W, 80 Plus Gold, Full Modular, quạt Hybrid Silent.
+
+Mô tả: Thương hiệu "nồi đồng cối đá" số 1 thế giới. Điện áp siêu ổn định, bảo hành dài, an tâm tuyệt đối.|7|https://localhost:7033/images/products/100cea20-c950-45d6-aa90-1dc27c93bb08.jpg|0|0.0|0|{"Wattage": 750}
+72|Cooler Master MWE 650W|1350000.00|13|Thông số: Công suất 650W, 80 Plus Bronze, cáp dẹt màu đen.
+
+Mô tả: Nguồn quốc dân cho cấu hình tầm trung. Dây cáp dẹt giúp đi dây gọn gàng, hiệu suất tốt trong tầm giá.|7|https://localhost:7033/images/products/985e6524-f442-45e6-a9bc-dfedcd88ac25.webp|0|0.0|0|{"Wattage": 650}
+73|Asus ROG Thor 1200W|8990000.00|11|Thông số: Công suất 1200W, 80 Plus Platinum, màn hình OLED hiển thị công suất thực.
+
+Mô tả: Đỉnh cao công nghệ và thẩm mỹ. Tản nhiệt ROG hầm hố, màn hình hiển thị điện năng tiêu thụ theo thời gian thực cực "chơi".|7|https://localhost:7033/images/products/cc41e781-ef68-44ad-95e0-56cc1ee6b6a7.webp|0|5.0|1|{"Wattage": 1200}
+74|Gigabyte P850GM|2190000.00|14|Thông số: Công suất 850W, 80 Plus Gold, Full Modular, tụ điện Nhật Bản.
+
+Mô tả: Giải pháp công suất lớn giá rẻ. Thiết kế nhỏ gọn, giúp tiết kiệm chi phí cho các dàn máy cần nhiều điện năng.|7|https://localhost:7033/images/products/0d3d5ecc-a879-4128-a63b-9688ebcef436.webp|20|0.0|0|{"Wattage": 850}
+75|Deepcool PK750D|1390000.00|16|Thông số: Công suất 750W, 80 Plus Bronze, quạt 120mm êm ái.
+
+Mô tả: Hiệu năng trên giá thành (p/p) cực tốt. Đủ sức tải các card đồ họa như RTX 3070/4060 Ti một cách ổn định.|7|https://localhost:7033/images/products/73034b76-2628-4379-95eb-a983e5eacafd.webp|20|0.0|0|{"Wattage": 750}
+76|SilverStone Strider 1000W|3800000.00|16|Thông số: Công suất 1000W, 80 Plus Platinum, kích thước siêu ngắn (140mm depth).
+
+Mô tả: Mật độ công suất cực cao. Dù là 1000W nhưng kích thước nhỏ gọn như nguồn thường, dễ lắp vào case nhỏ.|7|https://localhost:7033/images/products/81cd0c64-5c4c-42f8-b309-372e26b1988a.jpg|20|0.0|0|{"Wattage": 1000}
+77|Antec NeoEco 850W|2550000.00|18|Thông số: Công suất 850W, 80 Plus Gold, Full Modular, chế độ quạt Zero RPM.
+
+Mô tả: Nổi tiếng về sự bền bỉ và kinh tế. Linh kiện chất lượng cao, hoạt động êm ái khi tải nhẹ.|7|https://localhost:7033/images/products/1ba5a2ff-c36e-4874-b0a6-1046b4206932.jpg|20|0.0|0|{"Wattage": 850}
+78|Super Flower Leadex III|2890000.00|19|Thông số: Công suất (thường 750W/850W), 80 Plus Gold, 3 chế độ quạt thông minh.
+
+Mô tả: Dòng nguồn huyền thoại được các Overclocker tin dùng. Độ ổn định điện áp (Ripple) thuộc hàng top thế giới.|7|https://localhost:7033/images/products/4e420fac-8ac2-4b7f-903d-e495bc857635.jpg|20|0.0|0|{"Wattage": 850}
+79|Deepcool LT720 AIO 360mm|3150000.00|10|Thông số: Tản nhiệt nước 3 fan (360mm), pump thế hệ 4 mạnh mẽ lên tới 3100 RPM.
+
+Mô tả: Thiết kế mặt pump "Gương vô cực" (Infinity Mirror) cực độc đáo. Hiệu năng khủng, chuyên trị các CPU nóng như i9-13900K.|8|https://localhost:7033/images/products/e642cf7d-2961-442a-a8bd-7b0a47d5b960.webp|0|0.0|0|{"Type": "Tản nước AIO", "SupportedSockets": ["LGA1700", "LGA1200", "AM5", "AM4"], "Size": "360mm"}
+80|NZXT Kraken Elite 360|7590000.00|10|Thông số: AIO 360mm, màn hình LCD 2.36 inch độ phân giải cao, bơm Asetek thế hệ 7.
+
+Mô tả: Dòng tản nhiệt "quý tộc". Màn hình LCD hiển thị nhiệt độ hoặc ảnh GIF tùy thích, phần mềm CAM quản lý cực xịn.|8|https://localhost:7033/images/products/43234a94-439e-41cb-a559-a9ebbb7d5c1a.webp|0|5.0|1|{"Type": "Tản nước AIO", "SupportedSockets": ["LGA1851", "LGA1700", "LGA1200", "AM5", "AM4"], "Size": "360mm"}
+81|Corsair iCUE H150i|4990000.00|11|Thông số: AIO 360mm, đi kèm Hub điều khiển Commander Core, quạt ML RGB (từ tính).
+
+Mô tả: Hệ sinh thái đồng bộ LED iCUE đẹp nhất thế giới. Hiệu năng làm mát và độ ồn được cân bằng hoàn hảo.|8|https://localhost:7033/images/products/b9c29bff-d95e-479f-8b66-5d36b2272a50.webp|0|0.0|0|{"Type": "Tản nước AIO", "SupportedSockets": ["LGA1700", "LGA1200", "AM5", "AM4"], "Size": "360mm"}
+82|Noctua NH-D15 Chromax|3290000.00|13|Thông số: Tản khí tháp đôi (Dual Tower), 2 quạt NF-A15 140mm, 6 ống đồng.
+
+Mô tả: "Trùm cuối" tản khí. Phiên bản màu đen tuyền ngầu lòi, hiệu năng ngang ngửa tản nước nhưng bền bỉ vĩnh cửu.|8|https://localhost:7033/images/products/5536bab1-f162-4cab-ae8f-5b704eaa9306.webp|0|0.0|0|{"Type": "Tản nhiệt khí", "SupportedSockets": ["LGA1851", "LGA1700", "LGA1200", "AM5", "AM4"], "Size": "140mm"}
+83|Thermalright Assassin X 120|550000.00|14|Thông số: Tản khí tháp đơn, 4 ống đồng, quạt 120mm hiệu suất cao.
+
+Mô tả: Thiết kế gọn gàng, không cấn RAM. Hiệu năng tản nhiệt rất tốt so với kích thước nhỏ gọn.|8|https://localhost:7033/images/products/bbea59a8-4166-4d78-acfc-389889456eeb.jpg|0|0.0|0|{"Type": "Tản nhiệt khí", "SupportedSockets": ["LGA1700", "LGA1200", "AM5", "AM4"], "Size": "120mm"}
+84|ID-Cooling Zoomflow 360 XT|1650000.00|15|Thông số: AIO 360mm, bơm và quạt đều có LED ARGB, dây bọc dù bền bỉ.
+
+Mô tả: Giải pháp tản nhiệt nước 3 fan giá rẻ. Hiệu năng đủ dùng cho i7/Ryzen 7, lung linh cho các bộ máy thích màu mè.|8|https://localhost:7033/images/products/022db4cd-f107-4db8-afda-b236ad1a5d81.webp|20|0.0|0|{"Type": "Tản nước AIO", "SupportedSockets": ["LGA1700", "LGA1200", "AM5", "AM4"], "Size": "360mm"}
+85|Cooler Master MasterLiquid|2100000.00|15|Thông số: AIO 360mm, công nghệ buồng bơm kép (Dual Chamber) thế hệ mới, quạt SickleFlow.
+
+Mô tả: Dòng tản nhiệt nước phổ biến nhất. Cân bằng tốt giữa hiệu năng, độ bền và mức giá tầm trung.|8|https://localhost:7033/images/products/7ffc0b2c-7cb0-4c00-8b88-8cac94219895.webp|20|0.0|0|{"Type": "Tản nước AIO", "SupportedSockets": ["LGA1700", "LGA1200", "AM5", "AM4"], "Size": "360mm"}
+86|Deepcool AK620 Digital|1750000.00|16|Thông số: Tháp đôi, màn hình kỹ thuật số hiển thị nhiệt độ/CPU usage thời gian thực.
+
+Mô tả: Bản nâng cấp công nghệ của dòng AK620 huyền thoại. Vừa mát như Noctua vừa hiện đại nhờ màn hình hiển thị thông số.|8|https://localhost:7033/images/products/92f49db4-e9c1-4307-b26b-94374b56c727.webp|20|0.0|0|{"Type": "Tản nhiệt khí", "SupportedSockets": ["LGA1700", "LGA1200", "AM5", "AM4"], "Size": "120mm"}
+87|Arctic Liquid Freezer II|3250000.00|16|Thông số: Radiator dày 38mm (dày hơn loại thường), có thêm quạt nhỏ làm mát VRM mainboard.
+
+Mô tả: Thiết kế "nồi đồng cối đá" không LED nhưng hiệu năng vô địch trong tầm giá, chuyên dùng cho ép xung.|8|https://localhost:7033/images/products/0159b2e2-d225-442d-a18b-b0a4aa695220.png|20|0.0|0|{"Type": "Tản nước AIO", "SupportedSockets": ["LGA1700", "LGA1200", "AM5", "AM4"], "Size": "360mm"}
+88|Be Quiet! Dark Rock Pro 4|2390000.00|17|Thông số: Tháp đôi, phủ sơn gốm đen đặc biệt, fan Silent Wings siêu êm.
+
+Mô tả: Đúng như tên gọi "Be Quiet", tản nhiệt này hoạt động cực kỳ yên tĩnh ngay cả khi CPU chạy hết công suất.|8|https://localhost:7033/images/products/9e87b723-dc7d-43e4-9a82-91910044836b.jpg|20|0.0|0|{"Type": "Tản nhiệt khí", "SupportedSockets": ["LGA1700", "LGA1200", "AM5", "AM4"], "Size": "135mm"}
+89|NVIDIA GeForce RTX 5060|9990000.00|19|Kiến trúc: Blackwell (GB206), tiến trình 4nm TSMC.
+Số nhân CUDA: Khoảng 5,120 (tăng so với 3,840 của RTX 4060).
+Bộ nhớ (VRAM): 8GB GDDR7, bus 128-bit.
+TDP (Công suất tiêu thụ): 120–150W, phù hợp với nguồn điện phổ thông.
+Công nghệ nổi bật:
+DLSS 4.0 với Fra|2|images/products/e3432470-c6cf-4a2e-82c2-6dbd8cfc9aed.webp|0|0.0|0|{"Chipset": "RTX 5060", "VRAM": "8GB GDDR7", "RecommendPSU": 550, "Length": 241}
+90|Intel Core i3-12100 |2750000.00|50|Thông số: 4 nhân, 8 luồng, xung nhịp tối đa 4.3GHz. (Bản F không có iGPU).
+
+Đặc điểm: "Ông vua giá rẻ", đủ sức cân tốt các game online và tác vụ văn phòng.|1|images/products/9e94601b-8e8e-4ef6-8d0a-df5d71e2c34c.jpg|0|0.0|0|{"Socket": "LGA1700", "SupportedRams": ["DDR4", "DDR5"], "TDP": 60}
+91|Intel Core i5-12400 |3990000.00|40|Thông số: 6 nhân, 12 luồng, xung nhịp tối đa 4.4GHz. (Bản F không có iGPU).
+
+Đặc điểm: "Quốc dân" cho mọi dàn máy tầm trung, hiệu năng/giá thành cực tốt.|1|images/products/8e210482-91f4-4306-a9e8-25a555f6ccb9.jpg|5|0.0|0|{"Socket": "LGA1700", "SupportedRams": ["DDR4", "DDR5"], "TDP": 65}
+92|AMD Ryzen 5 5600G |3100000.00|30|Thông số: 6 nhân, 12 luồng, tích hợp đồ họa Radeon Vega 7 mạnh mẽ.
+
+Đặc điểm: Chơi game eSport (LoL, Valorant) mượt mà không cần card rời.|1|images/products/7dcf4512-4a29-4b4c-97e5-25511a87be39.jpg|0|0.0|0|{"Socket": "AM4", "SupportedRams": ["DDR4"], "TDP": 65}
+93|Mainboard ASUS PRIME H610M-K D4|1790000.00|30|Thông số: Chipset H610, Socket LGA 1700, 2 khe RAM DDR4, cổng xuất hình HDMI/VGA. Sự lựa chọn kinh tế và ổn định nhất cho các cấu hình cơ bản.
+
+Mô tả: Bo mạch chủ phổ thông, tối giản. Phù hợp nhất cho văn phòng hoặc các bộ máy gaming giá rẻ chạy i3/i5 non-|3|images/products/bf697e10-6062-467f-9e45-795b46f8204e.png|0|0.0|0|{"Socket": "LGA1700", "RamType": "DDR4", "FormFactor": "Micro-ATX"}
+94|Mainboard MSI PRO B760M-E DDR4|2290000.00|25|Thông số: Chipset B760, Socket LGA 1700, hỗ trợ RAM DDR4, có khe M.2 Gen4 x4.
+
+Mô tả: Phiên bản rút gọn của dòng B760 để có giá tốt hơn. Vẫn đảm bảo chạy mượt mà i5-13400F hay 12400F.|3|images/products/ca1ff336-4975-46c4-aa3a-90e04923e7e0.webp|5|0.0|0|{"Socket": "LGA1700", "RamType": "DDR4", "FormFactor": "Micro-ATX"}
+95|Mainboard Gigabyte B550M DS3H|2290000.00|20|Thông số: Chipset B550, Socket AM4, 4 khe RAM DDR4, 2 khe M.2, hỗ trợ Q-Flash Plus (update BIOS không cần CPU).
+
+Mô tả: "Best seller" trong phân khúc giá rẻ cho AMD. Đầy đủ tính năng ăn chơi với mức giá không thể rẻ hơn.|3|images/products/e6c257b5-16b4-45da-92ca-c099d7559fb9.png|10|0.0|0|{"Socket": "AM4", "RamType": "DDR4", "FormFactor": "Micro-ATX"}
+96|RAM Kingston Fury Beast 8GB (1x8GB) DDR4 3200MHz|450000.00|100|Thông số: 1 thanh 8GB, Bus 3200MHz, độ trễ CL16.
+
+Mô tả: Thanh lẻ tiện lợi để lắp máy văn phòng hoặc nâng cấp thêm cho máy cũ. Cắm là chạy (Plug N Play).|4|images/products/735ef2ef-0d6e-4a52-8e2d-76282e783249.png|0|0.0|0|{"Type": "DDR4", "Capacity": 8, "Speed": 3200}
+97|RAM Corsair Vengeance LPX 16GB (2x8GB) DDR4 3200MHz|1090000.00|80|Thông số: Kit đôi 16GB, thiết kế Low-Profile (chiều cao thấp).
+
+Mô tả: Thiết kế nhỏ gọn giúp dễ dàng lắp đặt với các loại tản nhiệt khí khổng lồ mà không bị cấn.|4|images/products/e675e6dd-88bb-4faa-baa4-7991ab49b9b0.png|5|0.0|0|{"Type": "DDR4", "Capacity": 16, "Speed": 3200}
+98|RAM G.Skill Ripjaws V 16GB (1x16GB) DDR4 3200MHz|950000.00|60|Thông số: 1 thanh 16GB, Bus 3200MHz, màu Đỏ/Đen đặc trưng.
+
+Mô tả: Thanh đơn dung lượng lớn, phù hợp cho ai muốn lắp 1 thanh trước để sau này dễ dàng nâng cấp lên 32GB (Dual channel).|4|images/products/8afb019d-1b66-457d-b2ef-3fc8b85677f9.png|0|0.0|0|{"Type": "DDR4", "Capacity": 16, "Speed": 3200}
+99|SSD Kingston NV2 250GB PCIe Gen4x4 NVMe|850000.00|50|Thông số: Dung lượng 250GB, tốc độ cơ bản của Gen 4.
+
+Mô tả: Ổ khởi động (Boot Drive) giá rẻ. Vừa đủ để cài Windows và các phần mềm văn phòng cơ bản.|5|images/products/a97658cc-4248-471f-af3b-db4bc088f236.webp|0|0.0|0|{"Type": "SSD NVMe", "Capacity": "250GB", "Gen": "PCIe 4.0", "ReadSpeed": 3000}
+100|SSD Samsung 980 500GB PCIe NVMe M.2 2280|1290000.00|40|Thông số: Chuẩn Gen 3, công nghệ Intelligent TurboWrite, không có DRAM (DRAM-less).
+
+Mô tả: Phiên bản rút gọn tối ưu chi phí của Samsung. Vẫn đảm bảo tốc độ nhanh và phần mềm quản lý Magician xịn xò.|5|https://localhost:7033/images/products/e30e7cb8-d56b-4c35-9857-64e5921f1897.webp|5|0.0|0|{"Type": "SSD NVMe", "Capacity": "500GB", "Gen": "PCIe 3.0", "ReadSpeed": 3100}
+101|SSD Western Digital Blue SN580 500GB NVMe|1350000.00|35|Thông số: Chuẩn PCIe Gen 4.0, công nghệ nCache 4.0, tốc độ lên tới 4150 MB/s.
+
+Mô tả: Dòng Blue nổi tiếng bền bỉ. Lựa chọn cân bằng cho người sáng tạo nội dung (Content Creator) và dân văn phòng.|5|https://localhost:7033/images/products/f063275d-7f1e-491d-9e8b-e41fb13eed79.png|0|0.0|0|{"Type": "SSD NVMe", "Capacity": "500GB", "Gen": "PCIe 4.0", "ReadSpeed": 4150}
+102|Nguồn máy tính Deepcool PF450 450W 80 Plus|750000.00|40|Thông số: Công suất 450W, chuẩn 80 Plus Standard (230V EU).
+
+Mô tả: Tối ưu cho PC văn phòng hoặc Gaming nhẹ (i3 + GTX 1650). Giá siêu rẻ nhưng vẫn đảm bảo an toàn.|7|images/products/5144fce5-67d5-49ba-917c-527f4693290d.jpg|0|0.0|0|{"Wattage": 450}
+103|Nguồn MSI MAG A550BN 550W 80 Plus Bronze|1030000.00|30|Thông số: Công suất 550W, mạch DC-to-DC giúp ổn định điện áp.
+
+Mô tả: "Vua" phân khúc giá rẻ hiện tại. Công nghệ DC-DC thường chỉ có trên nguồn cao cấp giúp linh kiện bền hơn.|7|images/products/4bf776ac-78f1-4185-8ccd-66d8880aaf74.jpg|5|0.0|0|{"Wattage": 550}
+104|Nguồn Corsair CV650 650W 80 Plus Bronze|1390000.00|20|Thông số: Công suất 650W, thiết kế nhỏ gọn (chiều dài 125mm).
+
+Mô tả: Dòng nhập môn của Corsair. Cáp nguồn bọc lưới đen thẩm mỹ, hoạt động tin cậy cho mọi nhu cầu cơ bản.|7|images/products/bf21c9b8-c52d-465c-8a90-46489dbeb301.jpg|0|0.0|0|{"Wattage": 650}
+105|Vỏ Case Xigmatek XA-22 (ATX)|350000.00|50|Thông số: ATX, mặt trước nhựa phay xước giả kim loại, nắp hông kim loại kín.
+
+Mô tả: Case văn phòng tiêu chuẩn. Kín đáo, lịch sự, bền bỉ và giá siêu rẻ.|6|images/products/519968ba-4d55-4f07-99bb-4b4907a39814.jpg|0|0.0|0|{"SupportedMainboards": ["ATX", "Micro-ATX", "Mini-ITX"], "MaxVGALength": 350, "MaxCoolerHeight": 160, "Material": "Thép SPCC, Kính cường lực"}
+106|Vỏ Case Kenoo Esport M100 - Kính cường lực|490000.00|40|Thông số: M-ATX, mặt hông kính cường lực, kích thước nhỏ gọn.
+
+Mô tả: Nâng cấp đáng giá cho case văn phòng. Vừa nhỏ gọn vừa khoe được nội thất bên trong.|6|images/products/39d9e93f-5a14-4d5c-ab7a-e3fe08dc704b.jpg|0|0.0|0|{"SupportedMainboards": ["ATX", "Micro-ATX", "Mini-ITX"], "MaxVGALength": 340, "MaxCoolerHeight": 165, "Material": "Thép, Kính cường lực"}
+107|Vỏ Case Mik LV12 Mini Flow - Đen|890000.00|25|Thông số: Mini Tower, thiết kế dạng lưới (Mesh) toàn bộ thay vì kính để tối đa hoá gió.
+
+Mô tả: Phiên bản "siêu thoáng" của dòng LV12. Tập trung hoàn toàn vào hiệu năng làm mát cho các cấu hình nhỏ nhưng nóng.|6|images/products/077868e7-9bb6-46ee-b7f2-ab8e74d6a213.jpg|0|0.0|0|{"SupportedMainboards": ["Mini-ITX", "Micro-ATX"], "MaxVGALength": 320, "MaxCoolerHeight": 140, "Material": "Thép, Kính cường lực"}
+108|Tản nhiệt khí ID-Cooling SE-214-XT|390000.00|50|Thông số: Tháp đơn, 4 ống đồng, quạt 120mm ARGB.
+
+Mô tả: "Vua tản nhiệt quốc dân" tại Việt Nam. Giá siêu rẻ, lắp đặt dễ, cân tốt i3/i5 non-K.|8|images/products/d3c866e5-5b7d-4830-bc09-cf35acf7d568.jpg|0|0.0|0|{"Type": "Tản nhiệt khí", "SupportedSockets": ["LGA1700", "LGA1200", "AM5", "AM4"], "Size": "120mm"}
+109|Tản nhiệt khí Jonsbo CR-1000 EVO|320000.00|40|Thông số: Tháp đơn, mặt top có LED vô cực, 4 ống đồng mạ Niken.
+
+Mô tả: Phiên bản nâng cấp của huyền thoại CR-1000. Thẩm mỹ đẹp hơn, hoàn thiện tốt hơn, giá vẫn rất rẻ.|8|images/products/91286ca2-dcd5-49d7-b628-e675afa25bb5.jpg|0|0.0|0|{"Type": "Tản nhiệt khí", "SupportedSockets": ["LGA1700", "LGA1200", "AM5", "AM4"], "Size": "120mm"}
+110|Tản nhiệt khí Thermalright Assassin X 120 Refined SE|350000.00|30|Thông số: Tháp đơn, công nghệ ống đồng AGHP chống trọng lực, chiều cao chỉ 148mm.
+
+Mô tả: Bản tối ưu hoá của dòng Assassin X. Lắp vừa hầu hết mọi vỏ case, hiệu năng/giá thành cực cao (Best P/P).|8|images/products/c7f3f650-c24f-4303-bc3c-1bd9ffe20f4d.png|0|0.0|0|{"Type": "Tản nhiệt khí", "SupportedSockets": ["LGA1700", "LGA1200", "AM5", "AM4"], "Size": "120mm"}
+111|DareU LM103 Black|109000.00|100|Chuột văn phòng giá rẻ, thiết kế đối xứng, kết nối có dây USB.|9|images/products/a1bfdac9-996f-40bd-8d20-d6e880f4a7df.png|0|4.0|12|{"Connection": "Có dây (Wired USB)", "DPI": 1000, "Weight": "114g"}
+112|DareU EM908 RGB Black|350000.00|50|Chuột gaming giá rẻ trang bị switch DareU độc quyền, LED RGB, form cầm ôm tay cho game thủ.|9|images/products/a222b2d2-5104-4b06-b6f9-1f59d4fb9b11.webp|0|4.0|35|{"Connection": "Có dây (Wired USB)", "DPI": 6000, "Weight": "87g"}
+113|Logitech G102 Lightsync RGB|390000.00|80|Chuột gaming "quốc dân" dưới 500k, cảm biến quang học 8000 DPI, LED RGB 16.8 triệu màu.|9|images/products/936539b1-c394-4c8f-b88b-b6973c3052d8.webp|5|5.0|120|{"Connection": "Có dây (Wired USB)", "DPI": 8000, "Weight": "85g"}
+114|Logitech G402 Hyperion Fury|650000.00|30|Chuột gaming có dây với tốc độ quét siêu nhanh, phù hợp các tựa game FPS.|9|images/products/a23aa23c-2d20-47bf-b55e-e94ec9c5d1e5.png|0|4.0|45|{"Connection": "Có dây (Wired USB)", "DPI": 4000, "Weight": "108g"}
+115|DareU EM901X RGB Wireless|699000.00|40|Chuột không dây kèm Dock sạc tiện lợi, cảm biến Bravo 10000 DPI, thiết kế siêu nhẹ.|9|images/products/2230c55f-7200-439f-ae54-13a52fd16b47.png|0|5.0|60|{"Connection": "Không dây (Wireless 2.4GHz) + Có dây (Wired USB)", "DPI": 12000, "Weight": "85g"}
+116|Logitech G304 Lightspeed Wireless|720000.00|60|Chuột không dây công nghệ Lightspeed độc quyền, cảm biến HERO 12000 DPI cực nhạy.|9|images/products/de115c4e-dadd-421c-9b9d-bb49d034fd6e.png|0|5.0|210|{"Connection": "Không dây (Lightspeed 2.4GHz)", "DPI": 12000, "Weight": "99g"}
+117|Logitech G502 Hero|920000.00|25|Huyền thoại chuột gaming thiết kế công thái học, cảm biến HERO 25K, hệ thống tạ điều chỉnh trọng lượng.|9|images/products/54fe2f31-9c0b-4d40-8534-3943be7c13ca.png|10|5.0|185|{"Connection": "Có dây (Wired USB)", "DPI": 25600, "Weight": "121g"}
+118|ATK Dragonfly A9 Air Wireless|1690000.00|15|Chuột siêu nhẹ 47g, cảm biến cao cấp PAW3950, tốc độ phản hồi Polling rate 8000Hz.|9|images/products/9b48cbc3-046d-4305-981c-9633b476ed47.webp|0|5.0|10|{"Connection": "Không dây (Wireless 2.4GHz) + Có dây (Wired USB-C)", "DPI": 42000, "Weight": "47g"}
+119|Logitech G Pro X Superlight 2|3180000.00|20|Siêu phẩm eSports siêu nhẹ, trang bị cảm biến HERO 2 và switch Lightforce lai quang học.|9|images/products/bedd0462-5c81-452f-a8a7-1cf95ed086b8.png|0|5.0|95|{"Connection": "Không dây (Lightspeed Wireless) + Có dây (USB-C charging)", "DPI": 44000, "Weight": "60g"}
+120|Finalmouse UltralightX Frostlord|6390000.00|5|Chuột làm từ sợi carbon siêu nhẹ nhất thế giới, thiết kế tổ ong độc đáo dành cho dân chơi hardcore.|9|images/products/583ed9ed-926f-4d41-8c3f-c8179c149dac.webp|0|5.0|4|{"Connection": "Không dây (Wireless 8000Hz)", "DPI": 24000, "Weight": "33g"}
+121|DareU LK145 USB Black|309000.00|100|Bàn phím giả cơ gaming giá rẻ, hệ thống LED RGB 16.8 triệu màu, switch Outemu độ bền cao và bề mặt phím ABS chống nước.|10|images/products/521f213a-77a3-4c68-acd8-8099f41b8380.webp|0|4.0|55|{"Layout": "Full-size (104 keys)", "Switch": "Rubber Dome / Optical-like", "Connection": "Có dây (Wired USB)"}
+122|E-Dra EK387L Đen Red Switch|449000.00|50|Bàn phím cơ TKL nhỏ gọn tiện lợi, sử dụng Red switch gõ êm ái, kết nối cáp rời Type-C, phù hợp cho sinh viên và dân văn phòng.|10|images/products/70f81e60-8164-4db3-9b75-a7cd8bbce8d8.png|0|5.0|32|{"Layout": "TKL (87 keys)", "Switch": "Red Switch (Linear)", "Connection": "Có dây (Wired USB-C)"}
+123|E-Dra EK398 Alpha Blue Switch|479000.00|40|Bàn phím cơ layout 98 phím tối ưu diện tích, Blue switch gõ đầm tay có tiếng clicky đặc trưng, trang bị LED Rainbow.|10|images/products/299338c5-a621-4f86-b53c-c64b0d758dd8.jpg|0|4.0|20|{"Layout": "98 keys", "Switch": "Blue Switch (Clicky)", "Connection": "Có dây (Wired USB)"}
+124|DareU EK75 White Black Dream Switch|699000.00|80|Bàn phím cơ layout 75% siêu gọn có núm xoay, switch Dream customized độc quyền siêu mượt, keycap PBT bền bỉ.|10|images/products/46ce1157-c8a6-4cad-a3cd-ee2a226e63c1.webp|16|5.0|120|{"Layout": "75%", "Switch": "Dream Switch (Linear)", "Connection": "Có dây (Wired USB)"}
+125|AULA S100 Pro Xanh Trắng Tím|749000.00|60|Bàn phím cơ 3 mode kết nối đa dạng (Bluetooth, 2.4G, Type-C), hỗ trợ hot-swap tiện lợi, layout 95% tiết kiệm không gian.|10|images/products/d30c9e2a-2d14-4d46-86b8-f2f1181ca496.webp|13|4.0|85|{"Layout": "Full-size (100 keys)", "Switch": "Linear Switch", "Connection": "3 Mode (Dây, 2.4G, Bluetooth)"}
+126|DareU EK75 PRO Wireless|1089000.00|35|Phiên bản nâng cấp không dây toàn diện của EK75, hỗ trợ 3 mode kết nối, pin dung lượng 3750mAh, LED RGB rực rỡ.|10|images/products/ce952993-7bec-4792-b0b7-606373bfe342.webp|15|5.0|45|{"Layout": "75% (81 keys + knob)", "Switch": "Dream Switch (Linear)", "Connection": "3 Mode (Dây, 2.4G, Bluetooth)"}
+127|AULA F75 Max 3 Mode Reaper Switch|1399000.00|25|Bàn phím cơ gaming cao cấp tầm trung, bảng mạch xuôi hạn chế cấn keycap, Reaper switch mượt mà, LED RGB đồng bộ.|10|images/products/5187b815-dbb7-448f-8283-f950b8a5ced5.webp|18|5.0|70|{"Layout": "75% (80 keys + knob + TFT)", "Switch": "Reaper Switch (Linear)", "Connection": "3 Mode (Dây, 2.4G, Bluetooth)"}
+128|Logitech G515 TKL Lightspeed|2390000.00|18|Bàn phím cơ gaming không dây cao cấp, thiết kế TKL hiện đại, trang bị công nghệ kết nối Lightspeed độc quyền cho độ trễ siêu thấp.|10|images/products/4b15aa1e-8e2b-4a5a-822d-cfe5f2d2e9aa.jpg|20|5.0|90|{"Layout": "TKL (Tenkeyless)", "Switch": "GL Mechanical (Low-profile, Linear/Tactile)", "Connection": "3 Mode (Lightspeed Wireless, Bluetooth, Wired USB)"}
+129|ASUS ROG Falchion RX Low |3590000.00|15|Bàn phím cơ không dây Low Profile siêu mỏng nhẹ, thiết kế 65% tối giản, switch ROG RX quang học độ bền cực cao, chống bám mồ hôi.|10|images/products/3a0d4852-1162-4474-83a0-8d99f8b42cfd.jpg|17|5.0|30|{"Layout": "65%", "Switch": "ROG RX Low-profile Optical (Red Linear / Blue Clicky)", "Connection": "3 Mode (SpeedNova 2.4G, Bluetooth, Wired USB)"}
+130|Logitech G715 Aurora Collection|3999000.00|10|Bàn phím cơ không dây TKL thuộc bộ sưu tập Aurora cao cấp, thiết kế tựa mây bồng bềnh êm ái, LED RGB 16.8 triệu màu tinh tế.|10|images/products/fd93c3cc-eda4-44d2-bc31-3e885631e12c.webp|0|5.0|15|{"Layout": "TKL (Tenkeyless)", "Switch": "GX Mechanical (Linear/Clicky/Tactile)", "Connection": "2 Mode (Lightspeed Wireless, Bluetooth)"}
+131|AOC 24B3HM 24 inch FHD VA 100Hz|1750000.00|40|Màn hình giá rẻ 24 inch FHD, tấm nền VA độ tương phản cao 3000:1, tần số quét 100Hz mượt mà, viền siêu mỏng.|11|images/products/39e93a23-03ff-4bf6-be58-4a2d6341b4df.webp|0|4.0|32|{"Size": "23.8 inch", "Resolution": "FHD (1920x1080)", "RefreshRate": "75Hz", "Panel": "VA"}
+132|ViewSonic VA2432-H 24 inch IPS 100Hz|1990000.00|35|Màn hình văn phòng quốc dân 24 inch, tấm nền IPS góc nhìn rộng, tần số quét 100Hz, công nghệ bảo vệ mắt chống nhấp nháy.|11|images/products/78bc8199-c047-4a44-afc3-5ddfaa9e22b0.webp|5|4.0|65|{"Size": "23.8 inch", "Resolution": "FHD (1920x1080)", "RefreshRate": "100Hz", "Panel": "IPS"}
+133|LG 24MR400-B 24 inch IPS 100Hz|2190000.00|50|Màn hình LG 24 inch viền mỏng 3 cạnh, tấm nền IPS màu sắc trung thực, hỗ trợ AMD FreeSync chống xé hình.|11|images/products/1aecf8e6-f45d-481b-a708-1dff3501a365.webp|0|5.0|112|{"Size": "23.8 inch", "Resolution": "FHD (1920x1080)", "RefreshRate": "100Hz", "Panel": "IPS"}
+134|ASUS TUF Gaming VG249Q3A 24 inch Fast IPS 180Hz|3490000.00|25|Màn hình gaming eSport chuyên dụng 24 inch, tấm nền Fast IPS phản hồi 1ms (GTG), tần số quét cực cao 180Hz.|11|images/products/332d772b-6d90-4393-a7ab-7271f64e42c2.jpg|10|5.0|85|{"Size": "23.8 inch", "Resolution": "FHD (1920x1080)", "RefreshRate": "180Hz", "Panel": "Fast IPS"}
+135|GIGABYTE G24F 2 24 inch IPS 180Hz|3690000.00|30|Màn hình gaming 24 inch nổi bật trong tầm giá, có thể ép xung lên 180Hz, độ phủ màu chuẩn 95% DCI-P3.|11|images/products/424c5887-925f-44dd-9e2f-c4e3ad301df0.png|0|4.0|60|{"Size": "23.8 inch", "Resolution": "FHD (1920x1080)", "RefreshRate": "180Hz (OC từ 165Hz)", "Panel": "IPS"}
+136|LG 27UP600-W 27 inch IPS 4K UHD|5990000.00|15|Màn hình đồ họa 27 inch độ phân giải 4K siêu sắc nét, tấm nền IPS, hỗ trợ VESA DisplayHDR 400, thiết kế sang trọng.|11|images/products/c1765e6c-ee68-493c-bb89-922a624de779.webp|5|5.0|40|{"Size": "27 inch", "Resolution": "4K UHD (3840x2160)", "RefreshRate": "60Hz", "Panel": "IPS"}
+137|Dell UltraSharp U2424H 24 inch IPS 120Hz|6290000.00|20|Màn hình cao cấp chuẩn màu cho dân designer, viền InfinityEdge siêu mỏng, tần số quét 120Hz mượt mà, tích hợp cảm biến ánh sáng.|11|images/products/2da60924-6b37-428d-bc90-ec85c84eeb50.webp|0|5.0|150|{"Size": "23.8 inch", "Resolution": "FHD (1920x1080)", "RefreshRate": "120Hz", "Panel": "IPS"}
+138|LG UltraGear 27GR95QE-B 27 inch OLED 2K 240Hz|18990000.00|10|Siêu phẩm màn hình gaming trang bị tấm nền OLED đỉnh cao, độ phân giải 2K, tần số quét 240Hz, phản hồi 0.03ms cực nhanh.|11|images/products/6099bd5e-a487-4463-bf15-278d60b9cfa4.webp|0|5.0|25|{"Size": "27 inch (26.5 inch viewable)", "Resolution": "2K (2560x1440)", "RefreshRate": "240Hz", "Panel": "OLED"}
+139|ASUS ROG Swift OLED PG27AQDM 27 inch 240Hz|24990000.00|5|Màn hình gaming OLED đẳng cấp của ROG, trang bị hệ thống tản nhiệt custom giúp giảm burn-in, độ sáng cực cao, thiết kế hầm hố.|11|images/products/454bd9a0-c760-4511-b3f6-b18ffe356d06.webp|8|5.0|12|{"Size": "26.5 inch", "Resolution": "2K (2560x1440)", "RefreshRate": "240Hz", "Panel": "OLED (WOLED)"}
+140|Samsung Odyssey OLED G9 G95SC 49 inch 240Hz|35990000.00|3|Màn hình cong siêu rộng 49 inch tỷ lệ 32:9, công nghệ Quantum Dot OLED, mang lại trải nghiệm gaming đua xe/mô phỏng đắm chìm tuyệt đối.|11|images/products/14a48c07-5440-4f39-8bed-dd43ed63c6e9.webp|0|5.0|8|{"Size": "49 inch", "Resolution": "DQHD (5120x1440)", "RefreshRate": "240Hz", "Panel": "OLED (QD-OLED)"}
+
+(140 rows affected)

@@ -1,0 +1,18 @@
+﻿Id|UserId|OrderCode|TotalAmount|ShippingFee|PaymentMethod|Status|ShippingFullName|ShippingPhone|ShippingAddress|ShippingCity|ShippingDistrict|ShippingWard|Note|CreatedAt|UpdatedAt|ShippingEmail|CancelReason|PaymentStatus
+--|------|---------|-----------|-----------|-------------|------|----------------|-------------|---------------|------------|----------------|------------|----|---------|---------|-------------|------------|-------------
+1|2|ORD202602111326412|9750000.00|.00|cod|cancelled|Ngô Đức Huy|0344573591|129|Hà Nội|Yên Lãng|Yên Lãng|Không tìm thấy gọi điện gửi map|2026-02-11 13:26:41.1601456|2026-02-11 15:53:35.7901867|NULL|Không muốn mua|
+2|2|ORD20260211142730|5500000.00|.00|cod|shipping|Ngô Đức Huy|0344573591|35|Thái Nguyên|Thái Nguyên|Bách Quang|mapping|2026-02-11 14:27:30.9659871|2026-02-13 11:29:47.5715871|duchuy1292003@gmail.com|NULL|
+3|4|ORD20260213164621|25050000.00|.00|cod|shipping|Ngô Đức Khải|0812198234|2|Thái Nguyên|Đại Phúc|Hùng Sơn|mẹ em trả tiền|2026-02-13 16:46:21.2015379|2026-02-15 10:14:55.6988019|ngok4781@gmail.com|NULL|
+4|5|ORD20260213231810|24175000.00|.00|cod|confirmed|Trần Bình An|0913153958|124|Hà Nội|Thanh Xuân|Yên Lãng|Cứ ship |2026-02-13 23:18:10.9153103|2026-02-13 23:19:14.8975379|binhan@gmail.com|NULL|
+5|6|ORD20260213234943|17599000.00|.00|cod|shipping|Tề Tịnh Xuân|0923566356|325|Nghệ An|Nghệ An|Nghệ AN|qưeqwr|2026-02-13 23:49:43.6070961|2026-03-02 02:53:50.6718564|tetinhxuan@gmail.com|NULL|
+6|3|ORD20260213235606|4200000.00|.00|cod|confirmed|Vũ Ngọc Dân|0812198234|129|Hà Nội|Yên Lãng|Yên Lãng||2026-02-13 23:56:06.6465556|2026-02-15 10:15:08.6298751|vungocdan3182003@gmail.com|NULL|
+7|3|ORD20260214000013|4400000.00|.00|cod|shipping|Vũ Ngọc Dân|0913153958|eq|Bắc Giang|Yên Lãng|Bách Quang||2026-02-14 00:00:13.0536500|2026-03-02 02:53:48.1296350|vungocdan3182003@gmail.com|NULL|
+8|7|ORD20260214000313|8500000.00|.00|cod|confirmed|Nguyễn Nam|0344573591|34|Đồng Tháp|Yên Lãng|Bách Quang||2026-02-14 00:03:13.4684035|2026-02-14 00:04:04.4264307|nguyennam267@gmail.com|NULL|
+9|7|ORD20260214001613|6825000.00|.00|cod|pending|Nguyễn Nam|0344573591|35|Hà Nội|Yên Lãng|Bách Quang||2026-02-14 00:16:13.0016448|NULL|nguyennam267@gmail.com|NULL|
+10|8|ORD20260215101420|23795000.00|.00|cod|delivered|Minh Chiến|0812198234|17|Thái Nguyên|Sông Công|Bách Quang||2026-02-15 10:14:20.1344071|2026-03-02 02:53:41.3126109|minhchien@gmail.com|NULL|
+11|9|ORD20260224234435|1942000.00|30000.00|cod|pending|Nguyễn Thế Vịnh|0812198234|129|Cà Mau|Càu Ma|Cài Ma||2026-02-24 23:44:35.1805137|NULL|nguyenvinh@gmail.com|NULL|
+12|3|ORD20260225185252|3824000.00|.00|vnpay|confirmed|Vũ Ngọc Dân|0344573591|142|Khánh Hòa|Nghệ An|Cài Ma||2026-02-25 18:52:52.7933119|2026-02-25 18:54:51.2482250|vungocdan3182003@gmail.com|NULL|paid
+13|3|ORD20260225185546|3250000.00|.00|vnpay|confirmed|Vũ Ngọc Dân|0344573591|35|Hà Nội|Thái Nguyên|Bách Quang||2026-02-25 18:55:46.2400889|2026-03-02 02:53:36.2649875|vungocdan3182003@gmail.com|NULL|failed
+14|3|ORD20260225185716|1782000.00|30000.00|vnpay|delivered|Vũ Ngọc Dân|0344573591|142|An Giang|Yên Lãng|Yên Lãng||2026-02-25 18:57:16.8102257|2026-03-02 02:53:58.7840893|vungocdan3182003@gmail.com|NULL|failed
+
+(14 rows affected)

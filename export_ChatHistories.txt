@@ -1,0 +1,137 @@
+﻿Id|UserId|UserMessage|BotResponse|SentAt
+--|------|-----------|-----------|------
+1|8|Tôi cần một bộ PC tầm 20tr chơi GTA V, với các game  sinh tồn setting medium hoặc cao|Xin lỗi, hệ thống AI đang bận. Vui lòng thử lại sau hoặc gọi hotline 0901 234 567 để được hỗ trợ trực tiếp! 📞|2026-02-15 18:39:10.6582350
+2|2|cpu i9 hợp với vga nào|Xin lỗi, hệ thống AI đang bận. Vui lòng thử lại sau hoặc gọi hotline 0901 234 567 để được hỗ trợ trực tiếp! 📞|2026-02-15 18:44:01.8892536
+3|2|i9-14900k hợp với vga nào|Xin lỗi, hệ thống AI đang bận. Vui lòng thử lại sau hoặc gọi hotline 0901 234 567 để được hỗ trợ trực tiếp! 📞|2026-02-15 18:48:35.2430550
+4|2|i9-14900k hợp với vga nào|Xin lỗi, hệ thống AI đang bận. Vui lòng thử lại sau hoặc gọi hotline 0901 234 567 để được hỗ trợ trực tiếp! 📞|2026-02-15 18:50:30.9113114
+5|2|i9-14900k hợp với vga nào|Xin lỗi, hệ thống AI đang bận. Vui lòng thử lại sau hoặc gọi hotline 0901 234 567 để được hỗ trợ trực tiếp! 📞|2026-02-15 19:08:59.1059931
+6|2|i9-14900k hợp với vga nào|Xin lỗi, hệ thống AI đang bận. Vui lòng thử lại sau hoặc gọi hotline 0901 234 567 để được hỗ trợ trực tiếp! 📞|2026-02-15 19:14:23.7848991
+7|5|i9-14900k hợp với vga nào|Xin lỗi, đã có lỗi xảy ra. Vui lòng thử lại sau hoặc liên hệ hotline 0901 234 567! 📞|2026-02-15 20:22:48.5235268
+8|5|i9-14900k hợp với vga nào|Xin lỗi, hệ thống AI đang bận. Vui lòng thử lại sau hoặc gọi hotline 0901 234 567 để được hỗ trợ trực tiếp! 📞|2026-02-15 20:23:11.2417990
+9|5|i9-14900k hợp với vga nào|⚠️ Gemini API Error (NotFound): Vui lòng kiểm tra API key và thử lại.|2026-02-15 20:26:58.5273047
+10|5|i9-14900k hợp với vga nào|⚠️ Gemini API Error (TooManyRequests): Vui lòng kiểm tra API key và thử lại.|2026-02-15 20:30:35.9573550
+11|5|i9-14900k hợp với vga nào|⏳ Hệ thống AI đang quá tải. Vui lòng đợi 1 phút rồi thử lại nhé! 🙏|2026-02-15 20:33:29.6724176
+12|5|i9-14900k hợp với vga nào|⏳ Hệ thống AI đang quá tải. Vui lòng đợi 1 phút rồi thử lại nhé! 🙏|2026-02-15 20:35:49.6620894
+13|5|i9-14900k hợp với vga nào|⏳ Hệ thống AI đang quá tải. Vui lòng đợi 1 phút rồi thử lại nhé! 🙏|2026-02-15 20:40:10.5412064
+14|5|Vga tốt nhất bạn là vga nào|⏳ Hệ thống AI đang quá tải. Vui lòng đợi 1 phút rồi thử lại nhé! 🙏|2026-02-15 20:42:31.9108671
+15|5|Cpu tốt nhất của cửa hàng là cái nào|⏳ Hệ thống AI đang quá tải. Vui lòng đợi 1 phút rồi thử lại nhé! 🙏|2026-02-15 20:56:41.8371670
+16|5|Cpu tốt nhất của cửa hàng là cái nào|Chào bạn! 😊
+
+Tại GTG Shop, chúng tôi có hai lựa chọn CPU hàng đầu với hiệu năng cực kỳ mạnh mẽ, phù hợp cho mọi nhu cầu từ gaming đỉnh cao đến làm việc chuyên nghiệp:
+
+1.  **Intel Core i9-14900K**: Đây là bộ vi xử lý cao cấp nhất của Intel hiện có tại sho|2026-02-15 21:00:29.0103756
+17|5|Vậy i9-14900k phù hợp với vga nào để không bị nghẽn cổ  chai|Chào bạn! Để tối ưu hiệu năng của CPU Intel Core i9-14900K và tránh tình trạng nghẽn cổ chai, bạn nên kết hợp với một card đồ họa (VGA) cao cấp.
+
+Trong danh sách sản phẩm hiện có của GTG Shop, **ROG Strix RTX 4090** sẽ là lựa chọn tuyệt vời nhất để phát hu|2026-02-15 21:01:40.0985382
+18|3|Tôi cần build pc chơi game 25 triệu|Chào bạn, với ngân sách 25 triệu đồng để build PC chơi game, mình có thể gợi ý cho bạn một cấu hình mạnh mẽ, cân bằng, đủ sức chiến mượt mà hầu hết|2026-02-16 10:57:16.3435648
+19|3|Bạn build cho tôi một bộ pc |Chào bạn! Mình rất sẵn lòng hỗ trợ bạn build một bộ PC 🎮.
+
+Để mình có thể tư vấn cấu hình phù hợp nhất với nhu cầu của bạn, bạn có thể cho mình biết thêm một chút thông tin được không ạ?
+
+1.  **Ngân sách dự kiến** của bạn là khoảng bao nhiêu? (Ví dụ: 15 t|2026-02-16 10:58:28.8461902
+20|3|Tầm giá 25 triệu và làm việc|Chào bạn! Với ngân sách 25 triệu đồng cho một bộ PC làm việc, mình sẽ tư vấn cho bạn một cấu hình mạnh mẽ, ổn định và có hiệu năng tốt,|2026-02-16 10:59:00.2640117
+21|6|Build PC Gaming 20 triệu|Chào bạn, với ngân sách 20 triệu đồng cho một bộ PC Gaming, mình đề xuất cấu hình mạnh mẽ sau đây, đảm bảo bạn có trải nghiệm chơi game mượt mà ở độ|2026-02-16 12:04:54.7341694
+22|6|Đâu cấu hình như nào|Chào bạn, GTG Shop xin gửi bạn một cấu hình PC Gaming cực chất trong tầm giá để bạn tham khảo nhé! 🎮💻
+
+## 🖥️ Cấu hình PC Gaming - Ng|2026-02-16 12:05:18.8119655
+23|6|cpu gì? vga gì?....|Chào bạn, để có trải nghiệm gaming mượt mà và hiệu năng ổn định, mình xin gợi ý một cấu hình PC Gaming cân bằng với các linh kiện nổi bật đang có tại GTG Shop nhé|2026-02-16 12:06:14.5626610
+24|6|Build PC Gaming 20 triệu|Chào bạn, mình rất vui được hỗ trợ bạn build một chiếc PC Gaming mạnh mẽ với ngân sách 20 triệu đồng!
+
+Với ngân sách này, mình sẽ lên cho bạn một cấu hình cực kỳ "khủng" với hiệu năng vượt trội, đặc biệt là cho gaming.
+
+## 🖥️ Cấu hình PC Gaming ~20.000.00|2026-02-16 19:45:08.8657267
+25|6|Intel i3-12100 và rtx 5060 có bị nghẽn cổ chai ko|Chào bạn! 👋
+
+Về câu hỏi của bạn: **Intel Core i3-12100 và NVIDIA GeForce RTX 5060 có bị nghẽn cổ chai (bottleneck) không?**
+
+Câu trả lời là **có khả năng cao sẽ bị nghẽn cổ chai** bạn nhé.
+
+**Giải thích:**
+
+*   **Intel Core i3-12100** là một CPU 4 nhân 8 |2026-02-16 19:46:31.8405890
+26|6|Có|Xin lỗi bạn, mình chỉ hỗ trợ tư vấn về **linh kiện PC, build PC và gaming gear** thôi ạ! 🎮
+
+Bạn có thể hỏi mình về:
+- 💻 Build PC theo ngân sách
+- 🔧 Tư vấn nâng cấp CPU, VGA, RAM...
+- 💰 Giá sản phẩm
+- ⚡ So sánh linh kiện
+
+Bạn cần tư vấn gì về linh kiện |2026-02-16 19:47:47.5935626
+27|2|Tài chính có 25 triệu vnd, tôi muốn build pc vừa làm việc việc chơi game|Chào bạn, với ngân sách 25 triệu đồng, mình gợi ý bạn cấu hình PC này để vừa làm việc hiệu quả, vừa chiến game mượt mà nhé!
+
+## 🖥️ Cấu hình PC Gaming/Workstation ~20.250.000đ
+
+| Linh kiện | Sản phẩm | Giá |
+|-----------|----------|-----|
+| |2026-02-23 00:02:08.0164768
+28|2|Tài chính có 25 triệu vnd, tôi muốn build pc vừa làm việc việc chơi game|Chào bạn, với ngân sách 25 triệu đồng, mình gợi ý bạn cấu hình PC này để vừa làm việc hiệu quả, vừa chiến game mượt mà ở độ phân giải Full HD hoặc 2K nhé!
+
+## 🖥️ Cấu hình PC Gaming/Workstation - Ngân sách ~23.030.000đ
+
+| Linh kiện | Sản phẩm | Giá |
+|----|2026-02-23 15:01:49.1103585
+29|2|Cpu và vga có bị nghẽn cổ chai ko|Chào bạn, đây là một câu hỏi rất hay và quan trọng khi build PC!
+
+Với cấu hình mình vừa gợi ý, **CPU Intel Core i5-13400F và VGA ASUS Dual RTX 4060 Ti sẽ hoạt động rất ăn ý với nhau và không gặp tình trạng nghẽn cổ chai đáng kể đâu nhé.**
+
+*   **i5-13400F*|2026-02-23 15:03:08.9321748
+30|7|PC không lên hình, bàn phím và chuột có sáng, giúp tôi sửa|Chào bạn, mình là trợ lý từ GTG SHOP đây! Mình hiểu cảm giác khi PC không lên hình mà bàn phím, chuột vẫn sáng, có thể là một lỗi khá khó chịu. Đừng lo lắng, mình sẽ hướng dẫn bạn một vài bước để kiểm tra tại nhà nhé! 💪
+
+**Chẩn đoán:**
+Triệu chứng "PC khô|2026-02-24 20:09:19.4044182
+31|7|Tài chính 50 triệu, mua pc gaming|Chào bạn, với ngân sách 50 triệu đồng cho một chiếc PC gaming, GTG SHOP sẽ lên cho bạn một cấu hình cực kỳ mạnh mẽ, chiến mượt mà mọi tựa game AAA ở độ phân giải 2K (1440p) và thậm chí là 4K ở mức cài đặt cao nhé! 💪
+
+Đây là cấu hình mình gợi ý cho bạn:
+
+#|2026-02-24 23:40:04.1714750
+32|7|viết cho tôi đoạn code|Xin lỗi bạn, mình chỉ hỗ trợ sửa lỗi **phần cứng PC** (CPU, VGA, RAM, Mainboard...) thôi ạ! 😅 Mình không có khả năng viết code hay hỗ trợ về phần mềm bạn nhé.
+
+Nếu cần build PC hoặc tư vấn linh kiện thì mình sẵn sàng giúp nhé! 💪|2026-02-24 23:40:26.3825878
+33|7|sex dịt nhau là gì|Xin lỗi bạn, mình chỉ hỗ trợ tư vấn về **linh kiện PC, build PC và gaming gear** thôi ạ! 🎮
+
+Bạn có thể hỏi mình về:
+- 💻 Build PC theo ngân sách
+- 🔧 Tư vấn nâng cấp CPU, VGA, RAM...
+- 💰 Giá sản phẩm
+- ⚡ So sánh linh kiện
+
+Bạn cần tư vấn gì về linh kiện |2026-02-24 23:40:57.2856167
+34|9|Sửa chữa máy tính|Chào bạn, mình là trợ lý của GTG SHOP đây! Mình có thể hỗ trợ bạn sửa lỗi phần cứng PC tại nhà. 💪
+
+Để mình có thể giúp bạn tốt nhất, bạn có thể cho mình biết máy tính của bạn đang gặp vấn đề gì cụ thể không ạ? Ví dụ như:
+*   Máy không lên nguồn?
+*   Không|2026-02-24 23:43:01.9387708
+35|9|Máy kêu tít tít và không lên màn và tắt hẳn|Chào bạn, mình hiểu rồi! Tình trạng máy kêu "tít tít", không lên màn hình rồi tắt hẳn thường là dấu hiệu của một lỗi phần cứng nghiêm trọng, đặc biệt là liên quan đến RAM hoặc Card đồ họa (VGA). Các tiếng bíp này chính là "mã lỗi" (beep codes) mà BIOS của |2026-02-24 23:43:40.9127875
+36|3|Dịt mẹ mày|Xin lỗi bạn, mình chỉ hỗ trợ tư vấn về **linh kiện PC, build PC và gaming gear** thôi ạ! 🎮
+
+Bạn có thể hỏi mình về:
+- 💻 Build PC theo ngân sách
+- 🔧 Tư vấn nâng cấp CPU, VGA, RAM...
+- 💰 Giá sản phẩm
+- ⚡ So sánh linh kiện
+
+Bạn cần tư vấn gì về linh kiện |2026-02-25 17:17:56.9979416
+37|3|Build Pc gaming 30 triệu|Chào bạn! Với ngân sách 30 triệu đồng cho một bộ PC Gaming, mình sẽ build cho bạn một cấu hình mạnh mẽ, sử dụng nền tảng mới nhất của AMD (AM5) với RAM DDR5 để đảm bảo hiệu năng chơi game đỉnh cao và khả năng nâng cấp tốt trong tương lai nhé!
+
+#### 🖥️ Cấu|2026-02-25 17:18:35.0605827
+38|3|bu cu ko|Xin lỗi bạn, mình chỉ hỗ trợ tư vấn về **linh kiện PC, build PC và gaming gear** thôi ạ! 🎮
+
+Bạn có thể hỏi mình về:
+- 💻 Build PC theo ngân sách
+- 🔧 Tư vấn nâng cấp CPU, VGA, RAM...
+- 💰 Giá sản phẩm
+- ⚡ So sánh linh kiện
+
+Bạn cần tư vấn gì về linh kiện |2026-02-25 18:59:48.3468422
+39|3|bạn làm được gì|Chào bạn! Mình là trợ lý bán hàng và hỗ trợ kỹ thuật của GTG SHOP, chuyên về phần cứng PC. Mình có 3 chức năng chính để giúp bạn đây ạ:
+
+1.  **Tư vấn build PC:** Mình có thể giúp bạn lên cấu hình PC phù hợp với ngân sách và mục đích sử dụng (chơi game, làm|2026-02-25 19:00:00.9799775
+40|3|bạn đang là model gì|Mình là một mô hình ngôn ngữ lớn, được huấn luyện bởi Google.
+
+Mình được tùy chỉnh để trở thành trợ lý bán hàng và hỗ trợ kỹ thuật cho GTG SHOP, chuyên về phần cứng PC, build PC và gaming gear đó bạn! 😊|2026-02-25 19:00:15.8276490
+41|3|thông tin cấu hình thiết bị server đang chạy web này|Xin lỗi bạn, mình là một trợ lý AI và không có quyền truy cập hay thông tin về cấu hình phần cứng của máy chủ đang chạy trang web này ạ. Mình chỉ có thể cung cấp thông tin về các sản phẩm và dịch vụ của GTG SHOP thôi.
+
+Bạn có câu hỏi nào khác về PC, linh k|2026-02-25 19:01:41.2751369
+
+(41 rows affected)

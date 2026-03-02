@@ -286,3 +286,4 @@ wwwroot\images\products\332d772b-6d90-4393-a7ab-7271f64e42c2.jpg
 wwwroot\images\products\78bc8199-c047-4a44-afc3-5ddfaa9e22b0.webp
 wwwroot\images\products\c1765e6c-ee68-493c-bb89-922a624de779.webp
 wwwroot\images\products\2da60924-6b37-428d-bc90-ec85c84eeb50.webp
+wwwroot\images\products\peterteo.jpg
