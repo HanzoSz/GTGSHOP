@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
+import { WishlistProvider } from './context/WishlistContext';
 import { Chatbot } from './components/Chatbot';
 import { BuildPCFloatingButton } from './components/BuildPCFloatingButton';
 import { ThemeProvider } from '@/app/context/ThemeContext';
@@ -20,6 +21,7 @@ import { OrderDetailPage } from './pages/OrderDetailPage';
 import { SalePage } from './pages/SalePage';
 import { VnPayReturnPage } from './pages/VnPayReturnPage';
 import { BuildPCPage } from './pages/BuildPCPage';
+import { WishlistPage } from './pages/WishlistPage';
 import { AdminLoginPage } from '@/app/pages/admin/AdminLoginPage';
 import { AdminLayout } from '@/app/layouts/AdminLayout';
 import { ProductManagementPage } from '@/app/pages/admin/ProductManagementPage';
@@ -29,6 +31,8 @@ import { DashboardPage } from './pages/admin/DashboardPage';
 import { AnalyticsPage } from './pages/admin/AnalyticsPage';
 import { SettingsPage } from '@/app/pages/admin/SettingsPage';
 import { CategoryManagementPage } from '@/app/pages/admin/CategoryManagementPage';
+import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
+import { ResetPasswordPage } from './pages/ResetPasswordPage';
 // Wrapper component to conditionally show Chatbot based on route
 function AppContent() {
   const location = useLocation();
@@ -41,6 +45,8 @@ function AppContent() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/product/:id" element={<ProductDetailPage />} />
         <Route path="/category/:categoryId" element={<CategoryPage />} />
         <Route path="/cart" element={<CartPage />} />
@@ -52,6 +58,7 @@ function AppContent() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/orders/:id" element={<OrderDetailPage />} />
+        <Route path="/wishlist" element={<WishlistPage />} />
         {/* Admin Routes */}
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin/dashboard" element={<AdminLayout><DashboardPage /></AdminLayout>} />
@@ -74,9 +81,11 @@ function App() {
     <ThemeProvider>
       <AuthProvider>
         <CartProvider>
-          <Router>
-            <AppContent />
-          </Router>
+          <WishlistProvider>
+            <Router>
+              <AppContent />
+            </Router>
+          </WishlistProvider>
         </CartProvider>
       </AuthProvider>
     </ThemeProvider>

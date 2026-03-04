@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useRef, ReactNode } from 'react';
 import { useAuth } from './AuthContext';
 
 export interface CartItem {
@@ -24,20 +24,35 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const [items, setItems] = useState<CartItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const prevUserIdRef = useRef<number | null>(null);
 
   // Load cart khi user thay đổi
   useEffect(() => {
+    // Chờ auth load xong trước khi xử lý cart
+    if (authLoading) return;
+
     if (isAuthenticated && user) {
-      // Load từ API nếu đã đăng nhập
-      loadCartFromAPI();
+      // Chỉ load lại nếu user thay đổi (tránh load trùng)
+      if (prevUserIdRef.current !== user.id) {
+        prevUserIdRef.current = user.id;
+        // Load từ API nếu đã đăng nhập
+        loadCartFromAPI();
+      }
     } else {
-      // Load từ localStorage nếu chưa đăng nhập
-      loadCartFromStorage();
+      // User đã logout
+      if (prevUserIdRef.current !== null) {
+        prevUserIdRef.current = null;
+        // Xóa cart khi logout để không hiện dữ liệu cũ
+        setItems([]);
+      } else {
+        // Chưa đăng nhập, load từ localStorage (guest cart)
+        loadCartFromStorage();
+      }
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user, authLoading]);
 
   // Load cart từ localStorage
   const loadCartFromStorage = () => {

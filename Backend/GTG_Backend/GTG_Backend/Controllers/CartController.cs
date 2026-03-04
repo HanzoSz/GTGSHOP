@@ -45,7 +45,9 @@ namespace GTG_Backend.Controllers
                 ProductId = ci.ProductId,
                 Name = ci.Product?.Name ?? "",
                 Price = ci.Product?.Price ?? 0,
-                Image = ci.Product?.ImageUrl != null ? $"{baseUrl}{ci.Product.ImageUrl}" : null,
+                Image = ci.Product?.ImageUrl != null
+                    ? (ci.Product.ImageUrl.StartsWith("http") ? ci.Product.ImageUrl : $"{baseUrl}/{ci.Product.ImageUrl.TrimStart('/')}")
+                    : null,
                 Quantity = ci.Quantity,
                 Stock = ci.Product?.Stock ?? 0
             }).ToList();

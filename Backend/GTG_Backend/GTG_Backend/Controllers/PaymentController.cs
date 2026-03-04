@@ -14,11 +14,13 @@ namespace GTG_Backend.Controllers
     {
         private readonly AppDbContext _context;
         private readonly VnPayService _vnPayService;
+        private readonly EmailService _emailService;
 
-        public PaymentController(AppDbContext context, VnPayService vnPayService)
+        public PaymentController(AppDbContext context, VnPayService vnPayService, EmailService emailService)
         {
             _context = context;
             _vnPayService = vnPayService;
+            _emailService = emailService;
         }
 
         /// <summary>
@@ -81,8 +83,9 @@ namespace GTG_Backend.Controllers
             var result = _vnPayService.ValidateCallback(vnpayData);
 
             // Tìm đơn hàng theo OrderCode (vnp_TxnRef)
-            var order = await _context.Orders.FirstOrDefaultAsync(
-                o => o.OrderCode == result.OrderCode);
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                .FirstOrDefaultAsync(o => o.OrderCode == result.OrderCode);
 
             if (order != null)
             {
@@ -90,6 +93,12 @@ namespace GTG_Backend.Controllers
                 {
                     order.PaymentStatus = "paid";
                     order.Status = "confirmed"; // Tự động xác nhận khi thanh toán thành công
+
+                    // Gửi email xác nhận đơn hàng sau khi VnPay thanh toán thành công
+                    if (!string.IsNullOrEmpty(order.ShippingEmail) && order.OrderItems != null)
+                    {
+                        await _emailService.SendOrderConfirmationAsync(order, order.OrderItems.ToList(), order.ShippingEmail);
+                    }
                 }
                 else
                 {

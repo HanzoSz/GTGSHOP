@@ -21,6 +21,7 @@ import { ProductCard } from '../components/ProductCard';
 import { TechSpecsTable } from '../components/TechSpecsTable';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { useWishlist } from '../context/WishlistContext';
 
 const IMAGE_BASE_URL = 'https://localhost:7033';
 
@@ -66,6 +67,7 @@ export function ProductDetailPage() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { user } = useAuth();
+  const { isInWishlist, toggleWishlist } = useWishlist();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<RelatedProduct[]>([]);
@@ -467,9 +469,15 @@ export function ProductDetailPage() {
 
             {/* Additional Actions */}
             <div className="flex items-center gap-4 pt-4 border-t border-slate-200">
-              <button className="flex items-center gap-2 text-slate-600 hover:text-red-600 transition-colors">
-                <Heart className="w-5 h-5" />
-                <span>Yêu thích</span>
+              <button
+                onClick={() => product && toggleWishlist(product.id)}
+                className={`flex items-center gap-2 transition-colors ${product && isInWishlist(product.id)
+                    ? 'text-red-600'
+                    : 'text-slate-600 hover:text-red-600'
+                  }`}
+              >
+                <Heart className={`w-5 h-5 ${product && isInWishlist(product.id) ? 'fill-red-500' : ''}`} />
+                <span>{product && isInWishlist(product.id) ? 'Đã yêu thích' : 'Yêu thích'}</span>
               </button>
               <button className="flex items-center gap-2 text-slate-600 hover:text-blue-600 transition-colors">
                 <Share2 className="w-5 h-5" />

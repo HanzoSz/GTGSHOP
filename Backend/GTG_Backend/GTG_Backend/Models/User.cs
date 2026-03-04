@@ -24,6 +24,10 @@ namespace GTG_Backend.Models
 
         public string? Address { get; set; }
 
+        // Forgot Password
+        public string? ResetToken { get; set; }
+        public DateTime? ResetTokenExpiry { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         // Khóa ngoại liên kết với bảng Role

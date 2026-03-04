@@ -1,6 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Star, ShoppingCart, Heart, ImageOff } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
+import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
 
 export interface Product {
@@ -38,8 +40,12 @@ const getValidImageUrl = (imageUrl: string | null | undefined): string => {
 
 export function ProductCard(props: Product) {
   const { addToCart } = useCart();
+  const { isInWishlist, toggleWishlist } = useWishlist();
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [imageError, setImageError] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
+
+  const isLiked = isInWishlist(Number(props.id));
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -97,7 +103,11 @@ export function ProductCard(props: Product) {
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            setIsLiked(!isLiked);
+            if (!isAuthenticated) {
+              navigate('/login');
+              return;
+            }
+            toggleWishlist(Number(props.id));
           }}
           className="absolute top-2 right-2 p-2 bg-white/80 hover:bg-white rounded-full shadow-sm transition-all"
         >
@@ -122,8 +132,8 @@ export function ProductCard(props: Product) {
               <Star
                 key={i}
                 className={`w-3.5 h-3.5 ${i < Math.floor(props.rating || 0)
-                    ? 'text-yellow-400 fill-yellow-400'
-                    : 'text-gray-300'
+                  ? 'text-yellow-400 fill-yellow-400'
+                  : 'text-gray-300'
                   }`}
               />
             ))}

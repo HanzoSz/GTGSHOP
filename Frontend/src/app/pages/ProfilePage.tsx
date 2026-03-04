@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  User, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Calendar, 
-  Edit3, 
-  Lock, 
-  Save, 
-  X, 
-  Eye, 
+import {
+  User,
+  Mail,
+  Phone,
+  MapPin,
+  Calendar,
+  Edit3,
+  Lock,
+  Save,
+  X,
+  Eye,
   EyeOff,
   Shield,
   Package,
@@ -24,6 +24,7 @@ import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { Button } from '../components/ui/button';
 import { useAuth } from '../context/AuthContext';
+import { useWishlist } from '../context/WishlistContext';
 
 interface UserProfile {
   id: number;
@@ -40,12 +41,13 @@ type TabType = 'profile' | 'security' | 'orders' | 'wishlist';
 export function ProfilePage() {
   const navigate = useNavigate();
   const { user, logout, updateUser } = useAuth();
-  
+  const { wishlistCount } = useWishlist();
+
   const [activeTab, setActiveTab] = useState<TabType>('profile');
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  
+
   const [profile, setProfile] = useState<UserProfile>({
     id: 0,
     fullName: '',
@@ -54,7 +56,7 @@ export function ProfilePage() {
     address: '',
     createdAt: '',
   });
-  
+
   const [editForm, setEditForm] = useState({
     fullName: '',
     phoneNumber: '',
@@ -66,13 +68,13 @@ export function ProfilePage() {
     newPassword: '',
     confirmPassword: '',
   });
-  
+
   const [showPasswords, setShowPasswords] = useState({
     current: false,
     new: false,
     confirm: false,
   });
-  
+
   const [passwordErrors, setPasswordErrors] = useState<string[]>([]);
 
   useEffect(() => {
@@ -94,9 +96,9 @@ export function ProfilePage() {
 
       if (response.ok) {
         const data = await response.json();
-        
+
         console.log('API Profile Response:', data); // Debug
-        
+
         const profileData = {
           id: data.id || data.Id,
           fullName: data.fullName || data.FullName || '',
@@ -106,9 +108,9 @@ export function ProfilePage() {
           createdAt: data.createdAt || data.CreatedAt || '',
           avatar: data.avatar || data.Avatar,
         };
-        
+
         console.log('Parsed profileData:', profileData);
-        
+
         setProfile(profileData);
         setEditForm({
           fullName: profileData.fullName,
@@ -160,7 +162,7 @@ export function ProfilePage() {
         }));
         setIsEditing(false);
         setMessage({ type: 'success', text: 'Cập nhật thông tin thành công!' });
-        
+
         if (updateUser) {
           updateUser({ fullName: editForm.fullName });
         }
@@ -177,7 +179,7 @@ export function ProfilePage() {
 
   const validatePassword = (): boolean => {
     const errors: string[] = [];
-    
+
     if (!passwordForm.currentPassword) {
       errors.push('Vui lòng nhập mật khẩu hiện tại');
     }
@@ -192,14 +194,14 @@ export function ProfilePage() {
     if (passwordForm.currentPassword === passwordForm.newPassword) {
       errors.push('Mật khẩu mới phải khác mật khẩu hiện tại');
     }
-    
+
     setPasswordErrors(errors);
     return errors.length === 0;
   };
 
   const handleChangePassword = async () => {
     if (!validatePassword()) return;
-    
+
     setIsLoading(true);
     setMessage(null);
 
@@ -295,7 +297,7 @@ export function ProfilePage() {
                   <p className="text-white/70 text-sm">Đơn hàng</p>
                 </div>
                 <div>
-                  <p className="text-2xl font-bold">0</p>
+                  <p className="text-2xl font-bold">{wishlistCount}</p>
                   <p className="text-white/70 text-sm">Yêu thích</p>
                 </div>
               </div>
@@ -304,9 +306,8 @@ export function ProfilePage() {
 
           {/* Message Alert */}
           {message && (
-            <div className={`mb-6 p-4 rounded-xl flex items-center gap-3 ${
-              message.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'
-            }`}>
+            <div className={`mb-6 p-4 rounded-xl flex items-center gap-3 ${message.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'
+              }`}>
               {message.type === 'success' ? <CheckCircle className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
               <p>{message.text}</p>
               <button onClick={() => setMessage(null)} className="ml-auto p-1 hover:bg-white/50 rounded-full">
@@ -333,9 +334,8 @@ export function ProfilePage() {
                         else if (tab.id === 'wishlist') navigate('/wishlist');
                         else setActiveTab(tab.id);
                       }}
-                      className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${
-                        activeTab === tab.id ? 'bg-red-50 text-red-600 border-l-4 border-red-600' : 'text-gray-700 hover:bg-gray-50'
-                      }`}
+                      className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${activeTab === tab.id ? 'bg-red-50 text-red-600 border-l-4 border-red-600' : 'text-gray-700 hover:bg-gray-50'
+                        }`}
                     >
                       <tab.icon className="w-5 h-5" />
                       <span className="font-medium">{tab.label}</span>

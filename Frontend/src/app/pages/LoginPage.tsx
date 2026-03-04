@@ -28,7 +28,7 @@ export function LoginPage() {
     if (result.success) {
       navigate('/');
     } else {
-      setError(result.message);
+      setError(result.message ?? '');
     }
   };
 
@@ -110,9 +110,9 @@ export function LoginPage() {
                   <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" />
                   <span className="text-gray-600">Ghi nhớ đăng nhập</span>
                 </label>
-                <a href="#" className="text-red-600 hover:text-red-700 font-medium">
+                <Link to="/forgot-password" className="text-red-600 hover:text-red-700 font-medium">
                   Quên mật khẩu?
-                </a>
+                </Link>
               </div>
 
               {/* Error Message */}
@@ -139,11 +139,11 @@ export function LoginPage() {
               </Button>
 
               {/* Demo Account Info */}
-              <div className="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4">
+              {/* <div className="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4">
                 <p className="text-xs font-semibold text-yellow-800 mb-2">🎁 Demo Account:</p>
                 <p className="text-xs text-yellow-700">Email: <strong>admin@gtg.vn</strong></p>
                 <p className="text-xs text-yellow-700">Mật khẩu: <strong>123456</strong></p>
-              </div>
+              </div> */}
 
               {/* Divider */}
               <div className="relative">

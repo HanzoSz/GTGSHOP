@@ -15,11 +15,13 @@ namespace GTG_Backend.Controllers
     {
         private readonly AppDbContext _context;
         private readonly VnPayService _vnPayService;
+        private readonly EmailService _emailService;
 
-        public OrdersController(AppDbContext context, VnPayService vnPayService)
+        public OrdersController(AppDbContext context, VnPayService vnPayService, EmailService emailService)
         {
             _context = context;
             _vnPayService = vnPayService;
+            _emailService = emailService;
         }
 
         // POST: api/orders
@@ -103,6 +105,13 @@ namespace GTG_Backend.Controllers
                 var ipAddress = HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString() ?? "127.0.0.1";
                 var totalPayment = order.TotalAmount + order.ShippingFee;
                 paymentUrl = _vnPayService.CreatePaymentUrl(orderCode, totalPayment, null, ipAddress);
+            }
+
+            // Gửi email xác nhận đơn hàng (COD gửi ngay, VnPay gửi sau khi thanh toán thành công)
+            if (request.PaymentMethod == "cod" && !string.IsNullOrEmpty(request.ShippingEmail))
+            {
+                var orderItems = await _context.OrderItems.Where(oi => oi.OrderId == order.Id).ToListAsync();
+                await _emailService.SendOrderConfirmationAsync(order, orderItems, request.ShippingEmail);
             }
 
             return Ok(new CreateOrderResponse

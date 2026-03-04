@@ -13,6 +13,7 @@
           "Microsoft.AspNetCore.OpenApi": "10.0.2",
           "Microsoft.EntityFrameworkCore.SqlServer": "10.0.2",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "10.0.2",
+          "Resend": "0.2.1",
           "Swashbuckle.AspNetCore": "10.1.2"
         },
         "runtime": {
@@ -1762,6 +1763,14 @@
           }
         }
       },
+      "Resend/0.2.1": {
+        "runtime": {
+          "lib/net8.0/Resend.dll": {
+            "assemblyVersion": "0.2.1.0",
+            "fileVersion": "0.2.1.0"
+          }
+        }
+      },
       "Swashbuckle.AspNetCore/10.1.2": {
         "dependencies": {
           "Swashbuckle.AspNetCore.Swagger": "10.1.2",
@@ -2702,6 +2711,13 @@
       "sha512": "sha512-fJ6rFYANDnohFsdpaY79FvrJxI6murmoOxXz6nZlf819F48+IBKMnAIg3oIBRtZq5y498ObMtKnro5IitvizUg==",
       "path": "nuget.versioning/6.12.1",
       "hashPath": "nuget.versioning.6.12.1.nupkg.sha512"
+    },
+    "Resend/0.2.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KE+irutvTpJsXUDSnYVlNVZuQb/MGrYGZ6IKVZ3FusRz64tlN0zHjWreAPE5UpqU/lLMg34n4WyoPdetTQCLHw==",
+      "path": "resend/0.2.1",
+      "hashPath": "resend.0.2.1.nupkg.sha512"
     },
     "Swashbuckle.AspNetCore/10.1.2": {
       "type": "package",

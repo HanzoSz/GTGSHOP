@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using GTG_Backend.DTOs;
 using GTG_Backend.Models;
+using GTG_Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,11 +17,13 @@ namespace GTG_Backend.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IConfiguration _configuration;
+        private readonly EmailService _emailService;
 
-        public AuthController(AppDbContext context, IConfiguration configuration)
+        public AuthController(AppDbContext context, IConfiguration configuration, EmailService emailService)
         {
             _context = context;
             _configuration = configuration;
+            _emailService = emailService;
         }
 
         // POST: api/auth/register
@@ -207,6 +210,68 @@ namespace GTG_Backend.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(new MessageResponse { Message = "Đổi mật khẩu thành công" });
+        }
+
+        // ✅ POST: api/auth/forgot-password - Quên mật khẩu
+        [HttpPost("forgot-password")]
+        [AllowAnonymous]
+        public async Task<ActionResult<MessageResponse>> ForgotPassword(ForgotPasswordRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.Email))
+                return BadRequest(new MessageResponse { Message = "Vui lòng nhập email" });
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
+            if (user == null)
+            {
+                // Trả về thành công ngay cả khi email không tồn tại (bảo mật)
+                return Ok(new MessageResponse { Message = "Nếu email tồn tại trong hệ thống, chúng tôi đã gửi hướng dẫn đặt lại mật khẩu." });
+            }
+
+            // Tạo reset token
+            var resetToken = Guid.NewGuid().ToString("N"); // 32 ký tự hex, không có dấu gạch
+            user.ResetToken = resetToken;
+            user.ResetTokenExpiry = DateTime.Now.AddMinutes(15);
+            await _context.SaveChangesAsync();
+
+            // Tạo link reset password
+            var resetLink = $"http://localhost:5173/reset-password?token={resetToken}&email={Uri.EscapeDataString(user.Email)}";
+
+            // Gửi email
+            await _emailService.SendPasswordResetAsync(user.Email, user.FullName, resetLink);
+
+            return Ok(new MessageResponse { Message = "Nếu email tồn tại trong hệ thống, chúng tôi đã gửi hướng dẫn đặt lại mật khẩu." });
+        }
+
+        // ✅ POST: api/auth/reset-password - Đặt lại mật khẩu
+        [HttpPost("reset-password")]
+        [AllowAnonymous]
+        public async Task<ActionResult<MessageResponse>> ResetPassword(ResetPasswordRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.Token) || string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.NewPassword))
+                return BadRequest(new MessageResponse { Message = "Thông tin không hợp lệ" });
+
+            if (request.NewPassword.Length < 6)
+                return BadRequest(new MessageResponse { Message = "Mật khẩu phải có ít nhất 6 ký tự" });
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
+            if (user == null)
+                return BadRequest(new MessageResponse { Message = "Token không hợp lệ hoặc đã hết hạn" });
+
+            // Kiểm tra token
+            if (user.ResetToken != request.Token)
+                return BadRequest(new MessageResponse { Message = "Token không hợp lệ hoặc đã hết hạn" });
+
+            // Kiểm tra hết hạn
+            if (user.ResetTokenExpiry == null || user.ResetTokenExpiry < DateTime.Now)
+                return BadRequest(new MessageResponse { Message = "Token đã hết hạn. Vui lòng yêu cầu lại." });
+
+            // Hash mật khẩu mới và cập nhật
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
+            user.ResetToken = null;
+            user.ResetTokenExpiry = null;
+            await _context.SaveChangesAsync();
+
+            return Ok(new MessageResponse { Message = "Đặt lại mật khẩu thành công! Bạn có thể đăng nhập bằng mật khẩu mới." });
         }
 
         // Helper: Generate JWT Token

@@ -65,6 +65,10 @@ namespace GTG_Backend
             // VnPay Payment Service
             builder.Services.AddSingleton<GTG_Backend.Services.VnPayService>();
 
+            // Email Service (gọi Resend REST API trực tiếp)
+            builder.Services.AddHttpClient("ResendClient");
+            builder.Services.AddTransient<GTG_Backend.Services.EmailService>();
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
