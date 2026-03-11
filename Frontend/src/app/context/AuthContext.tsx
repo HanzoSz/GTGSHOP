@@ -4,7 +4,8 @@ import {
   loginUser as apiLoginUser,
   loginAdmin as apiLoginAdmin,
   registerUser as apiRegisterUser,
-  isTokenValid,
+  logoutApi,
+  checkAuthStatus,
   type UserAuthPayload,
 } from '../services/authService';
 
@@ -17,7 +18,6 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
@@ -47,41 +47,57 @@ function toUser(p: UserAuthPayload | null): User | null {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
   const [adminUser, setAdminUser] = useState<UserAuthPayload | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Khi mount: kiểm tra auth status từ cookie bằng cách gọi /auth/me
   useEffect(() => {
-    const savedToken = authStorage.getToken();
-    const savedUser = authStorage.getUser();
-    if (savedToken && savedUser) {
-      if (isTokenValid(savedToken)) {
-        setToken(savedToken);
-        setUser(savedUser as User);
-      } else {
-        authStorage.removeToken();
-        authStorage.removeUser();
+    const init = async () => {
+      // Thử load user info nhanh từ localStorage (non-sensitive cache)
+      const savedUser = authStorage.getUser();
+      const savedAdminUser = authStorage.getAdminUser();
+
+      if (savedUser) setUser(savedUser as User);
+      if (savedAdminUser) setAdminUser(savedAdminUser);
+
+      // Xác thực lại với backend qua cookie
+      try {
+        const currentUser = await checkAuthStatus();
+        if (currentUser) {
+          // Cookie hợp lệ → cập nhật user
+          const role = (currentUser.role ?? '').toLowerCase();
+          if (role === 'admin') {
+            setAdminUser(currentUser);
+            authStorage.setAdminUser(currentUser);
+          } else {
+            setUser(toUser(currentUser));
+            authStorage.setUser(currentUser);
+          }
+        } else {
+          // Cookie hết hạn hoặc không có → xóa cache
+          if (savedUser) {
+            setUser(null);
+            authStorage.removeUser();
+          }
+          if (savedAdminUser) {
+            setAdminUser(null);
+            authStorage.removeAdminUser();
+          }
+        }
+      } catch {
+        // Network error → giữ cached user (offline-friendly)
       }
-    }
-    const adminToken = authStorage.getAdminToken();
-    const savedAdminUser = authStorage.getAdminUser();
-    if (adminToken && savedAdminUser) {
-      if (isTokenValid(adminToken)) {
-        setAdminUser(savedAdminUser);
-      } else {
-        authStorage.removeAdminToken();
-        authStorage.removeAdminUser();
-      }
-    }
-    setIsLoading(false);
+
+      setIsLoading(false);
+    };
+
+    init();
   }, []);
 
   const login = async (email: string, password: string) => {
     const result = await apiLoginUser(email, password);
     if (result.success) {
       setUser(toUser(result.user));
-      setToken(result.token);
-      authStorage.setToken(result.token);
       authStorage.setUser(result.user);
       return { success: true };
     }
@@ -92,7 +108,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const result = await apiLoginAdmin(email, password);
     if (result.success) {
       setAdminUser(result.user);
-      authStorage.setAdminToken(result.token);
       authStorage.setAdminUser(result.user);
       return { success: true };
     }
@@ -105,17 +120,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { success: false, message: result.message };
   };
 
-  const logout = () => {
+  const logout = async () => {
     setUser(null);
-    setToken(null);
-    authStorage.removeToken();
     authStorage.removeUser();
+    await logoutApi(); // Gọi backend xóa cookie
   };
 
-  const logoutAdmin = () => {
+  const logoutAdmin = async () => {
     setAdminUser(null);
-    authStorage.removeAdminToken();
     authStorage.removeAdminUser();
+    await logoutApi(); // Gọi backend xóa cookie
   };
 
   const updateUser = (userData: Partial<User>) => {
@@ -130,8 +144,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider
       value={{
         user,
-        token,
-        isAuthenticated: !!user && !!token,
+        isAuthenticated: !!user,
         isLoading,
         login,
         register,

@@ -51,14 +51,12 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
         }
     }, [isAuthenticated, user, authLoading]);
 
-    const getToken = () => localStorage.getItem('token');
 
     const loadWishlist = async () => {
         try {
             setIsLoading(true);
-            const token = getToken();
             const response = await fetch(`${API_BASE}/api/wishlist`, {
-                headers: { 'Authorization': `Bearer ${token}` },
+                credentials: 'include',
             });
 
             if (response.ok) {
@@ -81,8 +79,6 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     const toggleWishlist = async (productId: number) => {
         if (!isAuthenticated) return;
 
-        const token = getToken();
-
         if (isInWishlist(productId)) {
             // Optimistic UI: remove immediately
             setWishlistIds(prev => {
@@ -95,7 +91,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
             try {
                 await fetch(`${API_BASE}/api/wishlist/${productId}`, {
                     method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${token}` },
+                    credentials: 'include',
                 });
             } catch (error) {
                 console.error('Remove from wishlist error:', error);
@@ -109,7 +105,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
             try {
                 const response = await fetch(`${API_BASE}/api/wishlist/${productId}`, {
                     method: 'POST',
-                    headers: { 'Authorization': `Bearer ${token}` },
+                    credentials: 'include',
                 });
 
                 if (response.ok) {
@@ -131,8 +127,6 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     const removeFromWishlist = async (productId: number) => {
         if (!isAuthenticated) return;
 
-        const token = getToken();
-
         // Optimistic UI
         setWishlistIds(prev => {
             const next = new Set(prev);
@@ -144,7 +138,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
         try {
             await fetch(`${API_BASE}/api/wishlist/${productId}`, {
                 method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${token}` },
+                credentials: 'include',
             });
         } catch (error) {
             console.error('Remove from wishlist error:', error);

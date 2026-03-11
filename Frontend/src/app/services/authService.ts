@@ -1,12 +1,12 @@
 /**
  * Auth API service - centralizes login/register and admin login calls.
- * Use this for consistent API base URL and response handling.
+ * Uses HttpOnly cookies for token storage (set by backend).
  */
 import { API_URL as API_BASE } from '@/config';
 
 export interface LoginResponse {
-  token?: string;
-  Token?: string;
+  token?: string | null;
+  Token?: string | null;
   user?: { id?: number; Id?: number; email?: string; Email?: string; fullName?: string; FullName?: string; role?: string; Role?: string };
   User?: { id?: number; Id?: number; email?: string; Email?: string; fullName?: string; FullName?: string; role?: string; Role?: string };
   userId?: number;
@@ -24,10 +24,6 @@ export interface UserAuthPayload {
   role?: string;
 }
 
-function getToken(data: LoginResponse): string | null {
-  return data.token ?? data.Token ?? null;
-}
-
 function getUserFromResponse(data: LoginResponse, fallbackEmail: string): UserAuthPayload {
   const u = data.user ?? data.User;
   const id = u?.id ?? u?.Id ?? (data as unknown as { userId?: number }).userId;
@@ -43,23 +39,23 @@ function getUserFromResponse(data: LoginResponse, fallbackEmail: string): UserAu
 }
 
 /**
- * User login (customer). Returns normalized user + token or error message.
+ * User login (customer). Cookie is set by backend automatically.
  */
 export async function loginUser(
   email: string,
   password: string
-): Promise<{ success: true; token: string; user: UserAuthPayload } | { success: false; message: string }> {
+): Promise<{ success: true; user: UserAuthPayload } | { success: false; message: string }> {
   try {
     const response = await fetch(`${API_BASE}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
+      credentials: 'include', // Nhận HttpOnly cookie từ backend
     });
     const data: LoginResponse = await response.json();
-    const token = getToken(data);
-    if (response.ok && token) {
+    if (response.ok) {
       const user = getUserFromResponse(data, email);
-      return { success: true, token, user };
+      return { success: true, user };
     }
     const message = data.message ?? data.Message ?? 'Email hoặc mật khẩu không đúng';
     return { success: false, message };
@@ -76,7 +72,7 @@ export async function loginAdmin(
   email: string,
   password: string
 ): Promise<
-  | { success: true; token: string; user: UserAuthPayload }
+  | { success: true; user: UserAuthPayload }
   | { success: false; message: string }
 > {
   try {
@@ -84,19 +80,21 @@ export async function loginAdmin(
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
+      credentials: 'include', // Nhận HttpOnly cookie từ backend
     });
     const data: LoginResponse = await response.json();
-    const token = getToken(data);
-    if (!response.ok || !token) {
+    if (!response.ok) {
       const message = data.message ?? data.Message ?? 'Email hoặc mật khẩu không đúng';
       return { success: false, message };
     }
     const user = getUserFromResponse(data, email);
     const role = (user.role ?? '').toLowerCase();
     if (role !== 'admin') {
+      // Nếu không phải admin, logout cookie vừa set
+      await fetch(`${API_BASE}/auth/logout`, { method: 'POST', credentials: 'include' });
       return { success: false, message: 'Tài khoản không có quyền Admin!' };
     }
-    return { success: true, token, user };
+    return { success: true, user };
   } catch (error) {
     console.error('Admin login error:', error);
     return { success: false, message: 'Không thể kết nối đến server. Vui lòng kiểm tra backend đang chạy.' };
@@ -117,6 +115,7 @@ export async function registerUser(data: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
+      credentials: 'include',
     });
     const result = await response.json();
     if (response.ok) {
@@ -129,15 +128,52 @@ export async function registerUser(data: {
   }
 }
 
-const TOKEN_KEY = 'token';
+/**
+ * Logout - calls backend to clear HttpOnly cookies.
+ */
+export async function logoutApi(): Promise<void> {
+  try {
+    await fetch(`${API_BASE}/auth/logout`, {
+      method: 'POST',
+      credentials: 'include',
+    });
+  } catch (error) {
+    console.error('Logout error:', error);
+  }
+}
+
+/**
+ * Check current auth status by calling /auth/me.
+ * Cookie is sent automatically → backend reads & returns user info.
+ */
+export async function checkAuthStatus(): Promise<UserAuthPayload | null> {
+  try {
+    const response = await fetch(`${API_BASE}/auth/me`, {
+      credentials: 'include',
+    });
+    if (response.ok) {
+      const data: LoginResponse = await response.json();
+      const u = data.user ?? data.User;
+      if (u) {
+        return {
+          id: u.id ?? u.Id ?? 0,
+          email: u.email ?? u.Email ?? '',
+          fullName: u.fullName ?? u.FullName ?? '',
+          role: u.role ?? u.Role ?? 'User',
+        };
+      }
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+// User info (non-sensitive) is still stored in localStorage for fast access
 const USER_KEY = 'user';
-const ADMIN_TOKEN_KEY = 'admin_token';
 const ADMIN_USER_KEY = 'admin_user';
 
 export const authStorage = {
-  getToken: () => localStorage.getItem(TOKEN_KEY),
-  setToken: (value: string) => localStorage.setItem(TOKEN_KEY, value),
-  removeToken: () => localStorage.removeItem(TOKEN_KEY),
   getUser: () => {
     try {
       const s = localStorage.getItem(USER_KEY);
@@ -148,9 +184,6 @@ export const authStorage = {
   },
   setUser: (value: UserAuthPayload) => localStorage.setItem(USER_KEY, JSON.stringify(value)),
   removeUser: () => localStorage.removeItem(USER_KEY),
-  getAdminToken: () => localStorage.getItem(ADMIN_TOKEN_KEY),
-  setAdminToken: (value: string) => localStorage.setItem(ADMIN_TOKEN_KEY, value),
-  removeAdminToken: () => localStorage.removeItem(ADMIN_TOKEN_KEY),
   getAdminUser: () => {
     try {
       const s = localStorage.getItem(ADMIN_USER_KEY);
@@ -162,39 +195,3 @@ export const authStorage = {
   setAdminUser: (value: UserAuthPayload) => localStorage.setItem(ADMIN_USER_KEY, JSON.stringify(value)),
   removeAdminUser: () => localStorage.removeItem(ADMIN_USER_KEY),
 } as const;
-
-/**
- * Decode JWT payload (no verify, client-side only for exp check).
- * Returns null if not a valid JWT or parse fails.
- */
-export function decodeJwtPayload(token: string): { exp?: number } | null {
-  try {
-    const parts = token.split('.');
-    if (parts.length !== 3) return null;
-    const payload = parts[1];
-    const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
-    const json = decodeURIComponent(
-      atob(base64)
-        .split('')
-        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-        .join('')
-    );
-    return JSON.parse(json) as { exp?: number };
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Returns true if token exists and is not expired (or has no exp claim).
- * Uses a 60s buffer before actual expiry.
- */
-export function isTokenValid(token: string | null): boolean {
-  if (!token) return false;
-  const payload = decodeJwtPayload(token);
-  if (!payload) return true; // non-JWT or invalid: let backend decide
-  const exp = payload.exp;
-  if (exp == null) return true;
-  const now = Math.floor(Date.now() / 1000);
-  return exp > now + 60;
-}

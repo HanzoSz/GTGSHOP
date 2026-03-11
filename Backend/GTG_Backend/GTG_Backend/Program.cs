@@ -54,6 +54,21 @@ namespace GTG_Backend
                     IssuerSigningKey = new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(jwtSettings["Key"]!))
                 };
+
+                // Đọc JWT từ HttpOnly Cookie nếu không có Authorization header
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var token = context.Request.Cookies["auth_token"]
+                                 ?? context.Request.Cookies["admin_token"];
+                        if (!string.IsNullOrEmpty(token))
+                        {
+                            context.Token = token;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
             builder.Services.AddDbContext<AppDbContext>(options =>

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GTG_Backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+69818935df9136b7a04cd7d6785739f1e0f5055d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+09c017bd1a11892310cbecf2d0e558ccdbfe0113")]
 [assembly: System.Reflection.AssemblyProductAttribute("GTG_Backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GTG_Backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

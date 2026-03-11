@@ -230,13 +230,12 @@ export function ProductDetailPage() {
     setReviewMessage(null);
 
     try {
-      const token = localStorage.getItem('token');
       const response = await fetch(`${API_URL}/products/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
         },
+        credentials: 'include',
         body: JSON.stringify({
           rating: newReview.rating,
           comment: newReview.comment,

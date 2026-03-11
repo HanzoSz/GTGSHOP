@@ -103,24 +103,12 @@ export function OrdersPage() {
   const loadOrders = async () => {
     setIsLoading(true);
     try {
-      const token = localStorage.getItem('token');
-
-      // Kiểm tra token
-      if (!token) {
-        console.error('No token found');
-        setOrders([]);
-        setIsLoading(false);
-        return;
-      }
-
-      console.log('Loading orders with token:', token.substring(0, 20) + '...');
-
       const response = await fetch(`${API_URL}/orders`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
         },
+        credentials: 'include',
       });
 
       console.log('Orders response status:', response.status);

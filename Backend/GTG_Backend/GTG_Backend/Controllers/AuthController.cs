@@ -83,9 +83,72 @@ namespace GTG_Backend.Controllers
             // Tạo JWT token
             var token = GenerateJwtToken(user);
 
+            // Set HttpOnly cookie
+            var roleName = user.Role?.RoleName ?? "Customer";
+            var cookieName = roleName == "Admin" ? "admin_token" : "auth_token";
+            var expireMinutes = double.Parse(_configuration["Jwt:ExpireMinutes"]!);
+
+            Response.Cookies.Append(cookieName, token, new CookieOptions
+            {
+                HttpOnly = true,       // JS không đọc được → chống XSS
+                Secure = true,         // Chỉ gửi qua HTTPS
+                SameSite = SameSiteMode.None,  // Cross-origin (localhost:5173 → localhost:7033)
+                Expires = DateTimeOffset.Now.AddMinutes(expireMinutes),
+                Path = "/"
+            });
+
             return Ok(new AuthResponse
             {
-                Token = token,
+                Token = null,  // Không trả token trong body nữa (đã lưu trong cookie)
+                User = new UserDto
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    FullName = user.FullName,
+                    Phone = user.PhoneNumber,
+                    Address = user.Address,
+                    Role = roleName,
+                    CreatedAt = user.CreatedAt
+                }
+            });
+        }
+
+        // ✅ POST: api/auth/logout - Đăng xuất (xóa cookie)
+        [HttpPost("logout")]
+        [AllowAnonymous]
+        public IActionResult Logout()
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Path = "/"
+            };
+            Response.Cookies.Delete("auth_token", cookieOptions);
+            Response.Cookies.Delete("admin_token", cookieOptions);
+            return Ok(new MessageResponse { Message = "Đăng xuất thành công" });
+        }
+
+        // ✅ GET: api/auth/me - Kiểm tra auth status từ cookie (dùng khi reload page)
+        [Authorize]
+        [HttpGet("me")]
+        public async Task<ActionResult<AuthResponse>> GetCurrentUser()
+        {
+            var userId = GetUserId();
+            if (userId == null)
+                return Unauthorized(new MessageResponse { Message = "Chưa đăng nhập" });
+
+            var user = await _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+                return Unauthorized(new MessageResponse { Message = "User không tồn tại" });
+
+            return Ok(new AuthResponse
+            {
+                Token = null,
                 User = new UserDto
                 {
                     Id = user.Id,

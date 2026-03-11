@@ -138,8 +138,6 @@ export function CheckoutPage() {
     setIsLoading(true);
 
     try {
-      const token = localStorage.getItem('token');
-
       // Format đúng theo backend API
       const orderData = {
         items: items.map(item => ({
@@ -168,8 +166,8 @@ export function CheckoutPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
         },
+        credentials: 'include',
         body: JSON.stringify(orderData),
       });
 

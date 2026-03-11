@@ -72,11 +72,8 @@ export function OrderDetailPage() {
   const loadOrder = async () => {
     setIsLoading(true);
     try {
-      const token = localStorage.getItem('token');
       const response = await fetch(`${API_URL}/orders/${id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+        credentials: 'include',
       });
 
       if (response.ok) {
@@ -143,13 +140,12 @@ export function OrderDetailPage() {
 
     setIsCancelling(true);
     try {
-      const token = localStorage.getItem('token');
       const response = await fetch(`${API_URL}/orders/${order.id}/cancel`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
         },
+        credentials: 'include',
         body: JSON.stringify({ reason: cancelReason }),
       });
 

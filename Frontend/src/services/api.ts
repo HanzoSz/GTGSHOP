@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { API_URL, IMAGE_BASE_URL } from '@/config';
 
+// Cookie được gửi tự động với mọi request
+axios.defaults.withCredentials = true;
+
 // Ảnh mặc định theo category
 const defaultImages: Record<number, string> = {
     1: 'images/products/cpu.jpg',
@@ -95,12 +98,7 @@ export async function getProductsByCategory(categoryId: number) {
 
 // ============== ADMIN PRODUCT API ==============
 
-function getAuthHeaders() {
-    const token = localStorage.getItem('admin_token');
-    return {
-        'Authorization': `Bearer ${token}`,
-    };
-}
+// Cookie auth - không cần header Authorization nữa
 
 // Interface cho response phân trang
 export interface PaginatedResponse<T> {
@@ -153,7 +151,7 @@ export async function getCategories(): Promise<Category[]> {
 // Tạo danh mục mới
 export async function createCategory(name: string): Promise<{ success: boolean; message?: string; category?: Category }> {
     try {
-        const response = await axios.post(`${API_URL}/categories`, { name }, { headers: getAuthHeaders() });
+        const response = await axios.post(`${API_URL}/categories`, { name }, {});
         return {
             success: true,
             message: response.data.message,
@@ -173,7 +171,7 @@ export async function createCategory(name: string): Promise<{ success: boolean; 
 // Cập nhật danh mục
 export async function updateCategory(id: number, name: string): Promise<{ success: boolean; message?: string }> {
     try {
-        const response = await axios.put(`${API_URL}/categories/${id}`, { name }, { headers: getAuthHeaders() });
+        const response = await axios.put(`${API_URL}/categories/${id}`, { name }, {});
         return { success: true, message: response.data.message };
     } catch (error: any) {
         return {
@@ -186,7 +184,7 @@ export async function updateCategory(id: number, name: string): Promise<{ succes
 // Xoá danh mục
 export async function deleteCategory(id: number): Promise<{ success: boolean; message?: string }> {
     try {
-        const response = await axios.delete(`${API_URL}/categories/${id}`, { headers: getAuthHeaders() });
+        const response = await axios.delete(`${API_URL}/categories/${id}`, {});
         return { success: true, message: response.data.message };
     } catch (error: any) {
         return {
@@ -213,8 +211,7 @@ export async function getAdminProducts(params: {
         if (params.status) queryParams.set('status', params.status);
 
         const response = await axios.get(
-            `${API_URL}/admin/products?${queryParams.toString()}`,
-            { headers: getAuthHeaders() }
+            `${API_URL}/admin/products?${queryParams.toString()}`, {}
         );
 
         const data = response.data;
@@ -321,8 +318,7 @@ export async function updateProduct(id: number, productData: {
 export async function deleteProduct(id: number): Promise<{ success: boolean; message?: string }> {
     try {
         await axios.delete(
-            `${API_URL}/admin/products/${id}`,
-            { headers: getAuthHeaders() }
+            `${API_URL}/admin/products/${id}`, {}
         );
         return { success: true };
     } catch (error: any) {
@@ -410,8 +406,7 @@ export async function getAdminOrders(params: {
         if (params.status && params.status !== 'all') queryParams.set('status', params.status);
 
         const response = await axios.get(
-            `${API_URL}/admin/orders?${queryParams.toString()}`,
-            { headers: getAuthHeaders() }
+            `${API_URL}/admin/orders?${queryParams.toString()}`, {}
         );
 
         const data = response.data;
@@ -543,8 +538,7 @@ export async function getAdminUsers(params: {
         if (params.role && params.role !== 'all') queryParams.set('role', params.role);
 
         const response = await axios.get(
-            `${API_URL}/admin/users?${queryParams.toString()}`,
-            { headers: getAuthHeaders() }
+            `${API_URL}/admin/users?${queryParams.toString()}`, {}
         );
 
         const data = response.data;
@@ -577,8 +571,7 @@ export async function getAdminUsers(params: {
 export async function getAdminUserDetail(userId: number): Promise<AdminUserDetail | null> {
     try {
         const response = await axios.get(
-            `${API_URL}/admin/users/${userId}`,
-            { headers: getAuthHeaders() }
+            `${API_URL}/admin/users/${userId}`, {}
         );
         const data = response.data;
         return {
@@ -602,8 +595,7 @@ export async function getAdminUserDetail(userId: number): Promise<AdminUserDetai
 export async function getAdminUserStats(): Promise<AdminUserStats> {
     try {
         const response = await axios.get(
-            `${API_URL}/admin/users/stats`,
-            { headers: getAuthHeaders() }
+            `${API_URL}/admin/users/stats`, {}
         );
         const d = response.data;
         return {
@@ -681,8 +673,7 @@ export interface DashboardData {
 export async function getAdminDashboard(): Promise<DashboardData> {
     try {
         const response = await axios.get(
-            `${API_URL}/admin/dashboard`,
-            { headers: getAuthHeaders() }
+            `${API_URL}/admin/dashboard`, {}
         );
         const d = response.data;
         const s = d.stats || d.Stats || {};
@@ -782,8 +773,7 @@ export interface AnalyticsData {
 export async function getAdminAnalytics(): Promise<AnalyticsData> {
     try {
         const response = await axios.get(
-            `${API_URL}/admin/analytics`,
-            { headers: getAuthHeaders() }
+            `${API_URL}/admin/analytics`, {}
         );
         const d = response.data;
         const km = d.keyMetrics || d.KeyMetrics || {};

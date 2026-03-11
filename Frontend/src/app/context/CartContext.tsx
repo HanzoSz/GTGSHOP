@@ -72,11 +72,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const loadCartFromAPI = async () => {
     try {
       setIsLoading(true);
-      const token = localStorage.getItem('token');
       const response = await fetch(`${API_URL}/cart`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+        credentials: 'include',
       });
 
       if (response.ok) {
@@ -110,13 +107,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      const token = localStorage.getItem('token');
       await fetch(`${API_URL}/cart/sync`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
         },
+        credentials: 'include',
         body: JSON.stringify({ items: cartItems }),
       });
     } catch (error) {

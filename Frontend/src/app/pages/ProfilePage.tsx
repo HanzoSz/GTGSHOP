@@ -88,11 +88,8 @@ export function ProfilePage() {
 
   const loadProfile = async () => {
     try {
-      const token = localStorage.getItem('token');
       const response = await fetch(`${API_URL}/auth/profile`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+        credentials: 'include',
       });
 
       if (response.ok) {
@@ -144,13 +141,12 @@ export function ProfilePage() {
     setMessage(null);
 
     try {
-      const token = localStorage.getItem('token');
       const response = await fetch(`${API_URL}/auth/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
         },
+        credentials: 'include',
         body: JSON.stringify(editForm),
       });
 
@@ -207,13 +203,12 @@ export function ProfilePage() {
     setMessage(null);
 
     try {
-      const token = localStorage.getItem('token');
       const response = await fetch(`${API_URL}/auth/change-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
         },
+        credentials: 'include',
         body: JSON.stringify({
           currentPassword: passwordForm.currentPassword,
           newPassword: passwordForm.newPassword,
