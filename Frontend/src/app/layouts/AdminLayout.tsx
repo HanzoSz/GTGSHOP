@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import { Logo } from '@/app/components/Logo';
+import { useAuth } from '@/app/context/AuthContext';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -24,15 +25,16 @@ interface AdminLayoutProps {
 export function AdminLayout({ children }: AdminLayoutProps) {
   const location = useLocation();
   const navigate = useNavigate();
+  const { adminUser, isAdminAuthenticated, isLoading, logoutAdmin } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  // Đọc thông tin admin từ localStorage riêng
-  const adminUser = (() => {
-    try {
-      const saved = localStorage.getItem('admin_user');
-      return saved ? JSON.parse(saved) : null;
-    } catch { return null; }
-  })();
+  // Guard: redirect to admin login if not authenticated
+  useEffect(() => {
+    if (isLoading) return;
+    if (!isAdminAuthenticated) {
+      navigate('/admin/login', { replace: true });
+    }
+  }, [isLoading, isAdminAuthenticated, navigate]);
 
   const menuItems = [
     { path: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -46,11 +48,18 @@ export function AdminLayout({ children }: AdminLayoutProps) {
 
   const handleLogout = () => {
     if (confirm('Bạn có chắc muốn đăng xuất?')) {
-      localStorage.removeItem('admin_token');
-      localStorage.removeItem('admin_user');
+      logoutAdmin();
       navigate('/admin/login');
     }
   };
+
+  if (isLoading || !isAdminAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="w-8 h-8 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50">

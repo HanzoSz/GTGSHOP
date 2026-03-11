@@ -1,3 +1,4 @@
+import { API_URL, IMAGE_BASE_URL } from '@/config';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
@@ -69,7 +70,6 @@ interface ShippingInfo {
 
 type PaymentMethod = 'cod' | 'bank' | 'momo' | 'vnpay';
 
-const IMAGE_BASE_URL = 'https://localhost:7033';
 
 const getImageUrl = (imageUrl: string | null | undefined): string => {
   if (!imageUrl) return 'https://via.placeholder.com/100x100?text=No+Image';
@@ -164,7 +164,7 @@ export function CheckoutPage() {
 
       console.log('Sending order data:', orderData);
 
-      const response = await fetch('https://localhost:7033/api/orders', {
+      const response = await fetch(`${API_URL}/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -6,7 +6,7 @@ import { Footer } from '../components/Footer';
 import { ProductCard, Product } from '../components/ProductCard';
 import { Button } from '../components/ui/button';
 
-const IMAGE_BASE_URL = 'https://localhost:7033';
+import { IMAGE_BASE_URL, API_URL } from '@/config';
 
 const getImageUrl = (imageUrl: string | null | undefined): string => {
   if (!imageUrl) return '';
@@ -27,14 +27,14 @@ const sortOptions: { value: SortOption; label: string }[] = [
 export function SearchPage() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
-  
+
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [sortBy, setSortBy] = useState<SortOption>('relevance');
   const [totalResults, setTotalResults] = useState(0);
   const [showFilters, setShowFilters] = useState(false);
-  
+
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 50000000]);
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [categories, setCategories] = useState<{ id: number; name: string }[]>([]);
@@ -55,7 +55,7 @@ export function SearchPage() {
 
   const loadCategories = async () => {
     try {
-      const response = await fetch('https://localhost:7033/api/categories');
+      const response = await fetch(`${API_URL}/categories`);
       if (response.ok) {
         const data = await response.json();
         const categoryList = Array.isArray(data) ? data : (data.items || data.categories || []);
@@ -72,23 +72,23 @@ export function SearchPage() {
   const searchProducts = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('https://localhost:7033/api/products');
-      
+      const response = await fetch(`${API_URL}/products`);
+
       if (response.ok) {
         const data = await response.json();
         const productList = Array.isArray(data) ? data : (data.products || data.items || []);
-        
+
         const searchLower = query.toLowerCase().trim();
-        
+
         // ===== LỌC SẢN PHẨM THEO TÊN, CATEGORY, MÔ TẢ =====
         const filteredProducts = productList.filter((p: any) => {
           const name = (p.name || p.Name || '').toLowerCase();
           const categoryName = (p.categoryName || p.CategoryName || p.category?.name || p.Category?.Name || '').toLowerCase();
           const description = (p.description || p.Description || '').toLowerCase();
-          
-          return name.includes(searchLower) || 
-                 categoryName.includes(searchLower) ||
-                 description.includes(searchLower);
+
+          return name.includes(searchLower) ||
+            categoryName.includes(searchLower) ||
+            description.includes(searchLower);
         });
 
         // Map sang interface Product
@@ -97,7 +97,7 @@ export function SearchPage() {
           const discount = p.discount || p.Discount || 0;
           const finalPrice = discount > 0 ? price * (1 - discount / 100) : price;
           const rawImageUrl = p.imageUrl || p.ImageUrl || p.image || p.Image || '';
-          
+
           return {
             id: p.id || p.Id,
             name: p.name || p.Name || '',
@@ -110,7 +110,7 @@ export function SearchPage() {
             categoryId: p.categoryId || p.CategoryId,
           };
         });
-        
+
         // Filter giá
         let finalProducts = mappedProducts.filter(p => {
           const productPrice = p.originalPrice || p.price;
@@ -119,13 +119,13 @@ export function SearchPage() {
 
         // Filter danh mục
         if (selectedCategories.length > 0) {
-          finalProducts = finalProducts.filter(p => 
+          finalProducts = finalProducts.filter(p =>
             p.categoryId && selectedCategories.includes(p.categoryId)
           );
         }
 
         const sortedProducts = sortProducts(finalProducts, sortBy);
-        
+
         setProducts(sortedProducts);
         setTotalResults(sortedProducts.length);
       } else {
@@ -288,11 +288,10 @@ export function SearchPage() {
                       <button
                         key={index}
                         onClick={() => setPriceRange(item.range)}
-                        className={`px-2 py-1 text-xs rounded-lg border transition-colors ${
-                          priceRange[0] === item.range[0] && priceRange[1] === item.range[1]
-                            ? 'bg-red-600 text-white border-red-600'
-                            : 'hover:border-red-600 hover:text-red-600'
-                        }`}
+                        className={`px-2 py-1 text-xs rounded-lg border transition-colors ${priceRange[0] === item.range[0] && priceRange[1] === item.range[1]
+                          ? 'bg-red-600 text-white border-red-600'
+                          : 'hover:border-red-600 hover:text-red-600'
+                          }`}
                       >
                         {item.label}
                       </button>
@@ -340,7 +339,7 @@ export function SearchPage() {
                 <p className="text-gray-500 mb-6 max-w-md mx-auto">
                   Rất tiếc, không có sản phẩm nào phù hợp với từ khóa "<span className="font-semibold text-red-600">{query}</span>" trong cửa hàng của chúng tôi.
                 </p>
-                
+
                 <div className="bg-gray-50 rounded-lg p-4 mb-6 max-w-md mx-auto">
                   <p className="text-sm font-medium text-gray-700 mb-2">💡 Gợi ý tìm kiếm:</p>
                   <ul className="text-sm text-gray-500 text-left list-disc list-inside space-y-1">
@@ -380,7 +379,7 @@ export function SearchPage() {
                 </div>
               </div>
             ) : (
-              <div className={viewMode === 'grid' 
+              <div className={viewMode === 'grid'
                 ? 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'
                 : 'flex flex-col gap-4'
               }>

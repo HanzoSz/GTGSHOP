@@ -17,7 +17,7 @@ export interface Product {
   categoryId?: number;
 }
 
-const IMAGE_BASE_URL = 'https://localhost:7033';
+import { IMAGE_BASE_URL } from '@/config';
 
 const getValidImageUrl = (imageUrl: string | null | undefined): string => {
   if (!imageUrl) {

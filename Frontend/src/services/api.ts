@@ -1,7 +1,5 @@
 import axios from 'axios';
-
-const API_URL = 'https://localhost:7033/api';
-const IMAGE_BASE_URL = 'https://localhost:7033';
+import { API_URL, IMAGE_BASE_URL } from '@/config';
 
 // Ảnh mặc định theo category
 const defaultImages: Record<number, string> = {

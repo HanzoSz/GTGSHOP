@@ -33,6 +33,7 @@ import { SettingsPage } from '@/app/pages/admin/SettingsPage';
 import { CategoryManagementPage } from '@/app/pages/admin/CategoryManagementPage';
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
 import { ResetPasswordPage } from './pages/ResetPasswordPage';
+import { PrivateRoute } from './components/PrivateRoute';
 // Wrapper component to conditionally show Chatbot based on route
 function AppContent() {
   const location = useLocation();
@@ -50,15 +51,15 @@ function AppContent() {
         <Route path="/product/:id" element={<ProductDetailPage />} />
         <Route path="/category/:categoryId" element={<CategoryPage />} />
         <Route path="/cart" element={<CartPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/checkout" element={<PrivateRoute><CheckoutPage /></PrivateRoute>} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/sale" element={<SalePage />} />
         <Route path="/payment/vnpay/return" element={<VnPayReturnPage />} />
         <Route path="/build-pc" element={<BuildPCPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/orders" element={<OrdersPage />} />
-        <Route path="/orders/:id" element={<OrderDetailPage />} />
-        <Route path="/wishlist" element={<WishlistPage />} />
+        <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
+        <Route path="/orders" element={<PrivateRoute><OrdersPage /></PrivateRoute>} />
+        <Route path="/orders/:id" element={<PrivateRoute><OrderDetailPage /></PrivateRoute>} />
+        <Route path="/wishlist" element={<PrivateRoute><WishlistPage /></PrivateRoute>} />
         {/* Admin Routes */}
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin/dashboard" element={<AdminLayout><DashboardPage /></AdminLayout>} />

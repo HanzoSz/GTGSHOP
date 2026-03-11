@@ -17,7 +17,7 @@ import {
   type AdminOrder,
 } from '@/services/api';
 
-const IMAGE_BASE_URL = 'https://localhost:7033';
+import { IMAGE_BASE_URL } from '@/config';
 
 const getImageUrl = (url: string) => {
   if (!url) return '';

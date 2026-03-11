@@ -5,9 +5,11 @@ import { Logo } from '@/app/components/Logo';
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
+import { useAuth } from '@/app/context/AuthContext';
 
 export function AdminLoginPage() {
   const navigate = useNavigate();
+  const { loginAdmin } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,46 +21,13 @@ export function AdminLoginPage() {
     setError('');
     setLoading(true);
 
-    try {
-      const response = await fetch('https://localhost:7033/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+    const result = await loginAdmin(email, password);
+    setLoading(false);
 
-      const data = await response.json();
-
-      if (response.ok) {
-        const token = data.token || data.Token;
-        const user = data.user || data.User;
-
-        // Kiểm tra role Admin
-        const userRole = user?.role || user?.Role || '';
-        if (userRole !== 'Admin') {
-          setError('Tài khoản không có quyền Admin!');
-          setLoading(false);
-          return;
-        }
-
-        // Lưu token và user vào localStorage riêng cho admin
-        localStorage.setItem('admin_token', token);
-        localStorage.setItem('admin_user', JSON.stringify({
-          id: user?.id || user?.Id,
-          email: user?.email || user?.Email,
-          fullName: user?.fullName || user?.FullName,
-          role: userRole,
-        }));
-
-        // Chuyển đến dashboard
-        navigate('/admin/dashboard');
-      } else {
-        setError(data.message || data.Message || 'Email hoặc mật khẩu không đúng!');
-      }
-    } catch (err) {
-      console.error('Admin login error:', err);
-      setError('Không thể kết nối đến server. Vui lòng kiểm tra backend đang chạy.');
-    } finally {
-      setLoading(false);
+    if (result.success) {
+      navigate('/admin/dashboard');
+    } else {
+      setError(result.message ?? 'Email hoặc mật khẩu không đúng!');
     }
   };
 

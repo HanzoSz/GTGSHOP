@@ -6,7 +6,7 @@ import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
 
-const API_URL = 'https://localhost:7033/api';
+import { API_URL } from '@/config';
 
 export function ForgotPasswordPage() {
     const [email, setEmail] = useState('');

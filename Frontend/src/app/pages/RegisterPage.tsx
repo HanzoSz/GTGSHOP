@@ -270,7 +270,7 @@ export function RegisterPage() {
         {/* Tet Greeting */}
         <div className="mt-6 text-center">
           <p className="text-yellow-300 font-bold text-lg animate-pulse">
-            🧧 Chúc mừng năm mới 2025! 🧧
+            🧧 Chúc mừng năm mới 2026! 🧧
           </p>
         </div>
       </div>

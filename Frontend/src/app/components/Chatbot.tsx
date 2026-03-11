@@ -7,7 +7,7 @@ import { Input } from './ui/input';
 import { Card } from './ui/card';
 import { useAuth } from '../context/AuthContext';
 
-const API_BASE_URL = 'https://localhost:7033/api';
+import { API_URL as API_BASE_URL } from '@/config';
 
 interface Message {
   id: string;

@@ -1,3 +1,4 @@
+import { API_URL, IMAGE_BASE_URL } from '@/config';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -88,7 +89,7 @@ export function ProfilePage() {
   const loadProfile = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://localhost:7033/api/auth/profile', {
+      const response = await fetch(`${API_URL}/auth/profile`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -144,7 +145,7 @@ export function ProfilePage() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://localhost:7033/api/auth/profile', {
+      const response = await fetch(`${API_URL}/auth/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -207,7 +208,7 @@ export function ProfilePage() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://localhost:7033/api/auth/change-password', {
+      const response = await fetch(`${API_URL}/auth/change-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

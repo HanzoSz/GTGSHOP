@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import { API_URL, IMAGE_BASE_URL } from '@/config';
 import {
     Cpu, Monitor, HardDrive, Zap, Fan, Box, MemoryStick,
     Plus, X, Search, ShoppingCart, AlertTriangle, CheckCircle,
@@ -57,7 +58,6 @@ interface PowerResult {
 }
 
 // ===================== CONSTANTS =====================
-const IMAGE_BASE_URL = 'https://localhost:7033';
 
 const COMPONENT_SLOTS: { key: ComponentSlot; label: string; categoryId: number; icon: React.ReactNode; required: boolean }[] = [
     { key: 'cpu', label: 'CPU - Bộ vi xử lý', categoryId: 1, icon: <Cpu className="w-5 h-5" />, required: true },
@@ -199,7 +199,7 @@ function ProductSelectionModal({ isOpen, slot, categoryId, onSelect, onClose }: 
     const loadProducts = useCallback(async (search?: string) => {
         setIsLoading(true);
         try {
-            let url = `https://localhost:7033/api/products?categoryId=${categoryId}&limit=20`;
+            let url = `${API_URL}/products?categoryId=${categoryId}&limit=20`;
             if (search) url += `&search=${encodeURIComponent(search)}`;
             url += '&sort=price-asc';
 

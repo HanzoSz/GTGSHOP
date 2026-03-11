@@ -1,3 +1,4 @@
+import { API_URL, IMAGE_BASE_URL } from '@/config';
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
@@ -23,7 +24,6 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useWishlist } from '../context/WishlistContext';
 
-const IMAGE_BASE_URL = 'https://localhost:7033';
 
 interface Product {
   id: number;
@@ -91,7 +91,7 @@ export function ProductDetailPage() {
   const loadProduct = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`https://localhost:7033/api/products/${id}`);
+      const response = await fetch(`${API_URL}/products/${id}`);
       if (response.ok) {
         const data = await response.json();
 
@@ -131,7 +131,7 @@ export function ProductDetailPage() {
 
   const loadRelatedProducts = async (categoryId: number) => {
     try {
-      const response = await fetch(`https://localhost:7033/api/products?categoryId=${categoryId}`);
+      const response = await fetch(`${API_URL}/products?categoryId=${categoryId}`);
       if (response.ok) {
         const data = await response.json();
         const products = (data.products || data || [])
@@ -156,7 +156,7 @@ export function ProductDetailPage() {
 
   const loadReviews = async () => {
     try {
-      const response = await fetch(`https://localhost:7033/api/products/${id}/reviews`);
+      const response = await fetch(`${API_URL}/products/${id}/reviews`);
       if (response.ok) {
         const data = await response.json();
         setReviews(data.reviews || data || []);
@@ -231,7 +231,7 @@ export function ProductDetailPage() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://localhost:7033/api/products/${id}/reviews`, {
+      const response = await fetch(`${API_URL}/products/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -472,8 +472,8 @@ export function ProductDetailPage() {
               <button
                 onClick={() => product && toggleWishlist(product.id)}
                 className={`flex items-center gap-2 transition-colors ${product && isInWishlist(product.id)
-                    ? 'text-red-600'
-                    : 'text-slate-600 hover:text-red-600'
+                  ? 'text-red-600'
+                  : 'text-slate-600 hover:text-red-600'
                   }`}
               >
                 <Heart className={`w-5 h-5 ${product && isInWishlist(product.id) ? 'fill-red-500' : ''}`} />

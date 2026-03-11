@@ -5,7 +5,7 @@ import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { ProductCard, Product } from '../components/ProductCard';
 
-const IMAGE_BASE_URL = 'https://localhost:7033';
+import { IMAGE_BASE_URL, API_URL } from '@/config';
 
 const getImageUrl = (imageUrl: string | null | undefined): string => {
   if (!imageUrl) return '';
@@ -48,7 +48,7 @@ export function CategoryPage() {
 
     try {
       // Dùng endpoint slug-based: /api/products/category/{slug}
-      const url = `https://localhost:7033/api/products/category/${categoryId}`;
+      const url = `${API_URL}/products/category/${categoryId}`;
       console.log('Calling API:', url);
 
       const response = await fetch(url);

@@ -6,7 +6,7 @@ import { Button } from '../components/ui/button';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 
-const IMAGE_BASE_URL = 'https://localhost:7033';
+import { IMAGE_BASE_URL } from '@/config';
 
 const getImageUrl = (imageUrl: string | null | undefined): string => {
   if (!imageUrl) return 'https://via.placeholder.com/100x100?text=No+Image';
@@ -40,7 +40,7 @@ export function CartPage() {
     return (
       <div className="min-h-screen bg-gray-50">
         <Header />
-        
+
         <div className="container mx-auto px-4 py-16">
           <div className="max-w-md mx-auto text-center">
             <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -117,7 +117,7 @@ export function CartPage() {
                       {item.name}
                     </h3>
                   </Link>
-                  
+
                   <p className="text-red-600 font-bold text-lg mt-2">
                     {formatPrice(item.price)}
                   </p>

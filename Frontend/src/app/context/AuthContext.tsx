@@ -1,4 +1,12 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import {
+  authStorage,
+  loginUser as apiLoginUser,
+  loginAdmin as apiLoginAdmin,
+  registerUser as apiRegisterUser,
+  isTokenValid,
+  type UserAuthPayload,
+} from '../services/authService';
 
 interface User {
   id: number;
@@ -16,6 +24,11 @@ interface AuthContextType {
   register: (data: RegisterData) => Promise<{ success: boolean; message?: string }>;
   logout: () => void;
   updateUser: (userData: Partial<User>) => void;
+  // Admin auth (separate session from user)
+  adminUser: UserAuthPayload | null;
+  isAdminAuthenticated: boolean;
+  loginAdmin: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
+  logoutAdmin: () => void;
 }
 
 interface RegisterData {
@@ -27,115 +40,109 @@ interface RegisterData {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+function toUser(p: UserAuthPayload | null): User | null {
+  if (!p) return null;
+  return { id: p.id, email: p.email, fullName: p.fullName, role: p.role };
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [adminUser, setAdminUser] = useState<UserAuthPayload | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check for existing token on mount
-    const savedToken = localStorage.getItem('token');
-    const savedUser = localStorage.getItem('user');
-    
+    const savedToken = authStorage.getToken();
+    const savedUser = authStorage.getUser();
     if (savedToken && savedUser) {
-      try {
+      if (isTokenValid(savedToken)) {
         setToken(savedToken);
-        setUser(JSON.parse(savedUser));
-      } catch (error) {
-        console.error('Error parsing saved user:', error);
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        setUser(savedUser as User);
+      } else {
+        authStorage.removeToken();
+        authStorage.removeUser();
+      }
+    }
+    const adminToken = authStorage.getAdminToken();
+    const savedAdminUser = authStorage.getAdminUser();
+    if (adminToken && savedAdminUser) {
+      if (isTokenValid(adminToken)) {
+        setAdminUser(savedAdminUser);
+      } else {
+        authStorage.removeAdminToken();
+        authStorage.removeAdminUser();
       }
     }
     setIsLoading(false);
   }, []);
 
   const login = async (email: string, password: string) => {
-    try {
-      const response = await fetch('https://localhost:7033/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        const userData: User = {
-          id: data.user?.id || data.userId || data.Id,
-          email: data.user?.email || data.email || email,
-          fullName: data.user?.fullName || data.fullName || data.FullName || '',
-          role: data.user?.role || data.role || 'User',
-        };
-        
-        const authToken = data.token || data.Token;
-        
-        setUser(userData);
-        setToken(authToken);
-        localStorage.setItem('token', authToken);
-        localStorage.setItem('user', JSON.stringify(userData));
-        
-        return { success: true };
-      } else {
-        return { success: false, message: data.message || 'Email hoặc mật khẩu không đúng' };
-      }
-    } catch (error) {
-      console.error('Login error:', error);
-      return { success: false, message: 'Có lỗi xảy ra. Vui lòng thử lại.' };
+    const result = await apiLoginUser(email, password);
+    if (result.success) {
+      setUser(toUser(result.user));
+      setToken(result.token);
+      authStorage.setToken(result.token);
+      authStorage.setUser(result.user);
+      return { success: true };
     }
+    return { success: false, message: result.message };
+  };
+
+  const loginAdmin = async (email: string, password: string) => {
+    const result = await apiLoginAdmin(email, password);
+    if (result.success) {
+      setAdminUser(result.user);
+      authStorage.setAdminToken(result.token);
+      authStorage.setAdminUser(result.user);
+      return { success: true };
+    }
+    return { success: false, message: result.message };
   };
 
   const register = async (data: RegisterData) => {
-    try {
-      const response = await fetch('https://localhost:7033/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        return { success: true };
-      } else {
-        return { success: false, message: result.message || 'Đăng ký thất bại' };
-      }
-    } catch (error) {
-      console.error('Register error:', error);
-      return { success: false, message: 'Có lỗi xảy ra. Vui lòng thử lại.' };
-    }
+    const result = await apiRegisterUser(data);
+    if (result.success) return { success: true };
+    return { success: false, message: result.message };
   };
 
   const logout = () => {
     setUser(null);
     setToken(null);
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    authStorage.removeToken();
+    authStorage.removeUser();
+  };
+
+  const logoutAdmin = () => {
+    setAdminUser(null);
+    authStorage.removeAdminToken();
+    authStorage.removeAdminUser();
   };
 
   const updateUser = (userData: Partial<User>) => {
     if (user) {
       const updatedUser = { ...user, ...userData };
       setUser(updatedUser);
-      localStorage.setItem('user', JSON.stringify(updatedUser));
+      authStorage.setUser(updatedUser as UserAuthPayload);
     }
   };
 
   return (
-    <AuthContext.Provider value={{
-      user,
-      token,
-      isAuthenticated: !!user && !!token,
-      isLoading,
-      login,
-      register,
-      logout,
-      updateUser,
-    }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        isAuthenticated: !!user && !!token,
+        isLoading,
+        login,
+        register,
+        logout,
+        updateUser,
+        adminUser,
+        isAdminAuthenticated: !!adminUser,
+        loginAdmin,
+        logoutAdmin,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

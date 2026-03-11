@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useRef, ReactNode } from 'react';
 import { useAuth } from './AuthContext';
+import { API_URL } from '@/config';
 
 export interface CartItem {
   id: number;
@@ -72,7 +73,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     try {
       setIsLoading(true);
       const token = localStorage.getItem('token');
-      const response = await fetch('https://localhost:7033/api/cart', {
+      const response = await fetch(`${API_URL}/cart`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -110,7 +111,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     try {
       const token = localStorage.getItem('token');
-      await fetch('https://localhost:7033/api/cart/sync', {
+      await fetch(`${API_URL}/cart/sync`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -7,7 +7,7 @@ import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 
-const IMAGE_BASE_URL = 'https://localhost:7033';
+import { IMAGE_BASE_URL } from '@/config';
 
 const getImageUrl = (imageUrl: string | null | undefined): string => {
     if (!imageUrl) return 'https://via.placeholder.com/300x300?text=No+Image';

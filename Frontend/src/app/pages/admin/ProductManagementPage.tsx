@@ -3,6 +3,7 @@ import { Plus, Search, Edit, Trash2, Eye, Package, Loader2, AlertTriangle, Image
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { Card } from '@/app/components/ui/card';
+import { IMAGE_BASE_URL } from '@/config';
 import { Label } from '@/app/components/ui/label';
 import { Textarea } from '@/app/components/ui/textarea';
 import {
@@ -352,7 +353,7 @@ export function ProductManagementPage() {
         {formData.imageUrl && (
           <div className="mt-1 w-24 h-24 rounded-lg border border-slate-200 overflow-hidden bg-slate-50 relative group">
             <img
-              src={formData.imageUrl.startsWith('http') ? formData.imageUrl : `https://localhost:7033/${formData.imageUrl}`}
+              src={formData.imageUrl.startsWith('http') ? formData.imageUrl : `${IMAGE_BASE_URL}/${formData.imageUrl}`}
               alt="Preview"
               className="w-full h-full object-cover"
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}

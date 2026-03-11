@@ -1,3 +1,4 @@
+import { API_URL, IMAGE_BASE_URL } from '@/config';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -71,13 +72,12 @@ const statusConfig = {
 
 type FilterStatus = 'all' | Order['status'];
 
-const IMAGE_BASE_URL = 'https://localhost:7033';
 
 // Helper function để fix image URL
 const getImageUrl = (imageUrl: string | null | undefined) => {
   if (!imageUrl) return '';
   if (imageUrl.startsWith('http')) {
-    // Fix URL bị thiếu / sau port (https://localhost:7033images/... → https://localhost:7033/images/...)
+    // Fix URL bị thiếu / sau port (https://localhost:7033images/... → ${IMAGE_BASE_URL}/images/...)
     // Dùng [^/\d] thay vì (?!\/) để tránh regex backtracking
     return imageUrl.replace(/(:\d+)([^/\d])/, '$1/$2');
   }
@@ -115,7 +115,7 @@ export function OrdersPage() {
 
       console.log('Loading orders with token:', token.substring(0, 20) + '...');
 
-      const response = await fetch('https://localhost:7033/api/orders', {
+      const response = await fetch(`${API_URL}/orders`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

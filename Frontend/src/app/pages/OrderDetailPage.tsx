@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { API_URL, IMAGE_BASE_URL } from '@/config';
 import {
   Package,
   Clock,
@@ -30,7 +31,7 @@ const statusConfig = {
 
 const statusSteps = ['pending', 'confirmed', 'shipping', 'delivered'];
 
-const IMAGE_BASE_URL = 'https://localhost:7033';
+
 
 const getImageUrl = (imageUrl: string | null | undefined) => {
   if (!imageUrl) return '';
@@ -44,7 +45,7 @@ const getImageUrl = (imageUrl: string | null | undefined) => {
 
 const fetchProductInfo = async (productId: number) => {
   try {
-    const response = await fetch(`https://localhost:7033/api/products/${productId}`);
+    const response = await fetch(`${API_URL}/products/${productId}`);
     if (response.ok) {
       return await response.json();
     }
@@ -72,7 +73,7 @@ export function OrderDetailPage() {
     setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://localhost:7033/api/orders/${id}`, {
+      const response = await fetch(`${API_URL}/orders/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -143,7 +144,7 @@ export function OrderDetailPage() {
     setIsCancelling(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://localhost:7033/api/orders/${order.id}/cancel`, {
+      const response = await fetch(`${API_URL}/orders/${order.id}/cancel`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

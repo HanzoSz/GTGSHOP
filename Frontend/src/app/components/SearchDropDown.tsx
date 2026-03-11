@@ -15,7 +15,7 @@ interface SearchDropdownProps {
   className?: string;
 }
 
-const IMAGE_BASE_URL = 'https://localhost:7033';
+import { IMAGE_BASE_URL, API_URL } from '@/config';
 
 // ===== FIX: Hàm xử lý URL hình ảnh =====
 const getImageUrl = (imageUrl: string | null | undefined): string => {
@@ -176,7 +176,7 @@ export function SearchDropdown({ className = '' }: SearchDropdownProps) {
   const searchProducts = async (searchQuery: string) => {
     try {
       // Lấy tất cả sản phẩm và lọc ở frontend
-      const response = await fetch('https://localhost:7033/api/products');
+      const response = await fetch(`${API_URL}/products`);
 
       if (response.ok) {
         const data = await response.json();

@@ -24,7 +24,7 @@ interface WishlistContextType {
 
 const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
 
-const API_BASE = 'https://localhost:7033';
+import { IMAGE_BASE_URL as API_BASE } from '@/config';
 
 export function WishlistProvider({ children }: { children: ReactNode }) {
     const { user, isAuthenticated, isLoading: authLoading } = useAuth();

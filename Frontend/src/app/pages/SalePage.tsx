@@ -6,7 +6,7 @@ import { Footer } from '../components/Footer';
 import { ProductCard, type Product } from '../components/ProductCard';
 import axios from 'axios';
 
-const API_URL = 'https://localhost:7033/api';
+import { API_URL } from '@/config';
 
 interface SaleApiResponse {
     items: any[];
@@ -202,8 +202,8 @@ export function SalePage() {
                                             key={pageNum}
                                             onClick={() => setCurrentPage(pageNum)}
                                             className={`w-10 h-10 rounded-lg text-sm font-medium transition-colors ${currentPage === pageNum
-                                                    ? 'bg-red-600 text-white shadow-lg shadow-red-200'
-                                                    : 'border border-gray-200 hover:bg-gray-50 text-gray-700'
+                                                ? 'bg-red-600 text-white shadow-lg shadow-red-200'
+                                                : 'border border-gray-200 hover:bg-gray-50 text-gray-700'
                                                 }`}
                                         >
                                             {pageNum}
