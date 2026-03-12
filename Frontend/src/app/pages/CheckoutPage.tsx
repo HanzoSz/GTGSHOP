@@ -1,6 +1,6 @@
 import { API_URL, IMAGE_BASE_URL } from '@/config';
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import {
   MapPin,
   Phone,
@@ -80,8 +80,20 @@ const getImageUrl = (imageUrl: string | null | undefined): string => {
 
 export function CheckoutPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { items, totalItems, totalPrice, clearCart } = useCart();
   const { user } = useAuth();
+
+  // Nhận voucher từ CartPage
+  const voucherState = location.state as {
+    voucherCode?: string;
+    discountPercent?: number;
+    discountAmount?: number;
+  } | null;
+
+  const discountAmount = voucherState?.discountAmount || 0;
+  const voucherCode = voucherState?.voucherCode || '';
+  const discountPercent = voucherState?.discountPercent || 0;
 
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -109,7 +121,7 @@ export function CheckoutPage() {
   };
 
   const shippingFee = totalPrice >= 2000000 ? 0 : 30000;
-  const finalTotal = totalPrice + shippingFee;
+  const finalTotal = totalPrice - discountAmount + shippingFee;
 
   const handleShippingChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setShippingInfo({
@@ -158,6 +170,8 @@ export function CheckoutPage() {
         paymentMethod: paymentMethod,
         totalAmount: finalTotal,
         shippingFee: shippingFee,
+        voucherCode: voucherCode || undefined,
+        discountAmount: discountAmount || undefined,
       };
 
       console.log('Sending order data:', orderData);
@@ -624,6 +638,14 @@ export function CheckoutPage() {
                     {shippingFee === 0 ? 'Miễn phí' : formatPrice(shippingFee)}
                   </span>
                 </div>
+                {discountAmount > 0 && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-500 flex items-center gap-1">
+                      Voucher <span className="text-xs bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded font-medium">{voucherCode}</span>
+                    </span>
+                    <span className="text-red-600 font-medium">-{formatPrice(discountAmount)}</span>
+                  </div>
+                )}
                 {shippingFee > 0 && (
                   <p className="text-xs text-orange-600">💡 Miễn phí vận chuyển cho đơn từ 2.000.000đ</p>
                 )}

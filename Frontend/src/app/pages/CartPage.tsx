@@ -1,10 +1,12 @@
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Trash2, Plus, Minus, ShoppingBag, ArrowLeft, ShoppingCart } from 'lucide-react';
+import { Trash2, Plus, Minus, ShoppingBag, ArrowLeft, ShoppingCart, Ticket, X, Check, ChevronDown } from 'lucide-react';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { Button } from '../components/ui/button';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { getMyVouchers, validateVoucher, Voucher } from '../../services/api';
 
 import { IMAGE_BASE_URL } from '@/config';
 
@@ -20,6 +22,77 @@ export function CartPage() {
   const { items, totalItems, totalPrice, updateQuantity, removeFromCart, clearCart } = useCart();
   const { isAuthenticated } = useAuth();
 
+  // Voucher state
+  const [voucherCode, setVoucherCode] = useState('');
+  const [appliedVoucher, setAppliedVoucher] = useState<{ code: string; discountPercent: number } | null>(null);
+  const [voucherError, setVoucherError] = useState('');
+  const [voucherSuccess, setVoucherSuccess] = useState('');
+  const [myVouchers, setMyVouchers] = useState<Voucher[]>([]);
+  const [showVoucherDropdown, setShowVoucherDropdown] = useState(false);
+  const [voucherLoading, setVoucherLoading] = useState(false);
+  const voucherRef = useRef<HTMLDivElement>(null);
+
+  // Tính giảm giá
+  const discountAmount = appliedVoucher
+    ? Math.round(totalPrice * appliedVoucher.discountPercent / 100)
+    : 0;
+  const finalTotal = totalPrice - discountAmount;
+
+  // Load voucher của user
+  useEffect(() => {
+    if (isAuthenticated) {
+      getMyVouchers().then(setMyVouchers);
+    }
+  }, [isAuthenticated]);
+
+  // Click outside đóng dropdown
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (voucherRef.current && !voucherRef.current.contains(e.target as Node)) {
+        setShowVoucherDropdown(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleApplyVoucher = async () => {
+    const code = voucherCode.trim();
+    if (!code) return;
+    setVoucherLoading(true);
+    setVoucherError('');
+    setVoucherSuccess('');
+    try {
+      const result = await validateVoucher(code);
+      if (result.valid && result.discountPercent) {
+        setAppliedVoucher({ code, discountPercent: result.discountPercent });
+        setVoucherSuccess(`Áp dụng thành công! Giảm ${result.discountPercent}%`);
+        setShowVoucherDropdown(false);
+      } else {
+        setVoucherError(result.message || 'Mã không hợp lệ');
+      }
+    } catch {
+      setVoucherError('Có lỗi xảy ra');
+    } finally {
+      setVoucherLoading(false);
+    }
+  };
+
+  const handleSelectVoucher = (voucher: Voucher) => {
+    setVoucherCode(voucher.code);
+    setAppliedVoucher({ code: voucher.code, discountPercent: voucher.discountPercent });
+    setVoucherSuccess(`Áp dụng thành công! Giảm ${voucher.discountPercent}%`);
+    setVoucherError('');
+    setShowVoucherDropdown(false);
+  };
+
+  const handleRemoveVoucher = () => {
+    setAppliedVoucher(null);
+    setVoucherCode('');
+    setVoucherSuccess('');
+    setVoucherError('');
+  };
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('vi-VN', {
       style: 'currency',
@@ -32,7 +105,13 @@ export function CartPage() {
       // Chuyển đến trang đăng nhập, sau đó quay lại checkout
       navigate('/login', { state: { from: '/checkout' } });
     } else {
-      navigate('/checkout');
+      navigate('/checkout', {
+        state: appliedVoucher ? {
+          voucherCode: appliedVoucher.code,
+          discountPercent: appliedVoucher.discountPercent,
+          discountAmount: discountAmount,
+        } : undefined
+      });
     }
   };
 
@@ -182,7 +261,7 @@ export function CartPage() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-500">Giảm giá</span>
-                  <span className="text-red-600 font-medium">-{formatPrice(0)}</span>
+                  <span className="text-red-600 font-medium">-{formatPrice(discountAmount)}</span>
                 </div>
               </div>
 
@@ -190,21 +269,92 @@ export function CartPage() {
 
               <div className="flex justify-between items-center mb-6">
                 <span className="font-bold text-gray-800">Tổng cộng</span>
-                <span className="text-2xl font-bold text-red-600">{formatPrice(totalPrice)}</span>
+                <span className="text-2xl font-bold text-red-600">{formatPrice(finalTotal)}</span>
               </div>
 
-              {/* Coupon */}
-              <div className="mb-4">
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    placeholder="Nhập mã giảm giá"
-                    className="flex-1 px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
-                  />
-                  <Button variant="outline" className="border-red-600 text-red-600 hover:bg-red-50">
-                    Áp dụng
-                  </Button>
-                </div>
+              {/* Voucher Input + Dropdown */}
+              <div className="mb-4" ref={voucherRef}>
+                {appliedVoucher ? (
+                  <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-lg px-3 py-2">
+                    <Ticket className="w-4 h-4 text-green-600" />
+                    <div className="flex-1">
+                      <span className="text-sm font-semibold text-green-700">{appliedVoucher.code}</span>
+                      <span className="text-xs text-green-600 ml-2">-{appliedVoucher.discountPercent}%</span>
+                    </div>
+                    <button onClick={handleRemoveVoucher} className="text-gray-400 hover:text-red-500">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="relative">
+                    <div className="flex gap-2">
+                      <div className="relative flex-1">
+                        <input
+                          type="text"
+                          placeholder="Nhập mã giảm giá"
+                          value={voucherCode}
+                          onChange={(e) => { setVoucherCode(e.target.value.toUpperCase()); setVoucherError(''); }}
+                          onFocus={() => { if (isAuthenticated && myVouchers.length > 0) setShowVoucherDropdown(true); }}
+                          className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 pr-8"
+                          onKeyDown={(e) => { if (e.key === 'Enter') handleApplyVoucher(); }}
+                        />
+                        {isAuthenticated && myVouchers.length > 0 && (
+                          <button
+                            onClick={() => setShowVoucherDropdown(!showVoucherDropdown)}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                          >
+                            <ChevronDown className={`w-4 h-4 transition-transform ${showVoucherDropdown ? 'rotate-180' : ''}`} />
+                          </button>
+                        )}
+                      </div>
+                      <Button
+                        variant="outline"
+                        className="border-red-600 text-red-600 hover:bg-red-50"
+                        onClick={handleApplyVoucher}
+                        disabled={voucherLoading || !voucherCode.trim()}
+                      >
+                        {voucherLoading ? '...' : 'Áp dụng'}
+                      </Button>
+                    </div>
+
+                    {/* Dropdown danh sách voucher */}
+                    {showVoucherDropdown && myVouchers.length > 0 && (
+                      <div className="absolute top-full left-0 right-0 mt-1 bg-white border rounded-lg shadow-lg z-10 overflow-hidden">
+                        <div className="px-3 py-2 bg-gray-50 border-b">
+                          <p className="text-xs font-medium text-gray-500">Voucher của bạn</p>
+                        </div>
+                        {myVouchers.map((v) => (
+                          <button
+                            key={v.code}
+                            onClick={() => handleSelectVoucher(v)}
+                            className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-orange-50 transition-colors text-left"
+                          >
+                            <div className="w-10 h-10 bg-gradient-to-r from-amber-400 to-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                              <Ticket className="w-5 h-5 text-white" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-bold text-gray-800 tracking-wide">{v.code}</p>
+                              <p className="text-xs text-orange-600">Giảm {v.discountPercent}% toàn bộ đơn hàng</p>
+                            </div>
+                            <span className="text-lg font-bold text-red-600">-{v.discountPercent}%</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {voucherError && (
+                  <p className="text-xs text-red-500 mt-1">{voucherError}</p>
+                )}
+                {voucherSuccess && !appliedVoucher && (
+                  <p className="text-xs text-green-600 mt-1">{voucherSuccess}</p>
+                )}
+                {!isAuthenticated && (
+                  <p className="text-xs text-gray-400 mt-1">
+                    <Link to="/login" className="text-red-500 hover:underline">Đăng nhập</Link> để sử dụng voucher
+                  </p>
+                )}
               </div>
 
               <Button

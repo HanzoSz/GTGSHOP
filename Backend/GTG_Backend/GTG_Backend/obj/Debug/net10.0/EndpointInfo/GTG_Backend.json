@@ -1828,6 +1828,61 @@
         }
       }
     },
+    "/api/Vouchers/claim": {
+      "post": {
+        "tags": [
+          "Vouchers"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Vouchers/my": {
+      "get": {
+        "tags": [
+          "Vouchers"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Vouchers/validate": {
+      "post": {
+        "tags": [
+          "Vouchers"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateVoucherRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateVoucherRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateVoucherRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Wishlist": {
       "get": {
         "tags": [
@@ -2104,6 +2159,10 @@
           "shippingFee": {
             "type": "number",
             "format": "double"
+          },
+          "voucherCode": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2296,6 +2355,14 @@
           "note": {
             "type": "string",
             "nullable": true
+          },
+          "voucherCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "discountAmount": {
+            "type": "number",
+            "format": "double"
           },
           "items": {
             "type": "array",
@@ -2687,6 +2754,16 @@
         },
         "additionalProperties": false
       },
+      "ValidateVoucherRequest": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "VnPayPaymentRequest": {
         "type": "object",
         "properties": {
@@ -2753,6 +2830,9 @@
     },
     {
       "name": "Products"
+    },
+    {
+      "name": "Vouchers"
     },
     {
       "name": "Wishlist"

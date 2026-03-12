@@ -1110,6 +1110,42 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "GTG_Backend.Controllers.VouchersController",
+    "Method": "ClaimVoucher",
+    "RelativePath": "api/Vouchers/claim",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GTG_Backend.Controllers.VouchersController",
+    "Method": "GetMyVouchers",
+    "RelativePath": "api/Vouchers/my",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GTG_Backend.Controllers.VouchersController",
+    "Method": "ValidateVoucher",
+    "RelativePath": "api/Vouchers/validate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "GTG_Backend.Controllers.ValidateVoucherRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "GTG_Backend.Controllers.WishlistController",
     "Method": "GetWishlist",
     "RelativePath": "api/Wishlist",

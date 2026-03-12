@@ -56,6 +56,12 @@ namespace GTG_Backend.Models
 
         public string? Note { get; set; }
 
+        [StringLength(20)]
+        public string? VoucherCode { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal DiscountAmount { get; set; }
+
         // ✅ Thêm lý do hủy
         public string? CancelReason { get; set; }
 

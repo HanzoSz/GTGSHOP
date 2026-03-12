@@ -823,3 +823,83 @@ export async function getAdminAnalytics(): Promise<AnalyticsData> {
         };
     }
 }
+
+// ============== VOUCHER API ==============
+
+export interface Voucher {
+    code: string;
+    discountPercent: number;
+    createdAt?: string;
+}
+
+export interface VoucherValidation {
+    valid: boolean;
+    discountPercent?: number;
+    message?: string;
+}
+
+// Nhận voucher (mỗi user 1 lần duy nhất)
+export async function claimVoucher(): Promise<{ success: boolean; voucher?: Voucher; message?: string }> {
+    try {
+        const response = await axios.post(`${API_URL}/vouchers/claim`);
+        const d = response.data;
+        return {
+            success: true,
+            voucher: {
+                code: d.code || d.Code,
+                discountPercent: d.discountPercent || d.DiscountPercent,
+            },
+            message: d.message || d.Message || 'Nhận voucher thành công!',
+        };
+    } catch (error: any) {
+        if (error.response?.status === 409) {
+            const d = error.response.data;
+            const v = d.voucher || d.Voucher;
+            return {
+                success: false,
+                voucher: v ? { code: v.code || v.Code, discountPercent: v.discountPercent || v.DiscountPercent } : undefined,
+                message: d.message || d.Message || 'Bạn đã nhận voucher rồi',
+            };
+        }
+        console.error('Lỗi nhận voucher:', error);
+        return { success: false, message: 'Có lỗi xảy ra khi nhận voucher' };
+    }
+}
+
+// Lấy danh sách voucher chưa dùng của user
+export async function getMyVouchers(): Promise<Voucher[]> {
+    try {
+        const response = await axios.get(`${API_URL}/vouchers/my`);
+        const data = response.data;
+        if (Array.isArray(data)) {
+            return data.map((v: any) => ({
+                code: v.code || v.Code,
+                discountPercent: v.discountPercent || v.DiscountPercent,
+                createdAt: v.createdAt || v.CreatedAt,
+            }));
+        }
+        return [];
+    } catch (error) {
+        console.error('Lỗi lấy voucher:', error);
+        return [];
+    }
+}
+
+// Validate mã voucher
+export async function validateVoucher(code: string): Promise<VoucherValidation> {
+    try {
+        const response = await axios.post(`${API_URL}/vouchers/validate`, { code });
+        const d = response.data;
+        return {
+            valid: d.valid ?? d.Valid ?? true,
+            discountPercent: d.discountPercent || d.DiscountPercent,
+            message: d.message || d.Message,
+        };
+    } catch (error: any) {
+        const d = error.response?.data;
+        return {
+            valid: false,
+            message: d?.message || d?.Message || 'Mã voucher không hợp lệ',
+        };
+    }
+}

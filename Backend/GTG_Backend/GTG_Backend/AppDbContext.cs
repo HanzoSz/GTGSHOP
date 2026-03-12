@@ -18,5 +18,6 @@ namespace GTG_Backend
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<ProductReview> ProductReviews { get; set; }
         public DbSet<WishlistItem> WishlistItems { get; set; }
+        public DbSet<Voucher> Vouchers { get; set; }
     }
 }

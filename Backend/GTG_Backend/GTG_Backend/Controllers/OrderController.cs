@@ -58,8 +58,33 @@ namespace GTG_Backend.Controllers
                 CreatedAt = DateTime.Now
             };
 
+            // Xử lý voucher nếu có
+            Voucher? voucher = null;
+            if (!string.IsNullOrEmpty(request.VoucherCode))
+            {
+                voucher = await _context.Vouchers
+                    .FirstOrDefaultAsync(v => v.Code == request.VoucherCode && v.UserId == userId.Value && !v.IsUsed);
+
+                if (voucher == null)
+                    return BadRequest(new { message = "Mã voucher không hợp lệ hoặc đã sử dụng" });
+
+                var discountAmount = order.TotalAmount * voucher.DiscountPercent / 100;
+                order.VoucherCode = voucher.Code;
+                order.DiscountAmount = discountAmount;
+                order.TotalAmount = order.TotalAmount - discountAmount;
+            }
+
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
+
+            // Đánh dấu voucher đã sử dụng
+            if (voucher != null)
+            {
+                voucher.IsUsed = true;
+                voucher.UsedAt = DateTime.UtcNow;
+                voucher.OrderId = order.Id;
+                await _context.SaveChangesAsync();
+            }
 
             // Tạo OrderItems - lấy thông tin từ Products
             foreach (var item in request.Items)
@@ -156,6 +181,8 @@ namespace GTG_Backend.Controllers
                     ShippingDistrict = o.ShippingDistrict,
                     ShippingWard = o.ShippingWard,
                     Note = o.Note,
+                    VoucherCode = o.VoucherCode,
+                    DiscountAmount = o.DiscountAmount,
                     Items = o.OrderItems!.Select(oi => new OrderItemResponse
                     {
                         ProductId = oi.ProductId,
@@ -199,6 +226,8 @@ namespace GTG_Backend.Controllers
                     ShippingDistrict = o.ShippingDistrict,
                     ShippingWard = o.ShippingWard,
                     Note = o.Note,
+                    VoucherCode = o.VoucherCode,
+                    DiscountAmount = o.DiscountAmount,
                     Items = o.OrderItems!.Select(oi => new OrderItemResponse
                     {
                         ProductId = oi.ProductId,

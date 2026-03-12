@@ -15,13 +15,10 @@ export function Footer() {
               Cửa hàng linh kiện PC chính hãng - Chuyên tư vấn build PC Gaming, Văn phòng, Đồ họa với công nghệ AI chatbot thông minh.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center theme-footer-hover transition-colors">
+              <a href="https://www.facebook.com/ttgshopvn" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center theme-footer-hover transition-colors">
                 <span>f</span>
               </a>
-              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center theme-footer-hover transition-colors">
-                <span>in</span>
-              </a>
-              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center theme-footer-hover transition-colors">
+              <a href="https://www.youtube.com/@tructiepgame-official" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center theme-footer-hover transition-colors">
                 <span>yt</span>
               </a>
             </div>
@@ -32,7 +29,7 @@ export function Footer() {
             <h3 className="text-white mb-4">Về GTG Shop</h3>
             <ul className="space-y-2 text-sm">
               <li><a href="#" className="theme-link-hover">Giới thiệu công ty</a></li>
-              <li><a href="#" className="theme-link-hover">Hệ thống cửa hàng</a></li>
+              <li><a href="https://www.google.com/maps/place/M%C3%A1y+T%C3%ADnh+PCM/@21.0120902,105.8199834,19z/data=!4m6!3m5!1s0x3135adf3ddfe2f41:0x2f69910a2650fb88!8m2!3d21.0121923!4d105.8205101!16s%2Fg%2F11gxm5_gcn" target="_blank" rel="noopener noreferrer" className="theme-link-hover">Hệ thống cửa hàng</a></li>
               <li><a href="#" className="theme-link-hover">Chính sách bảo mật</a></li>
               <li><a href="#" className="theme-link-hover">Điều khoản sử dụng</a></li>
               <li><a href="#" className="theme-link-hover">Chính sách bảo hành</a></li>
@@ -59,15 +56,15 @@ export function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
                 <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5 theme-icon" />
-                <span>123 Đường Láng, Đống Đa, Hà Nội</span>
+                <span>83 - 85 Thái Hà - Đống Đa - Hà Nội</span>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="w-5 h-5 flex-shrink-0 theme-icon" />
-                <span>Hotline: 0901 234 567</span>
+                <span>Hotline: 087.997.9997 - 098.655.2233</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="w-5 h-5 flex-shrink-0 theme-icon" />
-                <span>support@gtgshop.vn</span>
+                <span>gtgshoponline@gmail.com</span>
               </li>
             </ul>
             <div className="mt-4 p-4 theme-footer-box rounded-lg border">
@@ -83,7 +80,7 @@ export function Footer() {
       <div className="border-t border-gray-800">
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
-            <p>© 2025 GTG Computer Shop. Chúc Quý khách năm mới an khang thịnh vượng 🏮</p>
+            <p>© 2026 GTG Computer Shop. Chúc Quý khách năm mới an khang thịnh vượng 🏮</p>
             <div className="flex gap-6">
               <a href="#" className="hover:text-red-400">Chính sách bảo mật</a>
               <a href="#" className="hover:text-red-400">Điều khoản</a>

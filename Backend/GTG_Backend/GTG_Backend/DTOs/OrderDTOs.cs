@@ -15,6 +15,7 @@ namespace GTG_Backend.DTOs
         public string PaymentMethod { get; set; } = "cod";
         public decimal TotalAmount { get; set; }
         public decimal ShippingFee { get; set; }
+        public string? VoucherCode { get; set; }
     }
 
     public class OrderItemRequest
@@ -60,7 +61,9 @@ namespace GTG_Backend.DTOs
         public string? ShippingDistrict { get; set; }
         public string? ShippingWard { get; set; }
         public string? Note { get; set; }
-        
+        public string? VoucherCode { get; set; }
+        public decimal DiscountAmount { get; set; }
+
         public List<OrderItemResponse> Items { get; set; } = new();
     }
 
