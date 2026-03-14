@@ -19,8 +19,10 @@ public class VnPayService
         _logger = logger;
         _config = new VnPayConfig
         {
-            TmnCode = configuration["VnPay:TmnCode"] ?? "DEMOV210",
-            HashSecret = configuration["VnPay:HashSecret"] ?? "RAOEXHYVSDDIUOWTFQMVBXBJQTDXNPVA",
+            TmnCode = configuration["VnPay:TmnCode"]
+                ?? throw new InvalidOperationException("VnPay:TmnCode is required in configuration"),
+            HashSecret = configuration["VnPay:HashSecret"]
+                ?? throw new InvalidOperationException("VnPay:HashSecret is required in configuration"),
             BaseUrl = configuration["VnPay:BaseUrl"] ?? "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html",
             ReturnUrl = configuration["VnPay:ReturnUrl"] ?? "http://localhost:5173/payment/vnpay/return",
         };

@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using GTG_Backend.DTOs;
 using GTG_Backend.Models;
 using GTG_Backend.Services;
@@ -36,117 +36,146 @@ namespace GTG_Backend.Controllers
                 return BadRequest(new { message = "Giỏ hàng trống" });
 
             var baseUrl = $"{Request.Scheme}://{Request.Host}";
-            var orderCode = $"ORD{DateTime.Now:yyyyMMddHHmmss}";
+            var orderCode = $"ORD{DateTime.Now:yyyyMMddHHmmss}{Guid.NewGuid().ToString("N")[..6].ToUpper()}";
 
-            // Tạo Order
-            var order = new Order
+            // ✅ Bọc trong transaction — đảm bảo tất cả hoặc không gì cả
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
             {
-                UserId = userId.Value,
-                OrderCode = orderCode,
-                Status = "pending",
-                TotalAmount = request.TotalAmount,
-                ShippingFee = request.ShippingFee,
-                PaymentMethod = request.PaymentMethod,
-                ShippingFullName = request.ShippingFullName,
-                ShippingPhone = request.ShippingPhone,
-                ShippingEmail = request.ShippingEmail,
-                ShippingAddress = request.ShippingAddress,
-                ShippingCity = request.ShippingCity,
-                ShippingDistrict = request.ShippingDistrict,
-                ShippingWard = request.ShippingWard,
-                Note = request.Note,
-                CreatedAt = DateTime.Now
-            };
+                // === VALIDATION TRƯỚC KHI GHI DỮ LIỆU ===
 
-            // Xử lý voucher nếu có
-            Voucher? voucher = null;
-            if (!string.IsNullOrEmpty(request.VoucherCode))
-            {
-                voucher = await _context.Vouchers
-                    .FirstOrDefaultAsync(v => v.Code == request.VoucherCode && v.UserId == userId.Value && !v.IsUsed);
-
-                if (voucher == null)
-                    return BadRequest(new { message = "Mã voucher không hợp lệ hoặc đã sử dụng" });
-
-                var discountAmount = order.TotalAmount * voucher.DiscountPercent / 100;
-                order.VoucherCode = voucher.Code;
-                order.DiscountAmount = discountAmount;
-                order.TotalAmount = order.TotalAmount - discountAmount;
-            }
-
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
-
-            // Đánh dấu voucher đã sử dụng
-            if (voucher != null)
-            {
-                voucher.IsUsed = true;
-                voucher.UsedAt = DateTime.UtcNow;
-                voucher.OrderId = order.Id;
-                await _context.SaveChangesAsync();
-            }
-
-            // Tạo OrderItems - lấy thông tin từ Products
-            foreach (var item in request.Items)
-            {
-                var product = await _context.Products.FindAsync(item.ProductId);
-                if (product == null)
-                    return BadRequest(new { message = $"Sản phẩm ID {item.ProductId} không tồn tại" });
-
-                if (product.Stock < item.Quantity)
-                    return BadRequest(new { message = $"Sản phẩm {product.Name} không đủ số lượng" });
-
-                // Trừ stock
-                product.Stock -= item.Quantity;
-
-                // Lưu OrderItem với ProductName, ProductImage
-                _context.OrderItems.Add(new OrderItem
+                // Validate voucher nếu có
+                Voucher? voucher = null;
+                if (!string.IsNullOrEmpty(request.VoucherCode))
                 {
-                    OrderId = order.Id,
-                    ProductId = item.ProductId,
-                    ProductName = product.Name,
-                    ProductImage = product.ImageUrl != null
-                        ? (product.ImageUrl.StartsWith("http") ? product.ImageUrl : $"{baseUrl}/{product.ImageUrl.TrimStart('/')}")
-                        : null,
-                    Quantity = item.Quantity,
-                    Price = item.Price
+                    voucher = await _context.Vouchers
+                        .FirstOrDefaultAsync(v => v.Code == request.VoucherCode && v.UserId == userId.Value && !v.IsUsed);
+
+                    if (voucher == null)
+                        return BadRequest(new { message = "Mã voucher không hợp lệ hoặc đã sử dụng" });
+                }
+
+                // Validate tất cả sản phẩm + tính TotalAmount từ DB (không tin frontend)
+                var orderItems = new List<OrderItem>();
+                decimal calculatedTotal = 0;
+                foreach (var item in request.Items)
+                {
+                    var product = await _context.Products.FindAsync(item.ProductId);
+                    if (product == null)
+                        return BadRequest(new { message = $"Sản phẩm ID {item.ProductId} không tồn tại" });
+
+                    if (product.Stock < item.Quantity)
+                        return BadRequest(new { message = $"Sản phẩm {product.Name} không đủ số lượng (còn {product.Stock})" });
+
+                    // Lấy giá từ DB — không dùng item.Price từ frontend
+                    var unitPrice = product.Price;
+                    calculatedTotal += unitPrice * item.Quantity;
+
+                    // Trừ stock
+                    product.Stock -= item.Quantity;
+
+                    // Chuẩn bị OrderItem
+                    orderItems.Add(new OrderItem
+                    {
+                        ProductId = item.ProductId,
+                        ProductName = product.Name,
+                        ProductImage = product.ImageUrl != null
+                            ? (product.ImageUrl.StartsWith("http") ? product.ImageUrl : $"{baseUrl}/{product.ImageUrl.TrimStart('/')}")
+                            : null,
+                        Quantity = item.Quantity,
+                        Price = unitPrice  // ✅ Giá từ DB
+                    });
+                }
+
+                // === GHI DỮ LIỆU (sau khi validate xong) ===
+
+                // Tạo Order
+                var order = new Order
+                {
+                    UserId = userId.Value,
+                    OrderCode = orderCode,
+                    Status = "pending",
+                    TotalAmount = calculatedTotal,  // ✅ Tính từ DB, không tin frontend
+                    ShippingFee = request.ShippingFee,
+                    PaymentMethod = request.PaymentMethod,
+                    ShippingFullName = request.ShippingFullName,
+                    ShippingPhone = request.ShippingPhone,
+                    ShippingEmail = request.ShippingEmail,
+                    ShippingAddress = request.ShippingAddress,
+                    ShippingCity = request.ShippingCity,
+                    ShippingDistrict = request.ShippingDistrict,
+                    ShippingWard = request.ShippingWard,
+                    Note = request.Note,
+                    CreatedAt = DateTime.Now
+                };
+
+                // Áp dụng voucher
+                if (voucher != null)
+                {
+                    var discountAmount = order.TotalAmount * voucher.DiscountPercent / 100;
+                    order.VoucherCode = voucher.Code;
+                    order.DiscountAmount = discountAmount;
+                    order.TotalAmount = order.TotalAmount - discountAmount;
+
+                    voucher.IsUsed = true;
+                    voucher.UsedAt = DateTime.UtcNow;
+                }
+
+                _context.Orders.Add(order);
+                await _context.SaveChangesAsync(); // Cần ID cho OrderItems
+
+                // Gán OrderId cho items + voucher
+                foreach (var oi in orderItems)
+                    oi.OrderId = order.Id;
+                _context.OrderItems.AddRange(orderItems);
+
+                if (voucher != null)
+                    voucher.OrderId = order.Id;
+
+                // Xóa giỏ hàng
+                var cart = await _context.Carts
+                    .Include(c => c.CartItems)
+                    .FirstOrDefaultAsync(c => c.UserId == userId);
+
+                if (cart?.CartItems != null)
+                    _context.CartItems.RemoveRange(cart.CartItems);
+
+                // ✅ Lưu tất cả + commit transaction
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                // === SAU TRANSACTION (side-effects không ảnh hưởng data) ===
+
+                // VnPay URL
+                string? paymentUrl = null;
+                if (request.PaymentMethod == "vnpay")
+                {
+                    var ipAddress = HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString() ?? "127.0.0.1";
+                    var totalPayment = order.TotalAmount + order.ShippingFee;
+                    paymentUrl = _vnPayService.CreatePaymentUrl(orderCode, totalPayment, null, ipAddress);
+                }
+
+                // Gửi email xác nhận (COD gửi ngay)
+                if (request.PaymentMethod == "cod" && !string.IsNullOrEmpty(request.ShippingEmail))
+                {
+                    await _emailService.SendOrderConfirmationAsync(order, orderItems, request.ShippingEmail);
+                }
+
+                return Ok(new CreateOrderResponse
+                {
+                    Id = order.Id,
+                    OrderCode = orderCode,
+                    Status = "pending",
+                    Message = "Đặt hàng thành công",
+                    PaymentUrl = paymentUrl
                 });
             }
-
-            // Xóa giỏ hàng sau khi đặt hàng
-            var cart = await _context.Carts
-                .Include(c => c.CartItems)
-                .FirstOrDefaultAsync(c => c.UserId == userId);
-
-            if (cart?.CartItems != null)
-                _context.CartItems.RemoveRange(cart.CartItems);
-
-            await _context.SaveChangesAsync();
-
-            // Nếu thanh toán VnPay, tự động tạo URL thanh toán
-            string? paymentUrl = null;
-            if (request.PaymentMethod == "vnpay")
+            catch (Exception ex)
             {
-                var ipAddress = HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString() ?? "127.0.0.1";
-                var totalPayment = order.TotalAmount + order.ShippingFee;
-                paymentUrl = _vnPayService.CreatePaymentUrl(orderCode, totalPayment, null, ipAddress);
+                await transaction.RollbackAsync();
+                Console.WriteLine($"❌ CreateOrder failed: {ex.Message}");
+                return StatusCode(500, new { message = "Đặt hàng thất bại. Vui lòng thử lại." });
             }
-
-            // Gửi email xác nhận đơn hàng (COD gửi ngay, VnPay gửi sau khi thanh toán thành công)
-            if (request.PaymentMethod == "cod" && !string.IsNullOrEmpty(request.ShippingEmail))
-            {
-                var orderItems = await _context.OrderItems.Where(oi => oi.OrderId == order.Id).ToListAsync();
-                await _emailService.SendOrderConfirmationAsync(order, orderItems, request.ShippingEmail);
-            }
-
-            return Ok(new CreateOrderResponse
-            {
-                Id = order.Id,
-                OrderCode = orderCode,
-                Status = "pending",
-                Message = "Đặt hàng thành công",
-                PaymentUrl = paymentUrl
-            });
         }
 
         // GET: api/orders

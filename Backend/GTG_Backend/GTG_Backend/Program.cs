@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -74,8 +74,12 @@ namespace GTG_Backend
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            // Gemini AI Service
-            builder.Services.AddHttpClient<GTG_Backend.Services.GeminiService>();
+            // AI Services — Multi-Model (Strategy Pattern)
+            builder.Services.AddHttpClient<GTG_Backend.Services.GeminiProvider>();
+            builder.Services.AddHttpClient<GTG_Backend.Services.NvidiaProvider>();
+            builder.Services.AddScoped<GTG_Backend.Services.IAiService, GTG_Backend.Services.GeminiProvider>();
+            builder.Services.AddScoped<GTG_Backend.Services.IAiService, GTG_Backend.Services.NvidiaProvider>();
+            builder.Services.AddScoped<GTG_Backend.Services.AiChatService>();
 
             // VnPay Payment Service
             builder.Services.AddSingleton<GTG_Backend.Services.VnPayService>();

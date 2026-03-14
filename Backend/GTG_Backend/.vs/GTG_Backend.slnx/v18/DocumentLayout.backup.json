@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A440DC8B-4F63-6B73-DFC1-F1FFCDD4E094}|GTG_Backend\\GTG_Backend.csproj|d:\\doan_websitebanlinhkien\\backend\\gtg_backend\\gtg_backend\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A440DC8B-4F63-6B73-DFC1-F1FFCDD4E094}|GTG_Backend\\GTG_Backend.csproj|solutionrelative:gtg_backend\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A440DC8B-4F63-6B73-DFC1-F1FFCDD4E094}|GTG_Backend\\GTG_Backend.csproj|d:\\doan_websitebanlinhkien\\backend\\gtg_backend\\gtg_backend\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A440DC8B-4F63-6B73-DFC1-F1FFCDD4E094}|GTG_Backend\\GTG_Backend.csproj|solutionrelative:gtg_backend\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A440DC8B-4F63-6B73-DFC1-F1FFCDD4E094}|GTG_Backend\\GTG_Backend.csproj|d:\\doan_websitebanlinhkien\\backend\\gtg_backend\\gtg_backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A440DC8B-4F63-6B73-DFC1-F1FFCDD4E094}|GTG_Backend\\GTG_Backend.csproj|solutionrelative:gtg_backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -17,10 +25,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A440DC8B-4F63-6B73-DFC1-F1FFCDD4E094}|GTG_Backend\\GTG_Backend.csproj|d:\\doan_websitebanlinhkien\\backend\\gtg_backend\\gtg_backend\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A440DC8B-4F63-6B73-DFC1-F1FFCDD4E094}|GTG_Backend\\GTG_Backend.csproj|solutionrelative:gtg_backend\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A440DC8B-4F63-6B73-DFC1-F1FFCDD4E094}|GTG_Backend\\GTG_Backend.csproj|d:\\doan_websitebanlinhkien\\backend\\gtg_backend\\gtg_backend\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A440DC8B-4F63-6B73-DFC1-F1FFCDD4E094}|GTG_Backend\\GTG_Backend.csproj|solutionrelative:gtg_backend\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A440DC8B-4F63-6B73-DFC1-F1FFCDD4E094}|GTG_Backend\\GTG_Backend.csproj|d:\\doan_websitebanlinhkien\\backend\\gtg_backend\\gtg_backend\\models\\voucher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -70,24 +74,36 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\GTG_Backend\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "GTG_Backend\\appsettings.Development.json",
+              "ToolTip": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\GTG_Backend\\appsettings.Development.json",
+              "RelativeToolTip": "GTG_Backend\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-03-14T13:29:22.403Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "OrderDTOs.cs",
               "DocumentMoniker": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\GTG_Backend\\DTOs\\OrderDTOs.cs",
               "RelativeDocumentMoniker": "GTG_Backend\\DTOs\\OrderDTOs.cs",
               "ToolTip": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\GTG_Backend\\DTOs\\OrderDTOs.cs",
               "RelativeToolTip": "GTG_Backend\\DTOs\\OrderDTOs.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAUwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAUwB0AAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-12T07:38:31.059Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-12T07:38:31.059Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "Order.cs",
               "DocumentMoniker": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\GTG_Backend\\Models\\Order.cs",
               "RelativeDocumentMoniker": "GTG_Backend\\Models\\Order.cs",
@@ -95,25 +111,23 @@
               "RelativeToolTip": "GTG_Backend\\Models\\Order.cs",
               "ViewState": "AgIAACwAAAAAAAAAAAAhwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-12T07:38:23.149Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-12T07:38:23.149Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\GTG_Backend\\AppDbContext.cs",
               "RelativeDocumentMoniker": "GTG_Backend\\AppDbContext.cs",
               "ToolTip": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\GTG_Backend\\AppDbContext.cs",
               "RelativeToolTip": "GTG_Backend\\AppDbContext.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAUwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAUwEgAAABfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-12T07:38:17.533Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-12T07:38:17.533Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Voucher.cs",
               "DocumentMoniker": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\GTG_Backend\\Models\\Voucher.cs",
               "RelativeDocumentMoniker": "GTG_Backend\\Models\\Voucher.cs",
@@ -121,12 +135,11 @@
               "RelativeToolTip": "GTG_Backend\\Models\\Voucher.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-12T07:38:12.605Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-12T07:38:12.605Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "OrderController.cs",
               "DocumentMoniker": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\GTG_Backend\\Controllers\\OrderController.cs",
               "RelativeDocumentMoniker": "GTG_Backend\\Controllers\\OrderController.cs",
@@ -134,12 +147,11 @@
               "RelativeToolTip": "GTG_Backend\\Controllers\\OrderController.cs",
               "ViewState": "AgIAAKIAAAAAAAAAAAAmwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-12T07:38:56.693Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-12T07:38:56.693Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "VoucherController.cs",
               "DocumentMoniker": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\GTG_Backend\\Controllers\\VoucherController.cs",
               "RelativeDocumentMoniker": "GTG_Backend\\Controllers\\VoucherController.cs",
@@ -147,12 +159,11 @@
               "RelativeToolTip": "GTG_Backend\\Controllers\\VoucherController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAIYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-12T07:38:45.574Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-12T07:38:45.574Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\GTG_Backend\\Program.cs",
               "RelativeDocumentMoniker": "GTG_Backend\\Program.cs",
@@ -160,12 +171,11 @@
               "RelativeToolTip": "GTG_Backend\\Program.cs",
               "ViewState": "AgIAAEkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-10T15:22:30.252Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-10T15:22:30.252Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "SeedData.cs",
               "DocumentMoniker": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\GTG_Backend\\Data\\SeedData.cs",
               "RelativeDocumentMoniker": "GTG_Backend\\Data\\SeedData.cs",
@@ -177,7 +187,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "CartDTOs.cs",
               "DocumentMoniker": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\GTG_Backend\\DTOs\\CartDTOs.cs",
               "RelativeDocumentMoniker": "GTG_Backend\\DTOs\\CartDTOs.cs",
@@ -189,7 +199,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "AuthDTOs.cs",
               "DocumentMoniker": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\GTG_Backend\\DTOs\\AuthDTOs.cs",
               "RelativeDocumentMoniker": "GTG_Backend\\DTOs\\AuthDTOs.cs",
@@ -201,7 +211,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Product.cs",
               "DocumentMoniker": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\GTG_Backend\\Models\\Product.cs",
               "RelativeDocumentMoniker": "GTG_Backend\\Models\\Product.cs",
@@ -213,7 +223,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "CartItem.cs",
               "DocumentMoniker": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\GTG_Backend\\Models\\CartItem.cs",
               "RelativeDocumentMoniker": "GTG_Backend\\Models\\CartItem.cs",
@@ -225,7 +235,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "Cart.cs",
               "DocumentMoniker": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\GTG_Backend\\Models\\Cart.cs",
               "RelativeDocumentMoniker": "GTG_Backend\\Models\\Cart.cs",
@@ -237,7 +247,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "Role.cs",
               "DocumentMoniker": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\GTG_Backend\\Models\\Role.cs",
               "RelativeDocumentMoniker": "GTG_Backend\\Models\\Role.cs",
@@ -249,7 +259,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "ChatHistory.cs",
               "DocumentMoniker": "D:\\DoAn_WebsiteBanLinhKien\\Backend\\GTG_Backend\\GTG_Backend\\Models\\ChatHistory.cs",
               "RelativeDocumentMoniker": "GTG_Backend\\Models\\ChatHistory.cs",

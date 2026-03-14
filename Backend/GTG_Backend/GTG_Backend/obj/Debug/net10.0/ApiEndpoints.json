@@ -680,6 +680,16 @@
   },
   {
     "ContainingType": "GTG_Backend.Controllers.ChatController",
+    "Method": "GetAvailableModels",
+    "RelativePath": "api/Chat/models",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GTG_Backend.Controllers.ChatController",
     "Method": "SendMessage",
     "RelativePath": "api/Chat/send",
     "HttpMethod": "POST",

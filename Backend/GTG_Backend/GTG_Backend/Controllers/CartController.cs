@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using GTG_Backend.DTOs;
 using GTG_Backend.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -65,7 +65,6 @@ namespace GTG_Backend.Controllers
 
             // Tìm hoặc tạo cart
             var cart = await _context.Carts
-                .Include(c => c.CartItems)
                 .FirstOrDefaultAsync(c => c.UserId == userId);
 
             if (cart == null)
@@ -80,11 +79,10 @@ namespace GTG_Backend.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            // Xóa cart items cũ
-            if (cart.CartItems != null && cart.CartItems.Any())
-            {
-                _context.CartItems.RemoveRange(cart.CartItems);
-            }
+            // Xóa cart items cũ bằng direct SQL — tránh concurrency conflict
+            await _context.CartItems
+                .Where(ci => ci.CartId == cart.Id)
+                .ExecuteDeleteAsync();
 
             // Thêm cart items mới
             foreach (var item in request.Items)

@@ -7,11 +7,11 @@ namespace GTG_Backend.Controllers
     [Route("api/[controller]")]
     public class ChatController : ControllerBase
     {
-        private readonly GeminiService _geminiService;
+        private readonly AiChatService _aiChatService;
 
-        public ChatController(GeminiService geminiService)
+        public ChatController(AiChatService aiChatService)
         {
-            _geminiService = geminiService;
+            _aiChatService = aiChatService;
         }
 
         // POST: api/chat/send
@@ -25,10 +25,12 @@ namespace GTG_Backend.Controllers
 
             try
             {
-                var response = await _geminiService.GetAnswerAsync(request.UserId, request.Message);
+                var modelKey = string.IsNullOrEmpty(request.Model) ? "gemini" : request.Model;
+                var response = await _aiChatService.GetAnswerAsync(request.UserId, request.Message, modelKey);
                 return Ok(new ChatResponse
                 {
                     Message = response,
+                    Model = modelKey,
                     Timestamp = DateTime.Now
                 });
             }
@@ -45,12 +47,13 @@ namespace GTG_Backend.Controllers
         {
             try
             {
-                var history = await _geminiService.GetChatHistoryAsync(userId);
+                var history = await _aiChatService.GetChatHistoryAsync(userId);
                 var result = history.Select(h => new
                 {
                     h.Id,
                     h.UserMessage,
                     h.BotResponse,
+                    h.ModelUsed,
                     h.SentAt
                 });
                 return Ok(result);
@@ -61,6 +64,14 @@ namespace GTG_Backend.Controllers
                 return StatusCode(500, new { message = "Không thể tải lịch sử chat." });
             }
         }
+
+        // GET: api/chat/models
+        [HttpGet("models")]
+        public IActionResult GetAvailableModels()
+        {
+            var models = _aiChatService.GetAvailableModels();
+            return Ok(models);
+        }
     }
 
     // DTOs
@@ -68,11 +79,13 @@ namespace GTG_Backend.Controllers
     {
         public int UserId { get; set; }
         public string Message { get; set; } = string.Empty;
+        public string? Model { get; set; }
     }
 
     public class ChatResponse
     {
         public string Message { get; set; } = string.Empty;
+        public string Model { get; set; } = string.Empty;
         public DateTime Timestamp { get; set; }
     }
 }

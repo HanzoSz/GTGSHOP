@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { MessageCircle, Send, X, Bot, Cpu, Wrench, Zap } from 'lucide-react';
+import { MessageCircle, Send, X, Bot, Cpu, Wrench, Zap, ChevronDown } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Button } from './ui/button';
@@ -14,7 +14,13 @@ interface Message {
   text: string;
   sender: 'user' | 'bot';
   timestamp: Date;
+  model?: string;
 }
+
+const AI_MODELS = [
+  { key: 'gemini', name: 'Gemini 2.5 Flash', icon: '✨', color: 'from-blue-500 to-cyan-500' },
+  { key: 'nvidia', name: 'NVIDIA Llama 3.1', icon: '🟢', color: 'from-green-500 to-emerald-500' },
+];
 
 export function Chatbot() {
   const { user, isAuthenticated } = useAuth();
@@ -24,6 +30,7 @@ export function Chatbot() {
   useEffect(() => {
     window.dispatchEvent(new CustomEvent('chatbotToggled', { detail: { isOpen } }));
   }, [isOpen]);
+
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -35,8 +42,13 @@ export function Chatbot() {
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [historyLoaded, setHistoryLoaded] = useState(false);
+  const [selectedModel, setSelectedModel] = useState('gemini');
+  const [showModelDropdown, setShowModelDropdown] = useState(false);
   const loadedUserId = useRef<number | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const currentModel = AI_MODELS.find(m => m.key === selectedModel) || AI_MODELS[0];
 
   const welcomeMessage: Message = {
     id: 'welcome',
@@ -54,7 +66,18 @@ export function Chatbot() {
     scrollToBottom();
   }, [messages, isTyping]);
 
-  // Reset khi user thay đổi (đăng xuất/đăng nhập user khác)
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setShowModelDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Reset khi user thay đổi
   useEffect(() => {
     const currentId = user?.id ?? null;
     if (loadedUserId.current !== currentId) {
@@ -79,7 +102,6 @@ export function Chatbot() {
         const history = await response.json();
         if (history.length > 0) {
           const historyMessages: Message[] = [];
-          // Thêm welcome message đầu tiên
           historyMessages.push({
             id: 'welcome',
             text: 'Xin chào! Tôi là AI Assistant của GTG Shop. Tôi có thể giúp bạn:\n\n🎮 Tư vấn build PC Gaming\n💼 Tư vấn PC Văn phòng\n🔧 Nâng cấp cấu hình\n🛠️ Sửa chữa máy tính\n\nBạn cần tư vấn gì ạ?',
@@ -87,8 +109,7 @@ export function Chatbot() {
             timestamp: new Date(history[0].sentAt)
           });
 
-          // Thêm các tin nhắn từ history
-          history.forEach((h: { id: number; userMessage: string; botResponse: string; sentAt: string }) => {
+          history.forEach((h: { id: number; userMessage: string; botResponse: string; modelUsed?: string; sentAt: string }) => {
             historyMessages.push({
               id: `user-${h.id}`,
               text: h.userMessage,
@@ -99,7 +120,8 @@ export function Chatbot() {
               id: `bot-${h.id}`,
               text: h.botResponse,
               sender: 'bot',
-              timestamp: new Date(h.sentAt)
+              timestamp: new Date(h.sentAt),
+              model: h.modelUsed
             });
           });
 
@@ -118,71 +140,7 @@ export function Chatbot() {
     { text: 'Sửa chữa máy tính', icon: Wrench },
   ];
 
-  const handleSendMessage = async () => {
-    if (!inputMessage.trim() || isTyping) return;
-
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      text: inputMessage,
-      sender: 'user',
-      timestamp: new Date()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
-    const messageText = inputMessage;
-    setInputMessage('');
-    setIsTyping(true);
-
-    try {
-      // Gọi API thật
-      const userId = isAuthenticated && user?.id ? user.id : 0;
-      const response = await fetch(`${API_BASE_URL}/chat/send`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, message: messageText }),
-      });
-
-      let botText: string;
-      if (response.ok) {
-        const data = await response.json();
-        botText = data.message;
-      } else {
-        botText = 'Xin lỗi, hệ thống đang bận. Vui lòng thử lại sau hoặc gọi hotline 0901 234 567! 📞';
-      }
-
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: botText,
-        sender: 'bot',
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, botMessage]);
-    } catch (error) {
-      console.error('Chat API error:', error);
-      const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: 'Không thể kết nối đến server. Vui lòng kiểm tra kết nối và thử lại! 🔌',
-        sender: 'bot',
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, errorMessage]);
-    } finally {
-      setIsTyping(false);
-    }
-  };
-
-  const handleQuickQuestion = (question: string) => {
-    setInputMessage(question);
-    // Dùng setTimeout để đảm bảo state đã cập nhật
-    setTimeout(() => {
-      const fakeEvent = { target: { value: question } };
-      void fakeEvent;
-      // Gọi trực tiếp với text
-      handleSendWithText(question);
-    }, 0);
-  };
-
-  const handleSendWithText = async (text: string) => {
+  const sendMessageWithText = async (text: string) => {
     if (!text.trim() || isTyping) return;
 
     const userMessage: Message = {
@@ -201,28 +159,32 @@ export function Chatbot() {
       const response = await fetch(`${API_BASE_URL}/chat/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, message: text }),
+        body: JSON.stringify({ userId, message: text, model: selectedModel }),
       });
 
       let botText: string;
+      let modelUsed = selectedModel;
       if (response.ok) {
         const data = await response.json();
         botText = data.message;
+        modelUsed = data.model || selectedModel;
       } else {
-        botText = 'Xin lỗi, hệ thống đang bận. Vui lòng thử lại sau! 📞';
+        botText = 'Xin lỗi, hệ thống đang bận. Vui lòng thử lại sau hoặc gọi hotline 087.997.9997! 📞';
       }
 
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
         text: botText,
         sender: 'bot',
-        timestamp: new Date()
+        timestamp: new Date(),
+        model: modelUsed
       };
       setMessages(prev => [...prev, botMessage]);
-    } catch {
+    } catch (error) {
+      console.error('Chat API error:', error);
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: 'Không thể kết nối đến server. Vui lòng thử lại! 🔌',
+        text: 'Không thể kết nối đến server. Vui lòng kiểm tra kết nối và thử lại! 🔌',
         sender: 'bot',
         timestamp: new Date()
       };
@@ -230,6 +192,24 @@ export function Chatbot() {
     } finally {
       setIsTyping(false);
     }
+  };
+
+  const handleSendMessage = () => sendMessageWithText(inputMessage);
+
+  const handleQuickQuestion = (question: string) => {
+    setInputMessage(question);
+    setTimeout(() => sendMessageWithText(question), 0);
+  };
+
+  const getModelBadge = (modelKey?: string) => {
+    if (!modelKey) return null;
+    const model = AI_MODELS.find(m => m.key === modelKey);
+    if (!model) return null;
+    return (
+      <span className={`inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-full bg-gradient-to-r ${model.color} text-white font-medium mt-1`}>
+        {model.icon} {model.name}
+      </span>
+    );
   };
 
   return (
@@ -251,25 +231,64 @@ export function Chatbot() {
       {isOpen && (
         <Card className="fixed bottom-6 right-6 w-96 h-[600px] shadow-2xl z-50 flex flex-col border-2 border-red-500">
           {/* Header */}
-          <div className="bg-gradient-to-r from-red-600 to-orange-600 text-white p-4 rounded-t-lg flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <Bot className="w-8 h-8" />
-                <span className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white"></span>
+          <div className="bg-gradient-to-r from-red-600 to-orange-600 text-white p-4 rounded-t-lg">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <Bot className="w-8 h-8" />
+                  <span className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white"></span>
+                </div>
+                <div>
+                  <h3 className="font-bold">AI Assistant GTG 🏮</h3>
+                  <p className="text-xs text-yellow-200">Tư vấn Build PC & Sửa lỗi</p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-bold">AI Assistant GTG 🏮</h3>
-                <p className="text-xs text-yellow-200">Tư vấn Build PC - Ưu đãi Tết</p>
-              </div>
+              <Button
+                onClick={() => setIsOpen(false)}
+                variant="ghost"
+                size="icon"
+                className="text-white hover:bg-white/20"
+              >
+                <X className="w-5 h-5" />
+              </Button>
             </div>
-            <Button
-              onClick={() => setIsOpen(false)}
-              variant="ghost"
-              size="icon"
-              className="text-white hover:bg-white/20"
-            >
-              <X className="w-5 h-5" />
-            </Button>
+
+            {/* Model Selector */}
+            <div className="mt-3 relative" ref={dropdownRef}>
+              <button
+                onClick={() => setShowModelDropdown(!showModelDropdown)}
+                className="flex items-center gap-2 px-3 py-1.5 bg-white/15 hover:bg-white/25 rounded-lg text-sm transition-colors w-full"
+              >
+                <span>{currentModel.icon}</span>
+                <span className="font-medium flex-1 text-left">{currentModel.name}</span>
+                <ChevronDown className={`w-4 h-4 transition-transform ${showModelDropdown ? 'rotate-180' : ''}`} />
+              </button>
+
+              {showModelDropdown && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-xl border overflow-hidden z-10">
+                  {AI_MODELS.map((model) => (
+                    <button
+                      key={model.key}
+                      onClick={() => {
+                        setSelectedModel(model.key);
+                        setShowModelDropdown(false);
+                      }}
+                      className={`flex items-center gap-3 w-full px-4 py-3 text-sm transition-colors ${
+                        selectedModel === model.key
+                          ? 'bg-red-50 text-red-700 font-semibold'
+                          : 'text-gray-700 hover:bg-gray-50'
+                      }`}
+                    >
+                      <span className="text-lg">{model.icon}</span>
+                      <span className="flex-1 text-left">{model.name}</span>
+                      {selectedModel === model.key && (
+                        <span className="text-red-500 text-xs font-bold">✓</span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Messages */}
@@ -292,10 +311,12 @@ export function Chatbot() {
                   ) : (
                     <p className="text-sm whitespace-pre-line">{message.text}</p>
                   )}
-                  <span className={`text-xs mt-1 block ${message.sender === 'user' ? 'text-yellow-200' : 'text-gray-400'
-                    }`}>
-                    {message.timestamp.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
-                  </span>
+                  <div className="flex items-center justify-between gap-2 mt-1">
+                    <span className={`text-xs ${message.sender === 'user' ? 'text-yellow-200' : 'text-gray-400'}`}>
+                      {message.timestamp.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                    {message.sender === 'bot' && message.model && getModelBadge(message.model)}
+                  </div>
                 </div>
               </div>
             ))}
@@ -310,7 +331,7 @@ export function Chatbot() {
                       <span className="w-2 h-2 bg-orange-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
                       <span className="w-2 h-2 bg-yellow-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
                     </div>
-                    <span className="text-xs text-gray-500">AI đang soạn tin...</span>
+                    <span className="text-xs text-gray-500">{currentModel.icon} {currentModel.name} đang soạn tin...</span>
                   </div>
                 </div>
               </div>

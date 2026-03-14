@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GTG_Backend.Models
@@ -16,6 +16,9 @@ namespace GTG_Backend.Models
 
         [Required]
         public string BotResponse { get; set; } = string.Empty;
+
+        [StringLength(20)]
+        public string ModelUsed { get; set; } = "gemini";
 
         public DateTime SentAt { get; set; } = DateTime.Now;
 

@@ -1150,6 +1150,18 @@
         }
       }
     },
+    "/api/Chat/models": {
+      "get": {
+        "tags": [
+          "Chat"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Orders": {
       "post": {
         "tags": [
@@ -2100,6 +2112,10 @@
             "format": "int32"
           },
           "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
             "type": "string",
             "nullable": true
           }

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GTG_Backend.Models
@@ -12,7 +12,7 @@ namespace GTG_Backend.Models
         public int UserId { get; set; }
 
         [Required]
-        [StringLength(20)]
+        [StringLength(30)]
         public string OrderCode { get; set; } = string.Empty;
 
         [Required]
