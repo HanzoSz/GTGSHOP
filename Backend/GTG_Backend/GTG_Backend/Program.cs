@@ -76,7 +76,10 @@ namespace GTG_Backend
 
             // AI Services — Multi-Model (Strategy Pattern)
             builder.Services.AddHttpClient<GTG_Backend.Services.GeminiProvider>();
-            builder.Services.AddHttpClient<GTG_Backend.Services.NvidiaProvider>();
+            builder.Services.AddHttpClient<GTG_Backend.Services.NvidiaProvider>(client =>
+            {
+                client.Timeout = TimeSpan.FromSeconds(180);
+            });
             builder.Services.AddScoped<GTG_Backend.Services.IAiService, GTG_Backend.Services.GeminiProvider>();
             builder.Services.AddScoped<GTG_Backend.Services.IAiService, GTG_Backend.Services.NvidiaProvider>();
             builder.Services.AddScoped<GTG_Backend.Services.AiChatService>();

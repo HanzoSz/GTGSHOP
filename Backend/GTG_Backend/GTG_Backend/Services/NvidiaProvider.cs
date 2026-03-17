@@ -5,7 +5,7 @@ using GTG_Backend.Models;
 namespace GTG_Backend.Services
 {
     /// <summary>
-    /// NVIDIA Llama-3.1-Nemotron-70B-Instruct Provider — gọi NVIDIA NIM API
+    /// NVIDIA Llama-3.3-Nemotron-Super-49B Provider — gọi NVIDIA NIM API
     /// API format: OpenAI-compatible (messages array)
     /// </summary>
     public class NvidiaProvider : IAiService
@@ -14,12 +14,13 @@ namespace GTG_Backend.Services
         private readonly string _apiKey;
         private readonly ILogger<NvidiaProvider> _logger;
 
-        public string ModelDisplayName => "NVIDIA Llama 3.1";
+        public string ModelDisplayName => "NVIDIA Nemotron";
         public string ModelKey => "nvidia";
 
         public NvidiaProvider(HttpClient httpClient, IConfiguration configuration, ILogger<NvidiaProvider> logger)
         {
             _httpClient = httpClient;
+            _httpClient.Timeout = TimeSpan.FromSeconds(180); // NVIDIA model cần thời gian xử lý lâu hơn
             _apiKey = configuration["Nvidia:ApiKey"]
                 ?? throw new InvalidOperationException("Nvidia:ApiKey is required in configuration");
             _logger = logger;
@@ -47,11 +48,12 @@ namespace GTG_Backend.Services
 
             var requestBody = new
             {
-                model = "nvidia/llama-3.1-nemotron-70b-instruct",
+                model = "meta/llama-3.1-8b-instruct",
                 messages = messages,
                 temperature = 0.3,
-                max_tokens = 4096,
-                top_p = 0.8
+                max_tokens = 1024, // Giảm từ 4096 xuống 1024 để tránh lỗi vượt quá giới hạn output của Endpoint miễn phí
+                top_p = 0.8,
+                stream = false // Thêm cờ này để đảm bảo NVIDIA không hiểu nhầm bạn muốn dùng Server-Sent Events (SSE)
             };
 
             var jsonContent = JsonSerializer.Serialize(requestBody, new JsonSerializerOptions
@@ -69,9 +71,11 @@ namespace GTG_Backend.Services
                 {
                     var request = new HttpRequestMessage(HttpMethod.Post, url);
                     request.Headers.Add("Authorization", $"Bearer {_apiKey}");
-                    request.Content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                    request.Headers.Add("Accept", "application/json");
+                    request.Content = new StringContent(jsonContent, Encoding.UTF8);
+                    request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-                    _logger.LogInformation("[NVIDIA] Attempt {Attempt}/{MaxRetries} - history: {Count} turns", attempt, maxRetries, chatHistory.Count);
+                    _logger.LogInformation("[NVIDIA] Attempt {Attempt}/{MaxRetries} - history: {Count} turns, payload: {Size} chars", attempt, maxRetries, chatHistory.Count, jsonContent.Length);
 
                     var response = await _httpClient.SendAsync(request);
                     var responseBody = await response.Content.ReadAsStringAsync();

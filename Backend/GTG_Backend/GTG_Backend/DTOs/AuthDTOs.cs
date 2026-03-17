@@ -45,7 +45,7 @@
     // ========== Response DTOs ==========
     public class AuthResponse
     {
-        public string Token { get; set; } = string.Empty;
+        public string? Token { get; set; }   // <-- đổi sang nullable
         public UserDto User { get; set; } = null!;
     }
 

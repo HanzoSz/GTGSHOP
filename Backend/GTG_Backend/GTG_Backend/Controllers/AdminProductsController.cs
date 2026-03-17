@@ -55,10 +55,10 @@ namespace GTG_Backend.Controllers
                     Name = p.Name,
                     Price = p.Price,
                     Stock = p.Stock,
-                    Description = p.Description,
+                    Description = p.Description ?? string.Empty,   // fix CS8601
                     CategoryId = p.CategoryId,
-                    CategoryName = p.Category != null ? p.Category.Name : "",
-                    ImageUrl = p.ImageUrl,
+                    CategoryName = p.Category != null ? p.Category.Name : string.Empty,
+                    ImageUrl = p.ImageUrl ?? string.Empty,         // fix CS8601
                     Discount = p.Discount,
                     Rating = p.Rating,
                     Reviews = p.Reviews

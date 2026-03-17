@@ -68,23 +68,30 @@ namespace GTG_Backend.Services
                 }
             }
 
-            // Step 2: Smart RAG
+            // Step 2: Smart RAG — giới hạn sản phẩm cho NVIDIA (context window nhỏ hơn)
+            bool isNvidia = modelKey.Equals("nvidia", StringComparison.OrdinalIgnoreCase);
+            int maxProductsPerCategory = isNvidia ? 5 : 10;
+            int maxSearchResults = isNvidia ? 10 : 20;
+
             List<Product> matchingProducts;
             if (isBuild)
             {
-                matchingProducts = await SearchProductsForBuild();
+                matchingProducts = await SearchProductsForBuild(maxProductsPerCategory);
             }
             else
             {
                 var keywords = ExtractKeywords(userQuestion);
-                matchingProducts = await SearchProducts(keywords);
+                matchingProducts = await SearchProducts(keywords, maxSearchResults);
             }
 
-            // Step 3: System prompt
-            var systemPrompt = BuildSystemPrompt(matchingProducts);
+            // Step 3: System prompt — NVIDIA dùng bản nhẹ
+            var systemPrompt = isNvidia
+                ? BuildLightSystemPrompt(matchingProducts)
+                : BuildSystemPrompt(matchingProducts);
 
-            // Step 4: Chat history (Short-term Memory)
-            var chatHistory = await GetRecentChatHistory(userId, limit: 6);
+            // Step 4: Chat history — NVIDIA giới hạn 3 turns
+            int historyLimit = isNvidia ? 3 : 6;
+            var chatHistory = await GetRecentChatHistory(userId, limit: historyLimit);
 
             // Step 5: Gọi AI provider
             var botResponse = await provider.CallApiAsync(systemPrompt, userQuestion, chatHistory);
@@ -119,7 +126,7 @@ namespace GTG_Backend.Services
 
         // ========================== SMART RAG ==========================
 
-        private async Task<List<Product>> SearchProductsForBuild()
+        private async Task<List<Product>> SearchProductsForBuild(int maxPerCategory = 10)
         {
             var allProducts = await _context.Products
                 .Include(p => p.Category)
@@ -133,14 +140,14 @@ namespace GTG_Backend.Services
 
             foreach (var group in groupedByCategory)
             {
-                var topProducts = group.OrderBy(p => p.Price).Take(10).ToList();
+                var topProducts = group.OrderBy(p => p.Price).Take(maxPerCategory).ToList();
                 result.AddRange(topProducts);
             }
 
             return result;
         }
 
-        private async Task<List<Product>> SearchProducts(List<string> keywords)
+        private async Task<List<Product>> SearchProducts(List<string> keywords, int maxResults = 20)
         {
             if (!keywords.Any())
             {
@@ -148,7 +155,7 @@ namespace GTG_Backend.Services
                     .Include(p => p.Category)
                     .Where(p => p.Stock > 0)
                     .OrderByDescending(p => p.Reviews)
-                    .Take(20)
+                    .Take(maxResults)
                     .ToListAsync();
             }
 
@@ -164,7 +171,7 @@ namespace GTG_Backend.Services
                     (p.Name != null && p.Name.ToLower().Contains(k)) ||
                     (p.Description != null && p.Description.ToLower().Contains(k))
                 ))
-                .Take(20)
+                .Take(maxResults)
                 .ToList();
 
             if (!matched.Any())
@@ -173,7 +180,7 @@ namespace GTG_Backend.Services
                     .Include(p => p.Category)
                     .Where(p => p.Stock > 0)
                     .OrderByDescending(p => p.Reviews)
-                    .Take(20)
+                    .Take(maxResults)
                     .ToListAsync();
             }
 
@@ -203,6 +210,7 @@ namespace GTG_Backend.Services
                 WriteIndented = false,
                 Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
             });
+
 
             return $@"# BẠN LÀ AI ASSISTANT GTG - TRỢ LÝ BÁN HÀNG & HỖ TRỢ KỸ THUẬT CỦA GTG SHOP
 
@@ -309,7 +317,42 @@ Mang máy đến shop sẽ được kiểm tra miễn phí và báo giá trướ
 - Nếu hỏi sản phẩm cụ thể → trả lời giá + mô tả + link (/product/ID)
 - Nếu so sánh → làm bảng so sánh
 - BẠN CÓ THỂ GHI NHỚ CÁC TIN NHẮN TRƯỚC ĐÓ CỦA KHÁCH trong cuộc hội thoại.
-- Khi hướng dẫn sửa lỗi xong, nếu linh kiện cần thay thế → gợi ý sản phẩm từ danh sách shop.";
+- Khi hướng dẫn sửa lỗi xong, nếu linh kiện cần thay thế → gợi ý sản phẩm từ danh sách shop.
+- BẮT BUỘC: Bạn phải trả lời hoàn toàn bằng tiếng Việt trong mọi tình huống.";
+        }
+
+        private string BuildLightSystemPrompt(List<Product> products)
+        {
+            var productContext = products.Select(p => new
+            {
+                p.Id,
+                p.Name,
+                Price = p.Price,
+                PriceFormatted = $"{p.Price:N0}đ",
+                p.Stock,
+                Category = p.Category?.Name ?? "Chưa phân loại",
+                Description = string.IsNullOrWhiteSpace(p.Description)
+                    ? ""
+                    : (p.Description.Length > 80 ? p.Description[..80] : p.Description),
+                Discount = p.Discount > 0 ? p.Discount : 0,
+                ProductLink = $"/product/{p.Id}"
+            });
+
+            var productJson = JsonSerializer.Serialize(productContext, new JsonSerializerOptions
+            {
+                WriteIndented = false
+            });
+
+            return $@"Bạn là trợ lý AI của GTG SHOP.
+Nhiệm vụ:
+- Chỉ dùng dữ liệu sản phẩm trong JSON dưới đây, không bịa thông tin.
+- Trả lời bằng tiếng Việt, ngắn gọn, rõ ràng.
+- Nếu user hỏi build PC: đưa cấu hình theo bảng + tổng giá.
+- Nếu hỏi sản phẩm: nêu giá, tồn kho, link /product/ID.
+- Nếu ngoài phạm vi linh kiện PC: từ chối lịch sự.
+
+Dữ liệu sản phẩm:
+{productJson}";
         }
 
         // ========================== CHAT MEMORY ==========================

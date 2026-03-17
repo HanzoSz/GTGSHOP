@@ -85,11 +85,12 @@ namespace GTG_Backend.Services
                     var response = await _httpClient.PostAsync(url, httpContent);
                     var responseBody = await response.Content.ReadAsStringAsync();
 
-                    if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+                    if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests ||
+                        response.StatusCode == System.Net.HttpStatusCode.ServiceUnavailable)
                     {
                         if (attempt < maxRetries)
                         {
-                            _logger.LogWarning("[Gemini] Rate limited! Waiting {Delay}ms...", delayMs);
+                            _logger.LogWarning("[Gemini] {Status}! Waiting {Delay}ms before retry...", response.StatusCode, delayMs);
                             await Task.Delay(delayMs);
                             delayMs *= 3;
                             continue;

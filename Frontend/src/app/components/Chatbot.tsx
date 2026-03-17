@@ -19,7 +19,7 @@ interface Message {
 
 const AI_MODELS = [
   { key: 'gemini', name: 'Gemini 2.5 Flash', icon: '✨', color: 'from-blue-500 to-cyan-500' },
-  { key: 'nvidia', name: 'NVIDIA Llama 3.1', icon: '🟢', color: 'from-green-500 to-emerald-500' },
+  { key: 'nvidia', name: 'NVIDIA Nemotron', icon: '🟢', color: 'from-green-500 to-emerald-500' },
 ];
 
 export function Chatbot() {
