@@ -112,6 +112,24 @@ namespace GTG_Backend
 
             app.MapControllers();
 
+            static string MaskSecret(string? value)
+            {
+                if (string.IsNullOrWhiteSpace(value)) return "EMPTY";
+                if (value.Length <= 6) return "***";
+                return $"{value[..3]}***{value[^3..]} (len={value.Length})";
+            }
+
+            app.Logger.LogInformation("ASPNETCORE_ENVIRONMENT: {Env}", app.Environment.EnvironmentName);
+            app.Logger.LogInformation("Gemini:ApiKey => {Value}", MaskSecret(builder.Configuration["Gemini:ApiKey"]));
+            app.Logger.LogInformation("Nvidia:ApiKey => {Value}", MaskSecret(builder.Configuration["Nvidia:ApiKey"]));
+            app.Logger.LogInformation("VnPay:TmnCode => {Value}", MaskSecret(builder.Configuration["VnPay:TmnCode"]));
+            app.Logger.LogInformation("VnPay:HashSecret => {Value}", MaskSecret(builder.Configuration["VnPay:HashSecret"]));
+            app.Logger.LogInformation("Resend:ApiKey => {Value}", MaskSecret(builder.Configuration["Resend:ApiKey"]));
+            app.Logger.LogInformation("Jwt:Key => {Value}", MaskSecret(builder.Configuration["Jwt:Key"]));
+
+            var conn = builder.Configuration.GetConnectionString("DefaultConnection");
+            app.Logger.LogInformation("ConnectionStrings:DefaultConnection => {Status}", string.IsNullOrWhiteSpace(conn) ? "EMPTY" : "OK");
+
             app.Run();
         }
     }
