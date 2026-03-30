@@ -12,6 +12,10 @@ namespace GTG_Backend
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // BẮT BUỘC ÉP ỨNG DỤNG LẮNG NGHE CỔNG 5000 TỪ MỌI IP 
+            // (kể cả trên VPS Linux hay Windows)
+            builder.WebHost.UseUrls("http://0.0.0.0:5000");
+
             builder.Services.AddControllers()
                 .AddJsonOptions(options =>
                 {
@@ -19,11 +23,13 @@ namespace GTG_Backend
                 });
 
             // CORS
+            var frontendUrl = builder.Configuration["FrontendUrl"] ?? "http://localhost:5173";
+            var origins = frontendUrl.Split(',').Select(u => u.Trim()).ToArray();
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowFrontend", policy =>
                 {
-                    policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
+                    policy.WithOrigins(origins)
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials();
@@ -93,11 +99,18 @@ namespace GTG_Backend
 
             var app = builder.Build();
 
-            if (app.Environment.IsDevelopment())
+            // Cấu hình ForwardedHeaders cho Nginx
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
+                ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | 
+                                   Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
+            });
+
+            //if (app.Environment.IsDevelopment())
+            //{
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            }
+            //}
 
             app.UseHttpsRedirection();
 

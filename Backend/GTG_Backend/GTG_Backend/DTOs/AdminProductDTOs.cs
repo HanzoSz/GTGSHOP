@@ -7,6 +7,7 @@ public class ProductCreateDto
     public int CategoryId { get; set; }
     public string ImageUrl { get; set; } = string.Empty;
     public int Discount { get; set; }
+    public string? TechSpecs { get; set; }
 }
 
 public class ProductListDto
@@ -22,6 +23,7 @@ public class ProductListDto
     public int Discount { get; set; }
     public double Rating { get; set; }
     public int Reviews { get; set; }
+    public string? TechSpecs { get; set; }
 }
 
 public class PaginatedResponse<T>

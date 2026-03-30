@@ -3,6 +3,7 @@ import {
   authStorage,
   loginUser as apiLoginUser,
   loginAdmin as apiLoginAdmin,
+  loginWithGoogle as apiLoginWithGoogle,
   registerUser as apiRegisterUser,
   logoutApi,
   checkAuthStatus,
@@ -21,6 +22,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
+  loginGoogle: (credential: string) => Promise<{ success: boolean; message?: string }>;
   register: (data: RegisterData) => Promise<{ success: boolean; message?: string }>;
   logout: () => void;
   updateUser: (userData: Partial<User>) => void;
@@ -104,6 +106,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { success: false, message: result.message };
   };
 
+  const loginGoogle = async (credential: string) => {
+    const result = await apiLoginWithGoogle(credential);
+    if (result.success) {
+      setUser(toUser(result.user));
+      authStorage.setUser(result.user);
+      return { success: true };
+    }
+    return { success: false, message: result.message };
+  };
+
   const loginAdmin = async (email: string, password: string) => {
     const result = await apiLoginAdmin(email, password);
     if (result.success) {
@@ -147,6 +159,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isAuthenticated: !!user,
         isLoading,
         login,
+        loginGoogle,
         register,
         logout,
         updateUser,

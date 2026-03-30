@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GTG_Backend.Models
@@ -16,13 +16,19 @@ namespace GTG_Backend.Models
         [EmailAddress]
         public string Email { get; set; } = string.Empty;
 
-        [Required]
-        public string PasswordHash { get; set; } = string.Empty;
+        // Nullable vì user Google không cần password
+        public string? PasswordHash { get; set; }
 
         [Phone]
         public string? PhoneNumber { get; set; }
 
         public string? Address { get; set; }
+
+        // Google OAuth
+        [StringLength(20)]
+        public string AuthProvider { get; set; } = "Local"; // "Local" hoặc "Google"
+
+        public string? GoogleId { get; set; }
 
         // Forgot Password
         public string? ResetToken { get; set; }

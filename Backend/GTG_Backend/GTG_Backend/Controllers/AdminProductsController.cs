@@ -61,7 +61,8 @@ namespace GTG_Backend.Controllers
                     ImageUrl = p.ImageUrl ?? string.Empty,         // fix CS8601
                     Discount = p.Discount,
                     Rating = p.Rating,
-                    Reviews = p.Reviews
+                    Reviews = p.Reviews,
+                    TechSpecs = p.TechSpecs
                 })
                 .ToListAsync();
 
@@ -97,6 +98,7 @@ namespace GTG_Backend.Controllers
                 CategoryId = dto.CategoryId,
                 ImageUrl = dto.ImageUrl,
                 Discount = dto.Discount,
+                TechSpecs = dto.TechSpecs,
                 Rating = 0,
                 Reviews = 0
             };
@@ -116,7 +118,8 @@ namespace GTG_Backend.Controllers
                 ImageUrl = product.ImageUrl,
                 Discount = product.Discount,
                 Rating = product.Rating,
-                Reviews = product.Reviews
+                Reviews = product.Reviews,
+                TechSpecs = product.TechSpecs
             });
         }
 
@@ -139,6 +142,7 @@ namespace GTG_Backend.Controllers
             product.CategoryId = dto.CategoryId;
             product.ImageUrl = dto.ImageUrl;
             product.Discount = dto.Discount;
+            product.TechSpecs = dto.TechSpecs;
 
             await _context.SaveChangesAsync();
 
@@ -154,7 +158,8 @@ namespace GTG_Backend.Controllers
                 ImageUrl = product.ImageUrl,
                 Discount = product.Discount,
                 Rating = product.Rating,
-                Reviews = product.Reviews
+                Reviews = product.Reviews,
+                TechSpecs = product.TechSpecs
             });
         }
 

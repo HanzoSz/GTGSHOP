@@ -1,4 +1,4 @@
-﻿namespace GTG_Backend.DTOs
+namespace GTG_Backend.DTOs
 {
     // ========== Request DTOs ==========
     public class RegisterRequest
@@ -13,6 +13,11 @@
     {
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
+    }
+
+    public class GoogleLoginRequest
+    {
+        public string Credential { get; set; } = string.Empty;
     }
 
     // ✅ Thêm DTO cho Profile

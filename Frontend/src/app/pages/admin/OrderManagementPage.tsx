@@ -21,7 +21,7 @@ import { IMAGE_BASE_URL } from '@/config';
 
 const getImageUrl = (url: string) => {
   if (!url) return '';
-  if (url.startsWith('http')) return url;
+  if (url.startsWith('http')) { if (url.includes('localhost')) { try { return `${IMAGE_BASE_URL}/${new URL(url).pathname.replace(/^\/+/, '')}`; } catch{} } return url; }
   return `${IMAGE_BASE_URL}/${url.replace(/^\/+/, '')}`;
 };
 

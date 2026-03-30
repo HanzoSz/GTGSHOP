@@ -274,9 +274,7 @@ export function ProductDetailPage() {
     }
 
     // Nếu đã là URL đầy đủ
-    if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
-      return imageUrl;
-    }
+    if (imageUrl.startsWith('http')) { if (imageUrl.includes('localhost')) { try { return `${IMAGE_BASE_URL}/${new URL(imageUrl).pathname.replace(/^\/+/, '')}`; } catch(e){} } return imageUrl; }
 
     // Nếu là đường dẫn tương đối
     if (imageUrl.startsWith('/')) {

@@ -36,9 +36,10 @@ const statusSteps = ['pending', 'confirmed', 'shipping', 'delivered'];
 const getImageUrl = (imageUrl: string | null | undefined) => {
   if (!imageUrl) return '';
   if (imageUrl.startsWith('http')) {
-    // Fix URL bị thiếu / sau port (https://localhost:7033images/... → https://localhost:7033/images/...)
-    // Dùng [^/\d] thay vì (?!\/) để tránh regex backtracking
-    return imageUrl.replace(/(:\d+)([^/\d])/, '$1/$2');
+    if (imageUrl.includes('localhost')) {
+      try { return `${IMAGE_BASE_URL}/${new URL(imageUrl).pathname.replace(/^\/+/, '')}`; } catch(e){}
+    }
+    return imageUrl;
   }
   return `${IMAGE_BASE_URL}/${imageUrl.replace(/^\/+/, '')}`;
 };

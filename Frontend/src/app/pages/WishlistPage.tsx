@@ -11,7 +11,7 @@ import { IMAGE_BASE_URL } from '@/config';
 
 const getImageUrl = (imageUrl: string | null | undefined): string => {
     if (!imageUrl) return 'https://via.placeholder.com/300x300?text=No+Image';
-    if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) return imageUrl;
+    if (imageUrl.startsWith('http')) { if (imageUrl.includes('localhost')) { try { return `${IMAGE_BASE_URL}/${new URL(imageUrl).pathname.replace(/^\/+/, '')}`; } catch(e){} } return imageUrl; }
     if (imageUrl.startsWith('/')) return `${IMAGE_BASE_URL}${imageUrl}`;
     return `${IMAGE_BASE_URL}/${imageUrl}`;
 };

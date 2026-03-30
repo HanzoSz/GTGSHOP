@@ -66,6 +66,32 @@ export async function loginUser(
 }
 
 /**
+ * Google OAuth login. Sends credential (ID Token) to backend for verification.
+ */
+export async function loginWithGoogle(
+  credential: string
+): Promise<{ success: true; user: UserAuthPayload } | { success: false; message: string }> {
+  try {
+    const response = await fetch(`${API_BASE}/auth/google-login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ credential }),
+      credentials: 'include',
+    });
+    const data: LoginResponse = await response.json();
+    if (response.ok) {
+      const user = getUserFromResponse(data, '');
+      return { success: true, user };
+    }
+    const message = data.message ?? data.Message ?? 'Đăng nhập Google thất bại';
+    return { success: false, message };
+  } catch (error) {
+    console.error('Google login error:', error);
+    return { success: false, message: 'Có lỗi xảy ra. Vui lòng thử lại.' };
+  }
+}
+
+/**
  * Admin login. Validates role is Admin before returning.
  */
 export async function loginAdmin(

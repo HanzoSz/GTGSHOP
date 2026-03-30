@@ -1,9 +1,10 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using GTG_Backend.DTOs;
 using GTG_Backend.Models;
 using GTG_Backend.Services;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -74,7 +75,12 @@ namespace GTG_Backend.Controllers
                 return Unauthorized(new MessageResponse { Message = "Email hoặc mật khẩu không đúng" });
             }
 
-            // Kiểm tra password
+            // Kiểm tra password — chặn user Google thuần (không có mật khẩu)
+            if (string.IsNullOrEmpty(user.PasswordHash))
+            {
+                return BadRequest(new MessageResponse { Message = "Tài khoản này được tạo bằng Google. Vui lòng đăng nhập bằng Google." });
+            }
+
             if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
             {
                 return Unauthorized(new MessageResponse { Message = "Email hoặc mật khẩu không đúng" });
@@ -85,7 +91,9 @@ namespace GTG_Backend.Controllers
 
             // Set HttpOnly cookie
             var roleName = user.Role?.RoleName ?? "Customer";
-            var cookieName = roleName == "Admin" ? "admin_token" : "auth_token";
+            // Xóa rác admin_token của phiên bản cũ để triệt tiêu vĩnh viễn lỗi 403
+            Response.Cookies.Delete("admin_token", new CookieOptions { Path = "/" });
+            var cookieName = "auth_token";
             var expireMinutes = double.Parse(_configuration["Jwt:ExpireMinutes"]!);
 
             Response.Cookies.Append(cookieName, token, new CookieOptions
@@ -100,6 +108,105 @@ namespace GTG_Backend.Controllers
             return Ok(new AuthResponse
             {
                 Token = null,  // Không trả token trong body nữa (đã lưu trong cookie)
+                User = new UserDto
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    FullName = user.FullName,
+                    Phone = user.PhoneNumber,
+                    Address = user.Address,
+                    Role = roleName,
+                    CreatedAt = user.CreatedAt
+                }
+            });
+        }
+
+        // ✅ POST: api/auth/google-login — Đăng nhập bằng Google OAuth 2.0
+        [HttpPost("google-login")]
+        [AllowAnonymous]
+        public async Task<ActionResult<AuthResponse>> GoogleLogin([FromBody] GoogleLoginRequest request)
+        {
+            GoogleJsonWebSignature.Payload payload;
+            try
+            {
+                var settings = new GoogleJsonWebSignature.ValidationSettings
+                {
+                    Audience = new[] { _configuration["Google:ClientId"] }
+                };
+                payload = await GoogleJsonWebSignature.ValidateAsync(request.Credential, settings);
+            }
+            catch (InvalidJwtException)
+            {
+                return Unauthorized(new MessageResponse { Message = "Token Google không hợp lệ" });
+            }
+
+            var email = payload.Email;
+            var googleId = payload.Subject;
+            var fullName = payload.Name ?? email;
+
+            // Tìm user theo email
+            var user = await _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user != null)
+            {
+                // Email đã tồn tại — Account Linking
+                if (!string.IsNullOrEmpty(user.GoogleId) && user.GoogleId != googleId)
+                {
+                    return Conflict(new MessageResponse { Message = "Email đã liên kết với tài khoản Google khác." });
+                }
+
+                if (string.IsNullOrEmpty(user.GoogleId))
+                {
+                    user.GoogleId = googleId;
+                    user.AuthProvider = user.AuthProvider == "Local" ? "Local,Google" : user.AuthProvider;
+                    await _context.SaveChangesAsync();
+                }
+            }
+            else
+            {
+                // Email chưa tồn tại → Tạo user mới
+                var customerRole = await _context.Roles.FirstOrDefaultAsync(r => r.RoleName == "Customer");
+                if (customerRole == null)
+                    return BadRequest(new MessageResponse { Message = "Lỗi hệ thống: Không tìm thấy role" });
+
+                user = new User
+                {
+                    Email = email,
+                    FullName = fullName,
+                    PasswordHash = null,
+                    AuthProvider = "Google",
+                    GoogleId = googleId,
+                    RoleId = customerRole.Id,
+                    CreatedAt = DateTime.Now
+                };
+
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+
+                // Reload với Role
+                user = await _context.Users.Include(u => u.Role).FirstAsync(u => u.Id == user.Id);
+            }
+
+            // Tạo JWT token + set cookie (giống login thường)
+            var token = GenerateJwtToken(user);
+            var roleName = user.Role?.RoleName ?? "Customer";
+            Response.Cookies.Delete("admin_token", new CookieOptions { Path = "/" });
+            var expireMinutes = double.Parse(_configuration["Jwt:ExpireMinutes"]!);
+
+            Response.Cookies.Append("auth_token", token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTimeOffset.Now.AddMinutes(expireMinutes),
+                Path = "/"
+            });
+
+            return Ok(new AuthResponse
+            {
+                Token = null,
                 User = new UserDto
                 {
                     Id = user.Id,
@@ -297,7 +404,9 @@ namespace GTG_Backend.Controllers
             await _context.SaveChangesAsync();
 
             // Tạo link reset password
-            var resetLink = $"http://localhost:5173/reset-password?token={resetToken}&email={Uri.EscapeDataString(user.Email)}";
+            var frontendUrls = _configuration["FrontendUrl"] ?? "http://localhost:5173";
+            var primaryFrontendUrl = frontendUrls.Split(',')[0].Trim();
+            var resetLink = $"{primaryFrontendUrl}/reset-password?token={resetToken}&email={Uri.EscapeDataString(user.Email)}";
 
             // Gửi email
             await _emailService.SendPasswordResetAsync(user.Email, user.FullName, resetLink);

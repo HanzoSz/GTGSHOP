@@ -1,6 +1,25 @@
 import axios from 'axios';
 import { API_URL, IMAGE_BASE_URL } from '@/config';
 
+// Helper sửa rác localhost URL lọt từ Database cũ
+export function formatImageUrl(rawUrl: string): string {
+    if (!rawUrl) return '';
+    if (rawUrl.startsWith('http')) {
+        if (rawUrl.includes('localhost')) {
+            try {
+                const url = new URL(rawUrl);
+                const pathName = url.pathname.replace(/^\/+/, '');
+                return `${IMAGE_BASE_URL}/${pathName}`;
+            } catch {
+                return rawUrl;
+            }
+        }
+        return rawUrl;
+    }
+    const cleanPath = rawUrl.replace(/^\/+/, '');
+    return `${IMAGE_BASE_URL}/${cleanPath}`;
+}
+
 // Cookie được gửi tự động với mọi request
 axios.defaults.withCredentials = true;
 
@@ -34,14 +53,8 @@ export async function getProducts() {
                 rawImageUrl = defaultImages[categoryId] || 'images/products/cpu.jpg';
             }
 
-            // Xây dựng URL đầy đủ
-            let imageUrl = '';
-            if (rawImageUrl.startsWith('http')) {
-                imageUrl = rawImageUrl;
-            } else {
-                const cleanPath = rawImageUrl.replace(/^\/+/, '');
-                imageUrl = `${IMAGE_BASE_URL}/${cleanPath}`;
-            }
+            // Xây dựng URL đầy đủ (đã qua bộ lọc sửa localhost)
+            let imageUrl = formatImageUrl(rawImageUrl);
 
             // Tính giá thật dựa trên discount từ database
             const finalPrice = discount > 0 ? Math.round(price * (1 - discount / 100)) : price;
@@ -79,11 +92,7 @@ export async function getProductsByCategory(categoryId: number) {
                 name: item.name,
                 price: finalPrice,
                 originalPrice: discount > 0 ? price : undefined,
-                image: item.imageUrl
-                    ? (item.imageUrl.startsWith('http')
-                        ? item.imageUrl
-                        : `${IMAGE_BASE_URL}/${item.imageUrl}`)
-                    : '/placeholder.png',
+                image: formatImageUrl(item.imageUrl) || '/placeholder.png',
                 rating: item.rating || 0,
                 reviews: item.reviews || 0,
                 discount: discount > 0 ? discount : undefined,
@@ -122,6 +131,7 @@ export interface AdminProduct {
     discount: number;
     rating: number;
     reviews: number;
+    techSpecs?: string;
 }
 
 // Interface cho danh mục
@@ -244,13 +254,7 @@ export async function getAdminProducts(params: {
 
 function mapAdminProduct(item: any): AdminProduct {
     const rawImageUrl = item.imageUrl || item.ImageUrl || '';
-    let imageUrl = '';
-    if (rawImageUrl && rawImageUrl.startsWith('http')) {
-        imageUrl = rawImageUrl;
-    } else if (rawImageUrl) {
-        const cleanPath = rawImageUrl.replace(/^\/+/, '');
-        imageUrl = `${IMAGE_BASE_URL}/${cleanPath}`;
-    }
+    let imageUrl = formatImageUrl(rawImageUrl);
     return {
         id: item.id || item.Id,
         name: item.name || item.Name,
@@ -263,6 +267,7 @@ function mapAdminProduct(item: any): AdminProduct {
         discount: item.discount || item.Discount || 0,
         rating: item.rating || item.Rating || 0,
         reviews: item.reviews || item.Reviews || 0,
+        techSpecs: item.techSpecs || item.TechSpecs || undefined,
     };
 }
 
@@ -275,12 +280,13 @@ export async function createProduct(productData: {
     categoryId: number;
     imageUrl: string;
     discount: number;
+    techSpecs?: string;
 }): Promise<{ success: boolean; message?: string; product?: AdminProduct }> {
     try {
         const response = await axios.post(
             `${API_URL}/admin/products`,
             productData,
-            { headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' } }
+            { headers: { 'Content-Type': 'application/json' } }
         );
         return { success: true, product: mapAdminProduct(response.data) };
     } catch (error: any) {
@@ -299,12 +305,13 @@ export async function updateProduct(id: number, productData: {
     categoryId: number;
     imageUrl: string;
     discount: number;
+    techSpecs?: string;
 }): Promise<{ success: boolean; message?: string }> {
     try {
         await axios.put(
             `${API_URL}/admin/products/${id}`,
             productData,
-            { headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' } }
+            { headers: { 'Content-Type': 'application/json' } }
         );
         return { success: true };
     } catch (error: any) {
@@ -339,7 +346,6 @@ export async function uploadProductImage(file: File): Promise<{ success: boolean
             formData,
             {
                 headers: {
-                    ...getAuthHeaders(),
                     'Content-Type': 'multipart/form-data',
                 },
             }
@@ -445,7 +451,7 @@ export async function updateOrderStatus(
         await axios.put(
             `${API_URL}/admin/orders/${orderId}/status`,
             { status },
-            { headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' } }
+            { headers: { 'Content-Type': 'application/json' } }
         );
         return { success: true };
     } catch (error: any) {
@@ -479,7 +485,7 @@ function mapAdminOrder(o: any): AdminOrder {
         items: (o.items || o.Items || o.orderItems || o.OrderItems || []).map((item: any) => ({
             productId: item.productId || item.ProductId,
             productName: item.productName || item.ProductName || '',
-            productImage: item.productImage || item.ProductImage || '',
+            productImage: formatImageUrl(item.productImage || item.ProductImage || ''),
             quantity: item.quantity || item.Quantity || 1,
             price: item.price || item.Price || 0,
         })),
@@ -808,7 +814,7 @@ export async function getAdminAnalytics(): Promise<AnalyticsData> {
                 totalRevenue: t.totalRevenue || t.TotalRevenue || 0,
                 averagePrice: t.averagePrice || t.AveragePrice || 0,
                 currentStock: t.currentStock || t.CurrentStock || 0,
-                imageUrl: t.imageUrl || t.ImageUrl,
+                imageUrl: formatImageUrl(t.imageUrl || t.ImageUrl || ''),
             })),
         };
     } catch (error) {

@@ -10,13 +10,13 @@ import {
   LogOut,
   Menu,
   X,
-  Bell,
-  Search,
   FolderOpen
 } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import { Logo } from '@/app/components/Logo';
 import { useAuth } from '@/app/context/AuthContext';
+import { AdminSearchDropdown } from '@/app/components/admin/AdminSearchDropdown';
+import { AdminNotificationDropdown } from '@/app/components/admin/AdminNotificationDropdown';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -132,21 +132,11 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                   {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                 </Button>
 
-                <div className="relative w-96 hidden md:block">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                  <input
-                    type="text"
-                    placeholder="Tìm kiếm sản phẩm, đơn hàng, khách hàng..."
-                    className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                  />
-                </div>
+                <AdminSearchDropdown />
               </div>
 
               <div className="flex items-center gap-4">
-                <Button variant="ghost" size="icon" className="relative">
-                  <Bell className="w-5 h-5 text-slate-600" />
-                  <span className="absolute top-1 right-1 w-2 h-2 bg-red-600 rounded-full"></span>
-                </Button>
+                <AdminNotificationDropdown />
 
                 <div className="flex items-center gap-3 pl-4 border-l border-slate-200">
                   <div className="text-right hidden md:block">

@@ -1,0 +1,24 @@
+server {
+    listen 80;
+    server_name gtgshop.nghiencongnghe.id.vn; # Thay bằng domain của bạn
+
+    # Đường dẫn trỏ tới nơi bạn đã upload thư mục dist ở Bước 2
+    root /var/www/gtgshop;
+    index index.html;
+
+    location / {
+        # Dòng này cực kỳ quan trọng cho các ứng dụng SPA (React/Vite)
+        # Nếu không tìm thấy file thật, nó sẽ luôn trả về index.html để React xử lý điều hướng
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Cấu hình Proxy qua Backend (nếu bạn chạy chung domain)
+    location /api/ {
+        proxy_pass http://localhost:5000; # Thay bằng Port Backend thật của bạn
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection keep-alive;
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}

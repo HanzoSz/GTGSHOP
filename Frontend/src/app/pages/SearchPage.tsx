@@ -10,7 +10,7 @@ import { IMAGE_BASE_URL, API_URL } from '@/config';
 
 const getImageUrl = (imageUrl: string | null | undefined): string => {
   if (!imageUrl) return '';
-  if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) return imageUrl;
+  if (imageUrl.startsWith('http')) { if (imageUrl.includes('localhost')) { try { return `${IMAGE_BASE_URL}/${new URL(imageUrl).pathname.replace(/^\/+/, '')}`; } catch(e){} } return imageUrl; }
   return `${IMAGE_BASE_URL}/${imageUrl.replace(/^\/+/, '')}`;
 };
 

@@ -83,7 +83,7 @@ function parseTechSpecs(techSpecs: string | null | undefined): ParsedSpecs | nul
 
 function getImageUrl(imageUrl: string | null | undefined): string {
     if (!imageUrl) return 'https://via.placeholder.com/80x80?text=No+Image';
-    if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) return imageUrl;
+    if (imageUrl.startsWith('http')) { if (imageUrl.includes('localhost')) { try { return `${IMAGE_BASE_URL}/${new URL(imageUrl).pathname.replace(/^\/+/, '')}`; } catch(e){} } return imageUrl; }
     if (imageUrl.startsWith('/')) return `${IMAGE_BASE_URL}${imageUrl}`;
     return `${IMAGE_BASE_URL}/${imageUrl}`;
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Eye, EyeOff, User, Lock } from 'lucide-react';
+import { GoogleLogin } from '@react-oauth/google';
 import { Logo } from '@/app/components/Logo';
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
@@ -9,7 +10,7 @@ import { useAuth } from '../context/AuthContext';
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, loginGoogle } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,6 +30,27 @@ export function LoginPage() {
       navigate('/');
     } else {
       setError(result.message ?? '');
+    }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    setError('');
+    setLoading(true);
+
+    const credential = credentialResponse.credential;
+    if (!credential) {
+      setError('Không nhận được token từ Google');
+      setLoading(false);
+      return;
+    }
+
+    const result = await loginGoogle(credential);
+    setLoading(false);
+
+    if (result.success) {
+      navigate('/');
+    } else {
+      setError(result.message ?? 'Đăng nhập Google thất bại');
     }
   };
 
@@ -138,13 +160,6 @@ export function LoginPage() {
                 )}
               </Button>
 
-              {/* Demo Account Info */}
-              {/* <div className="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4">
-                <p className="text-xs font-semibold text-yellow-800 mb-2">🎁 Demo Account:</p>
-                <p className="text-xs text-yellow-700">Email: <strong>admin@gtg.vn</strong></p>
-                <p className="text-xs text-yellow-700">Mật khẩu: <strong>123456</strong></p>
-              </div> */}
-
               {/* Divider */}
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
@@ -155,24 +170,17 @@ export function LoginPage() {
                 </div>
               </div>
 
-              {/* Social Login */}
-              <div className="grid grid-cols-2 gap-4">
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="h-12 border-2 hover:bg-gray-50"
-                >
-                  <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5 mr-2" />
-                  Google
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="h-12 border-2 hover:bg-gray-50"
-                >
-                  <img src="https://www.facebook.com/favicon.ico" alt="Facebook" className="w-5 h-5 mr-2" />
-                  Facebook
-                </Button>
+              {/* Google Login */}
+              <div className="flex justify-center">
+                <GoogleLogin
+                  onSuccess={handleGoogleSuccess}
+                  onError={() => setError('Đăng nhập Google thất bại')}
+                  theme="outline"
+                  size="large"
+                  width="100%"
+                  text="signin_with"
+                  shape="rectangular"
+                />
               </div>
 
               {/* Register Link */}

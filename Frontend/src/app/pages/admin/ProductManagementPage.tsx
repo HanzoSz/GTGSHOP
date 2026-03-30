@@ -34,6 +34,94 @@ const emptyForm = {
   categoryId: 1,
   imageUrl: '',
   discount: 0,
+  techSpecs: '',
+};
+
+// Bản đồ thông số kỹ thuật theo tên danh mục (khớp với DB)
+const TECH_SPECS_TEMPLATE: Record<string, { key: string; label: string }[]> = {
+  'CPU - Bộ vi xử lý': [
+    { key: 'Socket', label: 'Socket' },
+    { key: 'SupportedRams', label: 'RAM hỗ trợ (VD: DDR4,DDR5)' },
+    { key: 'TDP', label: 'TDP (W)' },
+    { key: 'Cores', label: 'Số nhân (Cores)' },
+    { key: 'Threads', label: 'Số luồng (Threads)' },
+    { key: 'BaseClock', label: 'Xung cơ bản (GHz)' },
+    { key: 'BoostClock', label: 'Xung boost (GHz)' },
+    { key: 'Cache', label: 'Cache' },
+    { key: 'iGPU', label: 'GPU tích hợp' },
+  ],
+  'VGA - Card đồ họa': [
+    { key: 'Chipset', label: 'GPU Chip' },
+    { key: 'VRAM', label: 'VRAM' },
+    { key: 'RecommendPSU', label: 'Nguồn đề nghị (W)' },
+    { key: 'Length', label: 'Chiều dài (mm)' },
+    { key: 'BoostClock', label: 'Xung boost (MHz)' },
+    { key: 'Outputs', label: 'Cổng xuất hình' },
+  ],
+  'Mainboard': [
+    { key: 'Socket', label: 'Socket' },
+    { key: 'RamType', label: 'Loại RAM' },
+    { key: 'FormFactor', label: 'Form Factor' },
+    { key: 'Chipset', label: 'Chipset' },
+    { key: 'RamSlots', label: 'Số khe RAM' },
+    { key: 'MaxRam', label: 'RAM tối đa' },
+    { key: 'M2Slots', label: 'Số khe M.2' },
+  ],
+  'RAM': [
+    { key: 'Type', label: 'Loại (DDR4/DDR5)' },
+    { key: 'Capacity', label: 'Dung lượng (GB)' },
+    { key: 'Speed', label: 'Tốc độ (MHz)' },
+    { key: 'Latency', label: 'Latency (CL)' },
+    { key: 'Kit', label: 'Số thanh trong kit' },
+  ],
+  'SSD / HDD': [
+    { key: 'Type', label: 'Loại (SSD NVMe/SSD SATA/HDD)' },
+    { key: 'Capacity', label: 'Dung lượng' },
+    { key: 'Gen', label: 'Giao tiếp (PCIe 4.0/SATA III)' },
+    { key: 'ReadSpeed', label: 'Tốc độ đọc (MB/s)' },
+    { key: 'WriteSpeed', label: 'Tốc độ ghi (MB/s)' },
+  ],
+  'Case PC': [
+    { key: 'SupportedMainboards', label: 'Mainboard hỗ trợ (VD: ATX,Micro-ATX,Mini-ITX)' },
+    { key: 'MaxVGALength', label: 'Dài VGA tối đa (mm)' },
+    { key: 'MaxCoolerHeight', label: 'Cao tản nhiệt tối đa (mm)' },
+    { key: 'Material', label: 'Chất liệu' },
+    { key: 'Fans', label: 'Quạt đi kèm' },
+  ],
+  'Nguồn PSU': [
+    { key: 'Wattage', label: 'Công suất (W)' },
+    { key: 'Efficiency', label: 'Chứng nhận 80+' },
+    { key: 'Modular', label: 'Modular' },
+    { key: 'Connectors', label: 'Dây cắm' },
+  ],
+  'Tản nhiệt': [
+    { key: 'Type', label: 'Loại' },
+    { key: 'SupportedSockets', label: 'Socket hỗ trợ (VD: LGA1700,AM5,AM4)' },
+    { key: 'Size', label: 'Kích thước (mm)' },
+    { key: 'Noise', label: 'Độ ồn (dBA)' },
+  ],
+  'Chuột': [
+    { key: 'Connection', label: 'Kết nối' },
+    { key: 'DPI', label: 'DPI' },
+    { key: 'Weight', label: 'Trọng lượng' },
+    { key: 'Sensor', label: 'Cảm biến' },
+  ],
+  'Bàn phím': [
+    { key: 'Layout', label: 'Layout' },
+    { key: 'Switch', label: 'Switch' },
+    { key: 'Connection', label: 'Kết nối' },
+    { key: 'Backlight', label: 'Đèn nền' },
+  ],
+  'Màn hình': [
+    { key: 'Size', label: 'Kích thước (inch)' },
+    { key: 'Resolution', label: 'Độ phân giải' },
+    { key: 'RefreshRate', label: 'Tần số quét (Hz)' },
+    { key: 'Panel', label: 'Loại tấm nền' },
+    { key: 'ResponseTime', label: 'Thời gian phản hồi (ms)' },
+    { key: 'Ports', label: 'Cổng kết nối' },
+    { key: 'HDR', label: 'Hỗ trợ HDR' },
+    { key: 'ColorGamut', label: 'Gam màu' },
+  ],
 };
 
 export function ProductManagementPage() {
@@ -186,6 +274,7 @@ export function ProductManagementPage() {
       categoryId: product.categoryId,
       imageUrl: product.imageUrl,
       discount: product.discount,
+      techSpecs: product.techSpecs || '',
     });
     setFormError('');
     setShowEditDialog(true);
@@ -379,6 +468,70 @@ export function ProductManagementPage() {
           rows={3}
         />
       </div>
+
+      {/* ===== THÔNG SỐ KỸ THUẬT ===== */}
+      {(() => {
+        const catName = categories.find(c => c.id === formData.categoryId)?.name || '';
+        const fields = TECH_SPECS_TEMPLATE[catName];
+        if (!fields) return null;
+
+        // Fields lưu dạng array
+        const ARRAY_FIELDS = ['SupportedRams', 'SupportedSockets', 'SupportedMainboards'];
+        // Fields lưu dạng number
+        const NUMBER_FIELDS = ['TDP', 'RecommendPSU', 'Length', 'Wattage', 'MaxVGALength', 'MaxCoolerHeight', 'Capacity', 'Speed', 'ReadSpeed', 'WriteSpeed', 'DPI'];
+
+        // Parse existing techSpecs JSON
+        let specValues: Record<string, any> = {};
+        try {
+          if (formData.techSpecs) specValues = JSON.parse(formData.techSpecs);
+        } catch { /* ignore */ }
+
+        // Hiển thị giá trị: array → join bằng dấu phẩy
+        const displayValue = (key: string): string => {
+          const val = specValues[key];
+          if (val === undefined || val === null) return '';
+          if (Array.isArray(val)) return val.join(', ');
+          return String(val);
+        };
+
+        const updateSpec = (key: string, rawValue: string) => {
+          const updated = { ...specValues };
+          if (!rawValue.trim()) {
+            delete updated[key];
+          } else if (ARRAY_FIELDS.includes(key)) {
+            updated[key] = rawValue.split(',').map(s => s.trim()).filter(Boolean);
+          } else if (NUMBER_FIELDS.includes(key)) {
+            const num = Number(rawValue);
+            updated[key] = isNaN(num) ? rawValue : num;
+          } else {
+            updated[key] = rawValue;
+          }
+          setFormData(prev => ({ ...prev, techSpecs: Object.keys(updated).length > 0 ? JSON.stringify(updated) : '' }));
+        };
+
+        return (
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <Label className="text-base font-semibold">⚙️ Thông số kỹ thuật</Label>
+              <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full">{catName}</span>
+            </div>
+            <div className="grid grid-cols-2 gap-3 p-4 bg-slate-50 rounded-lg border border-slate-200">
+              {fields.map(f => (
+                <div key={f.key} className="space-y-1">
+                  <Label htmlFor={`spec-${f.key}`} className="text-xs text-slate-600">{f.label}</Label>
+                  <Input
+                    id={`spec-${f.key}`}
+                    value={displayValue(f.key)}
+                    onChange={(e) => updateSpec(f.key, e.target.value)}
+                    placeholder={f.label}
+                    className="h-8 text-sm"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
 
       <DialogFooter className="pt-4 border-t border-slate-200">
         <Button

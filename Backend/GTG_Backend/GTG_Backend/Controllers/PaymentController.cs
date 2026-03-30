@@ -109,7 +109,7 @@ namespace GTG_Backend.Controllers
             }
 
             // Redirect về frontend với thông tin kết quả
-            var frontendUrl = "http://localhost:5173/payment/vnpay/return";
+            var frontendUrl = "http://gtgshop.nghiencongnghe.id.vn/payment/vnpay/return";
             var redirectUrl = $"{frontendUrl}?success={result.IsSuccess}&orderCode={result.OrderCode}&message={Uri.EscapeDataString(result.Message)}";
 
             return Redirect(redirectUrl);

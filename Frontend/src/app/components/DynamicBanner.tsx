@@ -15,6 +15,7 @@ interface BannerConfig {
 
 export function DynamicBanner() {
     const [banner, setBanner] = useState<BannerConfig | null>(null);
+    const [timeLeft, setTimeLeft] = useState(15 * 86400 + 8 * 3600 + 45 * 60 + 30);
 
     useEffect(() => {
         // Load banner từ localStorage
@@ -43,6 +44,19 @@ export function DynamicBanner() {
             window.removeEventListener('bannerChanged' as any, handleBannerChange);
         };
     }, []);
+
+    // Đếm ngược mỗi giây
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+        }, 1000);
+        return () => clearInterval(timer);
+    }, []);
+
+    const days = Math.floor(timeLeft / 86400);
+    const hours = Math.floor((timeLeft % 86400) / 3600);
+    const minutes = Math.floor((timeLeft % 3600) / 60);
+    const seconds = timeLeft % 60;
 
     const getDefaultBanner = (): BannerConfig => {
         return {
@@ -103,10 +117,10 @@ export function DynamicBanner() {
                     <p className="text-sm font-semibold mb-3 opacity-90">⏰ Ưu đãi có thời hạn</p>
                     <div className="flex gap-4 justify-center">
                         {[
-                            { label: 'Ngày', value: '15' },
-                            { label: 'Giờ', value: '08' },
-                            { label: 'Phút', value: '45' },
-                            { label: 'Giây', value: '30' },
+                            { label: 'Ngày', value: days.toString().padStart(2, '0') },
+                            { label: 'Giờ', value: hours.toString().padStart(2, '0') },
+                            { label: 'Phút', value: minutes.toString().padStart(2, '0') },
+                            { label: 'Giây', value: seconds.toString().padStart(2, '0') },
                         ].map((item, index) => (
                             <div key={index} className="bg-white/20 backdrop-blur-sm rounded-xl p-4 min-w-[80px]">
                                 <div className="text-3xl font-black">{item.value}</div>
